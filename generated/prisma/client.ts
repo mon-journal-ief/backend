@@ -3,7 +3,10 @@
  * Client
  */
 
-import * as runtime from '@axiia/prisma-client-denofix/runtime/library'
+import * as runtime from '@prisma/client/runtime/library'
+
+// Use this for seed
+// import * as runtime from '@axiia/prisma-client-denofix/runtime/library'
 import * as process from 'node:process'
 import * as path from 'node:path'
     import { fileURLToPath } from 'node:url'
