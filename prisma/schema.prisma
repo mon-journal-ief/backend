@@ -1,0 +1,77 @@
+generator client {
+  // Required
+  provider = "prisma-client-ts"
+  output   = "../generated/prisma"
+
+  // Optional
+  runtime                = "deno"
+  generatedFileExtension = "ts"
+  importFileExtension    = "ts"
+  moduleFormat           = "esm"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model KeyValuePairs {
+  scope String
+  key   String
+  value Bytes
+
+  @@id([scope, key])
+  @@map("key_value_pairs")
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum Grade {
+  CP
+  CE1
+  CE2
+  CM1
+  CM2
+}
+
+model Program {
+  id       String           @id @default(uuid())
+  name     String
+  grade    Grade
+  elements ProgramElement[]
+  children Child[]
+}
+
+model ProgramElement {
+  id             String         @id @default(uuid())
+  name           String
+  description    String
+  program        Program        @relation(fields: [programId], references: [id])
+  programId      String
+  journalEntries JournalEntry[] @relation("ValidatedElements")
+}
+
+model Child {
+  id             String         @id @default(uuid())
+  name           String
+  firstName      String
+  age            Int
+  gender         Gender
+  birthDate      DateTime
+  program        Program        @relation(fields: [programId], references: [id])
+  programId      String
+  journalEntries JournalEntry[]
+}
+
+model JournalEntry {
+  id                String           @id @default(uuid())
+  date              DateTime
+  comment           String
+  images            String[]
+  validatedElements ProgramElement[] @relation("ValidatedElements")
+  child             Child            @relation(fields: [childId], references: [id])
+  childId           String
+}

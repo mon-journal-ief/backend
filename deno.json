@@ -1,0 +1,13 @@
+{
+  "imports": {
+    "@prisma/client/runtime/library": "npm:@axiia/prisma-client-denofix/runtime/library.mjs"
+  },
+  "tasks": {
+    "demo": "deno run --env-file=prisma/.env -A server.ts",
+    "prisma:gen": "cd prisma && pnpm prisma generate",
+    "prisma:init": "cd prisma && pnpm prisma install",
+    "prisma:sync": "cd prisma && pnpm prisma db push",
+    "prisma:seed": "deno run --env-file=prisma/.env -A prisma/seed.ts",
+    "prisma:studio": "deno run -A npm:prisma studio --schema prisma/schema.prisma"
+  }
+}
