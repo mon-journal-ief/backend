@@ -1,13 +1,5 @@
 generator client {
-  // Required
-  provider = "prisma-client-ts"
-  output   = "../generated/prisma"
-
-  // Optional
-  runtime                = "deno"
-  generatedFileExtension = "ts"
-  importFileExtension    = "ts"
-  moduleFormat           = "esm"
+  provider = "prisma-client-js"
 }
 
 datasource db {
