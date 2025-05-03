@@ -7,15 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model KeyValuePairs {
-  scope String
-  key   String
-  value Bytes
-
-  @@id([scope, key])
-  @@map("key_value_pairs")
-}
-
 enum Gender {
   MALE
   FEMALE
