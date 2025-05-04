@@ -1,4 +1,4 @@
-import { PrismaClient, Gender, Grade } from '@prisma/client'
+import { PrismaClient, Gender, Grade } from '../generated/prisma/client'
 
 const prisma = new PrismaClient()
 
