@@ -9,10 +9,10 @@ datasource db {
 }
 
 model User {
-  id       String   @id @default(uuid())
-  email    String   @unique
-  password String
-  name     String
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -31,11 +31,13 @@ enum Grade {
 }
 
 model Program {
-  id       String           @id @default(uuid())
-  name     String
-  grade    Grade
-  elements ProgramElement[]
-  children Child[]
+  id        String           @id @default(uuid())
+  name      String
+  grade     Grade
+  elements  ProgramElement[]
+  children  Child[]
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @default(now()) @updatedAt
 }
 
 model ProgramElement {
@@ -45,6 +47,8 @@ model ProgramElement {
   program        Program        @relation(fields: [programId], references: [id])
   programId      String
   journalEntries JournalEntry[] @relation("ValidatedElements")
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @default(now()) @updatedAt
 }
 
 model Child {
@@ -57,6 +61,8 @@ model Child {
   program        Program        @relation(fields: [programId], references: [id])
   programId      String
   journalEntries JournalEntry[]
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @default(now()) @updatedAt
 }
 
 model JournalEntry {
@@ -67,4 +73,6 @@ model JournalEntry {
   validatedElements ProgramElement[] @relation("ValidatedElements")
   child             Child            @relation(fields: [childId], references: [id])
   childId           String
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @default(now()) @updatedAt
 }
