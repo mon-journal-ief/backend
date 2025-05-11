@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import programRoutes from './routes/programRoutes'
+import programElementRoutes from './routes/programElementRoutes'
 import authRoutes from './routes/authRoutes'
 
 const app = express()
@@ -12,7 +13,8 @@ app.get('/', async (req, res) => {
     res.json({ message: 'Welcome to the Program API!' })
 })
 
-app.use('/programs', programRoutes)
+app.use('/program/element', programElementRoutes)
+app.use('/program', programRoutes)
 app.use('/auth', authRoutes)
 
 app.listen(4000, () => {
