@@ -2,41 +2,97 @@ import { Request, Response } from 'express'
 import prisma from '../config/db'
 
 // Get all programs
-export const getAllPrograms = async (req: Request, res: Response) => {
-    const programs = await prisma.program.findMany()
+export async function getAllPrograms(req: Request, res: Response) {
+    const programs = await prisma.program.findMany({
+        include: {
+            elements: true,
+            children: true
+        }
+    })
     res.json(programs)
 }
 
 // Get single program
-export const getProgram = async (req: Request, res: Response) => {
+export async function getProgram(req: Request, res: Response) {
     const { id } = req.params
     const program = await prisma.program.findUnique({
         where: {
             id: id
+        },
+        include: {
+            elements: true,
+            children: true
         }
     })
     res.json(program)
 }
 
 // Create new program
-export const createProgram = async (req: Request, res: Response) => {
-    const { name, description } = req.body
-    const program = await prisma.program.create({ 
+export async function createProgram(req: Request, res: Response) {
+    const { name, grade } = req.body
+    const program = await prisma.program.create({
         data: {
             name,
-            grade: "CP"
+            grade
         }
     })
     res.json(program)
 }
 
-// Delete program
-export const deleteProgram = async (req: Request, res: Response) => {
+// Update program
+export async function updateProgram(req: Request, res: Response) {
     const { id } = req.params
-    const program = await prisma.program.delete({
+    const { name, grade } = req.body
+    const program = await prisma.program.update({
         where: {
             id: id
-        }
+        },
+        include: {
+            elements: true,
+            children: true
+        },
+        data: { name, grade }
     })
     res.json(program)
+}
+
+// Delete program
+export async function deleteProgram(req: Request, res: Response) {
+    try {
+        const { id } = req.params
+        
+        const programExists = await prisma.program.findUnique({
+            where: { id }
+        })
+        
+        if (!programExists) {
+            res.status(404).json({ message: 'Program not found' })
+            return
+        }
+        
+        const children = await prisma.child.findMany({
+            where: { programId: id },
+            select: { id: true }
+        })
+        
+        await prisma.journalEntry.deleteMany({
+            where: { childId: { in: children.map(child => child.id) } }
+        })
+        
+        await prisma.child.deleteMany({
+            where: { programId: id }
+        })
+        
+        await prisma.programElement.deleteMany({
+            where: { programId: id }
+        })
+        
+        const program = await prisma.program.delete({
+            where: { id }
+        })
+        
+        res.json(program)
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting program', error })
+    }
 }
