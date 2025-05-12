@@ -3,7 +3,12 @@ import prisma from '../config/db'
 
 // Get all program elements
 export async function getAllProgramElements(req: Request, res: Response) {
-    const programElements = await prisma.programElement.findMany()
+    const programElements = await prisma.programElement.findMany({
+        include: {
+            program: true,
+            journalEntries: true
+        }
+    })
 
     res.json(programElements)
 }
@@ -14,6 +19,10 @@ export async function getProgramElement(req: Request, res: Response) {
     const programElement = await prisma.programElement.findUnique({
         where: {
             id: id
+        },
+        include: {
+            program: true,
+            journalEntries: true
         }
     })
     res.json(programElement)
@@ -27,6 +36,10 @@ export async function createProgramElement(req: Request, res: Response) {
             name,
             description,
             programId
+        },
+        include: {
+            program: true,
+            journalEntries: true
         }
     })
     res.json(programElement)
@@ -41,7 +54,11 @@ export async function updateProgramElement(req: Request, res: Response) {
         where: {
             id: id
         },
-        data: { name, description }
+        data: { name, description },
+        include: {
+            program: true,
+            journalEntries: true
+        }
     })
 
     res.json(programElement)
@@ -53,6 +70,10 @@ export async function deleteProgramElement(req: Request, res: Response) {
     const programElement = await prisma.programElement.delete({
         where: {
             id: id
+        },
+        include: {
+            program: true,
+            journalEntries: true
         }
     })
     res.json(programElement)
