@@ -1,0 +1,203 @@
+{
+  "programTemplate": {
+    "name": "Programme Cycle 2 - École élémentaire",
+    "description": "Programme officiel français pour le cycle 2 (CP, CE1, CE2) - Ministère de l'Éducation nationale",
+    "grade": "CP",
+    "elements": [
+      {
+        "name": "Arts Plastiques",
+        "description": "Développement de l'expression artistique et de la créativité",
+        "children": [
+          {
+            "name": "La représentation du monde",
+            "description": "Explorer et représenter l'environnement par différents moyens artistiques",
+            "children": [
+              {
+                "name": "Utiliser le dessin comme moyen d'expression",
+                "description": "Maîtriser le dessin dans toute sa diversité pour s'exprimer"
+              },
+              {
+                "name": "Employer divers outils pour représenter",
+                "description": "Utiliser des outils variés, y compris numériques, pour créer des représentations"
+              },
+              {
+                "name": "Prendre en compte l'influence des matériaux",
+                "description": "Comprendre comment les outils, supports et matériaux influencent la représentation en 2D et 3D"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Mathématiques - Géométrie",
+        "description": "Apprentissage des concepts géométriques fondamentaux",
+        "children": [
+          {
+            "name": "Se repérer et se déplacer",
+            "description": "Utiliser des repères et des représentations pour s'orienter",
+            "children": [
+              {
+                "name": "Se repérer dans son environnement proche",
+                "description": "Maîtriser le vocabulaire spatial et les positions relatives"
+              },
+              {
+                "name": "Produire des représentations des espaces familiers",
+                "description": "Créer des plans, maquettes de l'école, du quartier"
+              },
+              {
+                "name": "Programmer des déplacements",
+                "description": "Coder et reproduire des déplacements (robot, personnage sur écran)"
+              }
+            ]
+          },
+          {
+            "name": "Reconnaître et décrire les solides",
+            "description": "Identifier et caractériser les formes géométriques en 3D",
+            "children": [
+              {
+                "name": "Reconnaître les solides usuels",
+                "description": "Identifier cube, pavé droit, boule, cylindre, cône, pyramide"
+              },
+              {
+                "name": "Décrire les polyèdres",
+                "description": "Utiliser le vocabulaire : face, sommet, arête"
+              },
+              {
+                "name": "Fabriquer un cube à partir d'un patron",
+                "description": "Construire des solides à partir de leurs représentations"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Français - Étude de la langue",
+        "description": "Maîtrise de la grammaire et de l'orthographe",
+        "children": [
+          {
+            "name": "Maîtriser l'orthographe grammaticale de base",
+            "description": "Comprendre et appliquer les règles d'accord",
+            "children": [
+              {
+                "name": "Comprendre le fonctionnement du groupe nominal",
+                "description": "Maîtriser les accords déterminant/nom/adjectif"
+              },
+              {
+                "name": "Utiliser les marques d'accord",
+                "description": "Appliquer les règles de nombre et de genre"
+              },
+              {
+                "name": "Identifier la relation sujet-verbe",
+                "description": "Comprendre les accords dans des situations simples"
+              },
+              {
+                "name": "Conjuguer les temps fondamentaux",
+                "description": "Maîtriser présent, imparfait, futur, passé composé pour être/avoir et verbes du 1er groupe"
+              }
+            ]
+          },
+          {
+            "name": "Reconnaître les classes de mots",
+            "description": "Identifier et utiliser les différentes natures de mots",
+            "children": [
+              {
+                "name": "Le nom",
+                "description": "Identifier et utiliser les noms communs et propres"
+              },
+              {
+                "name": "L'article",
+                "description": "Maîtriser les déterminants"
+              },
+              {
+                "name": "L'adjectif qualificatif",
+                "description": "Utiliser les adjectifs et leurs accords"
+              },
+              {
+                "name": "Le verbe",
+                "description": "Identifier et conjuguer les verbes"
+              },
+              {
+                "name": "Le pronom personnel sujet",
+                "description": "Utiliser correctement les pronoms personnels"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Enseignement Moral et Civique",
+        "description": "Acquisition des valeurs républicaines et du vivre ensemble",
+        "children": [
+          {
+            "name": "Acquérir et partager les valeurs de la République",
+            "description": "Connaître les symboles et principes républicains",
+            "children": [
+              {
+                "name": "Respecter les règles de la vie collective",
+                "description": "Appliquer le règlement intérieur et comprendre les sanctions"
+              },
+              {
+                "name": "Connaître les symboles de la République",
+                "description": "Identifier le drapeau, l'hymne national, les monuments, la fête nationale"
+              },
+              {
+                "name": "Initiation au vocabulaire du droit",
+                "description": "Comprendre les notions de règle, règlement, loi"
+              },
+              {
+                "name": "Découvrir les droits de l'enfant",
+                "description": "Première approche de la Convention internationale des droits de l'enfant"
+              }
+            ]
+          },
+          {
+            "name": "Identifier et partager des émotions",
+            "description": "Développer l'intelligence émotionnelle",
+            "children": [
+              {
+                "name": "Exprimer ses émotions",
+                "description": "Identifier et réguler ses émotions et sentiments"
+              },
+              {
+                "name": "Connaître le vocabulaire des émotions",
+                "description": "Maîtriser le lexique des émotions de base : peur, colère, tristesse, joie"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Mathématiques - Grandeurs et mesures",
+        "description": "Comprendre et utiliser les unités de mesure",
+        "children": [
+          {
+            "name": "Comparer et mesurer des grandeurs",
+            "description": "Maîtriser la comparaison et la mesure des longueurs, masses, contenances, durées",
+            "children": [
+              {
+                "name": "Comparer des objets selon plusieurs grandeurs",
+                "description": "Identifier longueurs, masses, contenances, durées et utiliser le lexique approprié"
+              },
+              {
+                "name": "Mesurer avec des instruments adaptés",
+                "description": "Utiliser règle, balance, verre mesureur selon les grandeurs"
+              },
+              {
+                "name": "Connaître les unités usuelles",
+                "description": "Maîtriser m/dm/cm/mm, kg/g, L/dL/cL et leurs relations"
+              },
+              {
+                "name": "Lire l'heure",
+                "description": "Déchiffrer l'heure sur une horloge à aiguilles"
+              },
+              {
+                "name": "Mesurer des durées",
+                "description": "Utiliser les unités : jour, semaine, heure, minute, seconde, mois, année"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

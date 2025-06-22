@@ -9,10 +9,11 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  name      String
+  id       String @id @default(uuid())
+  email    String @unique
+  password String
+  name     String
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -30,25 +31,51 @@ enum Grade {
   CM2
 }
 
+model ProgramTemplate {
+  id          String           @id @default(uuid())
+  name        String
+  description String
+  grade       Grade
+  elements    ProgramElement[]
+  programs    Program[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Program {
-  id        String           @id @default(uuid())
-  name      String
-  grade     Grade
-  elements  ProgramElement[]
-  children  Child[]
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @default(now()) @updatedAt
+  id       String           @id @default(uuid())
+  name     String
+  grade    Grade
+  elements ProgramElement[]
+  children Child[]
+
+  template   ProgramTemplate? @relation(fields: [templateId], references: [id])
+  templateId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ProgramElement {
-  id             String         @id @default(uuid())
-  name           String
-  description    String
-  program        Program        @relation(fields: [programId], references: [id])
-  programId      String
+  id          String @id @default(uuid())
+  name        String
+  description String
+
+  program   Program? @relation(fields: [programId], references: [id])
+  programId String?
+
+  template          ProgramTemplate? @relation(fields: [programTemplateId], references: [id])
+  programTemplateId String?
+
   journalEntries JournalEntry[] @relation("ValidatedElements")
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @default(now()) @updatedAt
+
+  parent   ProgramElement?  @relation("ProgramElementToChildren", fields: [parentId], references: [id])
+  children ProgramElement[] @relation("ProgramElementToChildren")
+  parentId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Child {
@@ -58,11 +85,13 @@ model Child {
   age            Int
   gender         Gender
   birthDate      DateTime
-  program        Program        @relation(fields: [programId], references: [id])
-  programId      String
   journalEntries JournalEntry[]
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @default(now()) @updatedAt
+
+  program   Program @relation(fields: [programId], references: [id])
+  programId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model JournalEntry {
@@ -71,8 +100,10 @@ model JournalEntry {
   comment           String
   images            String[]
   validatedElements ProgramElement[] @relation("ValidatedElements")
-  child             Child            @relation(fields: [childId], references: [id])
-  childId           String
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @default(now()) @updatedAt
+
+  child   Child  @relation(fields: [childId], references: [id])
+  childId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }

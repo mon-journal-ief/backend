@@ -1,86 +1,83 @@
 import { PrismaClient, Gender, Grade } from '../generated/prisma/client'
+import * as fs from 'fs'
+import * as path from 'path'
 
 const prisma = new PrismaClient()
 
+interface ProgramElementData {
+  name: string
+  description: string
+  children?: ProgramElementData[]
+}
+
+interface ProgramTemplateData {
+  name: string
+  description: string
+  grade: string
+  elements: ProgramElementData[]
+}
+
+interface SeedData {
+  programTemplate: ProgramTemplateData
+}
+
+async function createProgramElements(
+  elements: ProgramElementData[],
+  templateId: string,
+  parentId?: string
+): Promise<void> {
+  for (const element of elements) {
+    const createdElement = await prisma.programElement.create({
+      data: {
+        name: element.name,
+        description: element.description,
+        programTemplateId: templateId,
+        parentId: parentId
+      }
+    })
+
+    // Recursively create children if they exist
+    if (element.children && element.children.length > 0) {
+      await createProgramElements(element.children, templateId, createdElement.id)
+    }
+  }
+}
+
 async function main() {
-  // Nettoyage de la base de données (optionnel)
+  // Clean database (optional)
   await prisma.journalEntry.deleteMany({})
   await prisma.programElement.deleteMany({})
   await prisma.child.deleteMany({})
   await prisma.program.deleteMany({})
+  await prisma.programTemplate.deleteMany({})
 
-  // Création des programmes
+  // Read and parse the JSON file
+  const jsonPath = path.join(__dirname, '../src/assets/program_templates/seed_cp.json')
+  const jsonContent = fs.readFileSync(jsonPath, 'utf-8')
+  const seedData: SeedData = JSON.parse(jsonContent)
+
+  // Create the program template
+  const programTemplate = await prisma.programTemplate.create({
+    data: {
+      name: seedData.programTemplate.name,
+      description: seedData.programTemplate.description,
+      grade: seedData.programTemplate.grade as Grade
+    }
+  })
+
+  // Create all program elements with their hierarchical structure
+  await createProgramElements(seedData.programTemplate.elements, programTemplate.id)
+
+  // Create program based on the template
   const programCP = await prisma.program.create({
     data: {
-      name: "Programme CP",
-      grade: Grade.CP
+      name: "Programme CP - Année 2024",
+      grade: Grade.CP,
+      templateId: programTemplate.id
     }
   })
 
-  const programCE1 = await prisma.program.create({
-    data: {
-      name: "Programme CE1",
-      grade: Grade.CE1
-    }
-  })
-
-  const programCE2 = await prisma.program.create({
-    data: {
-      name: "Programme CE2",
-      grade: Grade.CE2
-    }
-  })
-
-  // Création des éléments de programme
-  const elementsMaths = await prisma.programElement.create({
-    data: {
-      name: "Mathématiques - Nombres jusqu'à 100",
-      description: "Apprentissage des nombres jusqu'à 100 et opérations de base",
-      programId: programCP.id
-    }
-  })
-
-  const elementsLecture = await prisma.programElement.create({
-    data: {
-      name: "Lecture - Déchiffrage",
-      description: "Apprentissage des lettres et déchiffrage des mots simples",
-      programId: programCP.id
-    }
-  })
-
-  const elementsSciences = await prisma.programElement.create({
-    data: {
-      name: "Sciences - Découverte du monde vivant",
-      description: "Exploration du monde animal et végétal",
-      programId: programCP.id
-    }
-  })
-
-  const elementsCE1Maths = await prisma.programElement.create({
-    data: {
-      name: "Mathématiques - Opérations avancées",
-      description: "Multiplication et division simples",
-      programId: programCE1.id
-    }
-  })
-
-  const elementsCE1Francais = await prisma.programElement.create({
-    data: {
-      name: "Français - Production écrite",
-      description: "Rédaction de courts paragraphes et grammaire de base",
-      programId: programCE1.id
-    }
-  })
-
-  const elementsCE1Histoire = await prisma.programElement.create({
-    data: {
-      name: "Histoire - Repères chronologiques",
-      description: "Premiers repères de l'histoire de France",
-      programId: programCE1.id
-    }
-  })
-
-  // Création des enfants
+  // Create children
   const emma = await prisma.child.create({
     data: {
       name: "Dupont",
@@ -99,71 +96,69 @@ async function main() {
       age: 7,
       gender: Gender.MALE,
       birthDate: new Date("2016-09-03"),
-      programId: programCE1.id
+      programId: programCP.id
     }
   })
 
-  const chloé = await prisma.child.create({
-    data: {
-      name: "Lefebvre",
-      firstName: "Chloé",
-      age: 8,
-      gender: Gender.FEMALE,
-      birthDate: new Date("2015-11-21"),
-      programId: programCE2.id
-    }
+  // Get some program elements for journal entries
+  const programElements = await prisma.programElement.findMany({
+    where: { programId: programCP.id },
+    take: 2
   })
 
-  // Création des entrées de journal
-  await prisma.journalEntry.create({
-    data: {
-      date: new Date("2023-10-15"),
-      comment: "Emma a fait de grands progrès en lecture aujourd'hui. Elle a réussi à déchiffrer un texte court sans aide.",
-      images: ["emma_lecture_20231015.jpg"],
-      childId: emma.id,
-      validatedElements: {
-        connect: [{ id: elementsLecture.id }]
+  // Create journal entries
+  if (programElements.length > 0) {
+    await prisma.journalEntry.create({
+      data: {
+        date: new Date("2023-10-15"),
+        comment: "Emma a fait de grands progrès en lecture aujourd'hui. Elle a réussi à déchiffrer un texte court sans aide.",
+        images: ["emma_lecture_20231015.jpg"],
+        childId: emma.id,
+        validatedElements: {
+          connect: [{ id: programElements[0].id }]
+        }
       }
-    }
-  })
+    })
 
-  await prisma.journalEntry.create({
-    data: {
-      date: new Date("2023-10-16"),
-      comment: "Thomas a réussi ses premiers calculs de multiplication. Il comprend bien le concept de répétition d'additions.",
-      images: ["thomas_maths_20231016.jpg"],
-      childId: thomas.id,
-      validatedElements: {
-        connect: [{ id: elementsCE1Maths.id }]
+    await prisma.journalEntry.create({
+      data: {
+        date: new Date("2023-10-25"),
+        comment: "Emma a travaillé sur les additions jusqu'à 20 aujourd'hui. Elle a compris le principe du report.",
+        images: ["emma_maths_20231025.jpg"],
+        childId: emma.id,
+        validatedElements: {
+          connect: [{ id: programElements[1].id }]
+        }
       }
-    }
+    })
+  }
+
+  // Create a journal entry with template elements
+  const templateElement = await prisma.programElement.findFirst({
+    where: { programTemplateId: programTemplate.id }
   })
 
-  await prisma.journalEntry.create({
-    data: {
-      date: new Date("2023-10-20"),
-      comment: "Chloé a réalisé une belle présentation sur les plantes de notre jardin. Elle a bien identifié les différentes parties.",
-      images: ["chloe_sciences_20231020.jpg", "jardin_chloe.jpg"],
-      childId: chloé.id,
-      validatedElements: {
-        connect: [{ id: elementsSciences.id }]
+  if (templateElement) {
+    await prisma.journalEntry.create({
+      data: {
+        date: new Date("2023-10-20"),
+        comment: "Thomas a bien travaillé sur les arts plastiques aujourd'hui. Il a créé une belle représentation de son environnement.",
+        images: ["thomas_arts_20231020.jpg"],
+        childId: thomas.id,
+        validatedElements: {
+          connect: [{ id: templateElement.id }]
+        }
       }
-    }
-  })
+    })
+  }
 
-  await prisma.journalEntry.create({
-    data: {
-      date: new Date("2023-10-25"),
-      comment: "Emma a travaillé sur les additions jusqu'à 20 aujourd'hui. Elle a compris le principe du report.",
-      images: ["emma_maths_20231025.jpg"],
-      childId: emma.id,
-      validatedElements: {
-        connect: [{ id: elementsMaths.id }]
-      }
-    }
+  console.log("Base de données initialisée avec succès avec les données du template CP")
+  console.log(`Template créé: ${programTemplate.name}`)
+  
+  const elementCount = await prisma.programElement.count({
+    where: { programTemplateId: programTemplate.id }
   })
-
-  console.log("Base de données initialisée avec succès")
+  console.log(`${elementCount} éléments de programme créés`)
 }
 
 main()
