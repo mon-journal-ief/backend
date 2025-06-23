@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import programRoutes from './routes/programRoutes'
+import programTemplateRoutes from './routes/programTemplateRoutes'
 import programElementRoutes from './routes/programElementRoutes'
 import authRoutes from './routes/authRoutes'
 
@@ -14,6 +15,7 @@ app.get('/', async (req, res) => {
 })
 
 app.use('/program/element', programElementRoutes)
+app.use('/program/template', programTemplateRoutes)
 app.use('/program', programRoutes)
 app.use('/auth', authRoutes)
 
