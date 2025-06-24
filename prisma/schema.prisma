@@ -82,17 +82,16 @@ model ProgramElement {
 model Child {
   id             String         @id @default(uuid())
   name           String
-  firstName      String
-  age            Int
-  gender         Gender
-  birthDate      DateTime
+  firstName      String?
+  age            Int?
+  gender         Gender?
   journalEntries JournalEntry[]
 
   program   Program? @relation(fields: [programId], references: [id])
   programId String?
 
-  user   User?   @relation(fields: [userId], references: [id])
-  userId String?
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

@@ -50,6 +50,7 @@ async function main() {
   await prisma.child.deleteMany({})
   await prisma.program.deleteMany({})
   await prisma.programTemplate.deleteMany({})
+  await prisma.user.delete({ where: { id: "1234567890" } })
 
   // Read and parse the JSON file
   const jsonPath = path.join(__dirname, '../src/assets/program_templates/seed_cp.json')
@@ -77,26 +78,36 @@ async function main() {
     }
   })
 
+  // Create user
+  const user = await prisma.user.create({
+    data: {
+      id: "1234567890",
+      name: "John Doe",
+      email: "john.doe@example.com",
+      password: "password"
+    }
+  })
+
   // Create children
-  const emma = await prisma.child.create({
+  const child1 = await prisma.child.create({
     data: {
       name: "Dupont",
       firstName: "Emma",
       age: 6,
       gender: Gender.FEMALE,
-      birthDate: new Date("2017-05-12"),
-      programId: programCP.id
+      programId: programCP.id,
+      userId: user.id
     }
   })
 
-  const thomas = await prisma.child.create({
+  const child2 = await prisma.child.create({
     data: {
       name: "Martin",
       firstName: "Thomas",
       age: 7,
       gender: Gender.MALE,
-      birthDate: new Date("2016-09-03"),
-      programId: programCP.id
+      programId: programCP.id,
+      userId: user.id
     }
   })
 
@@ -113,7 +124,7 @@ async function main() {
         date: new Date("2023-10-15"),
         comment: "Emma a fait de grands progrès en lecture aujourd'hui. Elle a réussi à déchiffrer un texte court sans aide.",
         images: ["emma_lecture_20231015.jpg"],
-        childId: emma.id,
+        childId: child1.id,
         validatedElements: {
           connect: [{ id: programElements[0].id }]
         }
@@ -125,7 +136,7 @@ async function main() {
         date: new Date("2023-10-25"),
         comment: "Emma a travaillé sur les additions jusqu'à 20 aujourd'hui. Elle a compris le principe du report.",
         images: ["emma_maths_20231025.jpg"],
-        childId: emma.id,
+        childId: child1.id,
         validatedElements: {
           connect: [{ id: programElements[1].id }]
         }
@@ -144,7 +155,7 @@ async function main() {
         date: new Date("2023-10-20"),
         comment: "Thomas a bien travaillé sur les arts plastiques aujourd'hui. Il a créé une belle représentation de son environnement.",
         images: ["thomas_arts_20231020.jpg"],
-        childId: thomas.id,
+        childId: child2.id,
         validatedElements: {
           connect: [{ id: templateElement.id }]
         }
