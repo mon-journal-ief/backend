@@ -82,7 +82,7 @@ model ProgramElement {
 model Child {
   id             String         @id @default(uuid())
   name           String
-  firstName      String?
+  lastName      String?
   age            Int?
   gender         Gender?
   journalEntries JournalEntry[]

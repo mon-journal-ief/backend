@@ -14,7 +14,7 @@ export async function getChildren(req: Request, res: Response): Promise<void> {
         journalEntries: true
       },
       orderBy: {
-        firstName: 'asc'
+        name: 'asc'
       }
     })
 
@@ -66,7 +66,7 @@ export async function createChild(req: Request, res: Response): Promise<void> {
     return
   }
 
-  const { name, firstName, age, gender, programId } = req.body
+  const { name, lastName, age, gender, programId } = req.body
 
   try {
     // If programId is provided, verify it exists
@@ -84,7 +84,7 @@ export async function createChild(req: Request, res: Response): Promise<void> {
     const child = await prisma.child.create({
       data: {
         name,
-        firstName,
+        lastName,
         age,
         gender,
         userId: req.user.id,
@@ -112,7 +112,7 @@ export async function updateChild(req: Request, res: Response): Promise<void> {
   }
 
   const { id } = req.params
-  const { name, firstName, age, gender, programId } = req.body
+  const { name, lastName, age, gender, programId } = req.body
 
   try {
     // Check if child exists and belongs to the user
@@ -144,7 +144,7 @@ export async function updateChild(req: Request, res: Response): Promise<void> {
       where: { id },
       data: {
         ...(name && { name }),
-        ...(firstName && { firstName }),
+        ...(lastName && { lastName }),
         ...(age && { age }),
         ...(gender && { gender }),
         ...(programId !== undefined && { programId: programId || null })

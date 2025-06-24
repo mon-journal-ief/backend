@@ -91,8 +91,8 @@ async function main() {
   // Create children
   const child1 = await prisma.child.create({
     data: {
-      name: "Dupont",
-      firstName: "Emma",
+      name: "Emma",
+      lastName: "Dupont",
       age: 6,
       gender: Gender.FEMALE,
       programId: programCP.id,
@@ -102,8 +102,8 @@ async function main() {
 
   const child2 = await prisma.child.create({
     data: {
-      name: "Martin",
-      firstName: "Thomas",
+      name: "Thomas",
+      lastName: "Martin",
       age: 7,
       gender: Gender.MALE,
       programId: programCP.id,
