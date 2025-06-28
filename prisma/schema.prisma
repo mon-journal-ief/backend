@@ -9,11 +9,13 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(uuid())
-  email    String  @unique
-  password String
-  name     String
-  children Child[]
+  id                    String    @id @default(uuid())
+  email                 String    @unique
+  password              String
+  name                  String
+  children              Child[]
+  refreshToken          String?
+  refreshTokenExpiresAt DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -82,7 +84,7 @@ model ProgramElement {
 model Child {
   id             String         @id @default(uuid())
   name           String
-  lastName      String?
+  lastName       String?
   age            Int?
   gender         Gender?
   journalEntries JournalEntry[]

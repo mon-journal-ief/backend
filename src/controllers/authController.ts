@@ -4,8 +4,37 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { validationResult } from 'express-validator'
 import { User } from '../../generated/prisma/client'
+import crypto from 'crypto'
 
-function generateToken(user: User): string {
+interface TokenResponse {
+  accessToken: string
+  refreshToken: string
+}
+
+function generateRefreshToken(): string {
+  return crypto.randomBytes(40).toString('hex')
+}
+
+async function generateTokens(user: User): Promise<TokenResponse> {
+  const accessToken = generateAccessToken(user)
+  const refreshToken = generateRefreshToken()
+  
+  // Store refresh token in database with 7 day expiration
+  const refreshTokenExpiresAt = new Date()
+  refreshTokenExpiresAt.setDate(refreshTokenExpiresAt.getDate() + 7)
+  
+  await prisma.user.update({
+    where: { id: user.id },
+    data: {
+      refreshToken,
+      refreshTokenExpiresAt
+    }
+  })
+  
+  return { accessToken, refreshToken }
+}
+
+function generateAccessToken(user: User): string {
   return jwt.sign({
     user: { id: user.id }
   }, process.env.JWT_SECRET || 'defaultsecret', {
@@ -46,8 +75,8 @@ export async function register(req: Request, res: Response): Promise<void> {
       }
     })
 
-    const token = generateToken(user)
-    res.json({ token })
+    const tokens = await generateTokens(user)
+    res.json(tokens)
   } catch (err) {
     console.error(err)
     res.status(500).send('Server error')
@@ -82,9 +111,61 @@ export async function login(req: Request, res: Response): Promise<void> {
       return
     }
 
-    // Create JWT
-    const token = generateToken(user)
-    res.json({ token })
+    // Generate tokens
+    const tokens = await generateTokens(user)
+    res.json(tokens)
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('Server error')
+  }
+}
+
+// Refresh token
+export async function refreshToken(req: Request, res: Response): Promise<void> {
+  const { refreshToken } = req.body
+
+  if (!refreshToken) {
+    res.status(401).json({ message: 'Refresh token is required' })
+    return
+  }
+
+  try {
+    // Find user with this refresh token
+    const user = await prisma.user.findFirst({
+      where: {
+        refreshToken,
+        refreshTokenExpiresAt: {
+          gt: new Date() // Token must not be expired
+        }
+      }
+    })
+
+    if (!user) {
+      res.status(401).json({ message: 'Invalid or expired refresh token' })
+      return
+    }
+
+    // Generate new tokens
+    const tokens = await generateTokens(user)
+    res.json(tokens)
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('Server error')
+  }
+}
+
+// Logout user (invalidate refresh token)
+export async function logout(req: Request, res: Response): Promise<void> {
+  try {
+    await prisma.user.update({
+      where: { id: req.user.id },
+      data: {
+        refreshToken: null,
+        refreshTokenExpiresAt: null
+      }
+    })
+
+    res.json({ message: 'Logged out successfully' })
   } catch (err) {
     console.error(err)
     res.status(500).send('Server error')
