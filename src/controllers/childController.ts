@@ -36,7 +36,11 @@ export async function getChildById(req: Request, res: Response): Promise<void> {
         userId: req.user.id
       },
       include: {
-        program: true,
+        program: {
+          include: {
+            elements: true
+          }
+        },
         journalEntries: {
           include: {
             validatedElements: true
