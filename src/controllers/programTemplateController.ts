@@ -25,6 +25,10 @@ export async function getProgramTemplate(req: Request, res: Response) {
             programs: true
         }
     })
+    if (!programTemplate) {
+        res.status(404).json({ message: 'Program template not found' })
+        return
+    }
     res.json(programTemplate)
 }
 

@@ -25,6 +25,10 @@ export async function getProgramElement(req: Request, res: Response) {
             journalEntries: true
         }
     })
+    if (!programElement) {
+        res.status(404).json({ message: 'Program element not found' })
+        return
+    }
     res.json(programElement)
 }
 
