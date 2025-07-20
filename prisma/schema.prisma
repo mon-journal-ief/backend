@@ -27,6 +27,9 @@ enum Gender {
 }
 
 enum Grade {
+  PS
+  MS
+  GS
   CP
   CE1
   CE2
