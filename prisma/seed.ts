@@ -43,17 +43,7 @@ async function createProgramElements(
   }
 }
 
-async function main() {
-  // Clean database (optional)
-  await prisma.journalEntry.deleteMany({})
-  await prisma.programElement.deleteMany({})
-  await prisma.child.deleteMany({})
-  await prisma.program.deleteMany({})
-  await prisma.programTemplate.deleteMany({})
-  await prisma.user.delete({ where: { id: "1234567890" } })
-
-  // Read and parse the JSON file
-  const jsonPath = path.join(__dirname, '../src/assets/program_templates/seed_cp.json')
+async function seedFromFile(jsonPath: string) {
   const jsonContent = fs.readFileSync(jsonPath, 'utf-8')
   const seedData: SeedData = JSON.parse(jsonContent)
 
@@ -70,10 +60,10 @@ async function main() {
   await createProgramElements(seedData.programTemplate.elements, programTemplate.id)
 
   // Create program based on the template
-  const programCP = await prisma.program.create({
+  const program = await prisma.program.create({
     data: {
-      name: "Programme CP - Année 2024",
-      grade: Grade.CP,
+      name: `Programme ${seedData.programTemplate.grade} - Année 2025`,
+      grade: seedData.programTemplate.grade as Grade,
       templateId: programTemplate.id
     }
   })
@@ -81,10 +71,10 @@ async function main() {
   // Create user
   const user = await prisma.user.create({
     data: {
-      id: "1234567890",
-      name: "John Doe",
-      email: "john.doe@example.com",
-      password: "password"
+      id: crypto.randomUUID(),
+      name: `Ding dong`,
+      email: `r@r.rr`,
+      password: "rrrrrr"
     }
   })
 
@@ -95,7 +85,7 @@ async function main() {
       lastName: "Dupont",
       age: 6,
       gender: Gender.FEMALE,
-      programId: programCP.id,
+      programId: program.id,
       userId: user.id
     }
   })
@@ -106,14 +96,14 @@ async function main() {
       lastName: "Martin",
       age: 7,
       gender: Gender.MALE,
-      programId: programCP.id,
+      programId: program.id,
       userId: user.id
     }
   })
 
   // Get some program elements for journal entries
   const programElements = await prisma.programElement.findMany({
-    where: { programId: programCP.id },
+    where: { programId: program.id },
     take: 2
   })
 
@@ -163,13 +153,32 @@ async function main() {
     })
   }
 
-  console.log("Base de données initialisée avec succès avec les données du template CP")
+  console.log(`Base de données initialisée avec succès avec les données du template ${programTemplate.grade}`)
   console.log(`Template créé: ${programTemplate.name}`)
   
   const elementCount = await prisma.programElement.count({
     where: { programTemplateId: programTemplate.id }
   })
-  console.log(`${elementCount} éléments de programme créés`)
+  console.log(`${elementCount} éléments de programme créés pour ${programTemplate.grade}`)
+}
+
+async function main() {
+  // Clean database (optional, only once)
+  await prisma.journalEntry.deleteMany({})
+  await prisma.programElement.deleteMany({})
+  await prisma.child.deleteMany({})
+  await prisma.program.deleteMany({})
+  await prisma.programTemplate.deleteMany({})
+  await prisma.user.deleteMany({})
+
+  // Read all seed files in the directory
+  const seedsDir = path.join(__dirname, '../src/assets/program_templates')
+  const files = fs.readdirSync(seedsDir).filter(f => f.endsWith('.json'))
+
+  for (const file of files) {
+    const jsonPath = path.join(seedsDir, file)
+    await seedFromFile(jsonPath)
+  }
 }
 
 main()
