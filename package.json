@@ -18,6 +18,7 @@
     "typecheck": "tsc --noEmit",
     "build": "tsc -p .",
     "prisma:seed": "ts-node prisma/seed.ts",
+    "scripts:reset-program-templates": "ts-node src/scripts/resetProgramTemplates.ts",
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio"

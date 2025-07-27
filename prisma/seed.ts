@@ -1,72 +1,66 @@
 import { PrismaClient, Gender, Grade } from '../generated/prisma/client'
-import * as fs from 'fs'
-import * as path from 'path'
+import { resetProgramTemplates } from '../src/scripts/resetProgramTemplates'
 
 const prisma = new PrismaClient()
 
-interface ProgramElementData {
-  name: string
-  description: string
-  children?: ProgramElementData[]
-}
+async function copyProgramElementsFromTemplate(templateId: string, programId: string, parentId?: string): Promise<void> {
+  // Get all template elements at this level
+  const templateElements = await prisma.programElement.findMany({
+    where: {
+      programTemplateId: templateId,
+      parentId: parentId
+    }
+  })
 
-interface ProgramTemplateData {
-  name: string
-  description: string
-  grade: string
-  elements: ProgramElementData[]
-}
-
-interface SeedData {
-  programTemplate: ProgramTemplateData
-}
-
-async function createProgramElements(
-  elements: ProgramElementData[],
-  templateId: string,
-  parentId?: string
-): Promise<void> {
-  for (const element of elements) {
-    const createdElement = await prisma.programElement.create({
+  for (const templateElement of templateElements) {
+    // Create program element based on template element
+    const programElement = await prisma.programElement.create({
       data: {
-        name: element.name,
-        description: element.description,
-        programTemplateId: templateId,
+        name: templateElement.name,
+        description: templateElement.description,
+        programId: programId,
         parentId: parentId
       }
     })
 
-    // Recursively create children if they exist
-    if (element.children && element.children.length > 0) {
-      await createProgramElements(element.children, templateId, createdElement.id)
-    }
+    // Recursively copy children
+    await copyProgramElementsFromTemplate(templateId, programId, programElement.id)
   }
 }
 
-async function seedFromFile(jsonPath: string) {
-  const jsonContent = fs.readFileSync(jsonPath, 'utf-8')
-  const seedData: SeedData = JSON.parse(jsonContent)
+async function main() {
+  // Clean database (optional, only once)
+  await prisma.journalEntry.deleteMany({})
+  await prisma.programElement.deleteMany({})
+  await prisma.child.deleteMany({})
+  await prisma.program.deleteMany({})
+  await prisma.programTemplate.deleteMany({})
+  await prisma.user.deleteMany({})
 
-  // Create the program template
-  const programTemplate = await prisma.programTemplate.create({
+  // Reset program templates using the modular script
+  await resetProgramTemplates()
+
+  // Get the first template and create a program from it for testing
+  const firstTemplate = await prisma.programTemplate.findFirst()
+
+  if (!firstTemplate) {
+    console.log('❌ Aucun template trouvé')
+    return
+  }
+
+  // Create a program based on the first template
+  const testProgram = await prisma.program.create({
     data: {
-      name: seedData.programTemplate.name,
-      description: seedData.programTemplate.description,
-      grade: seedData.programTemplate.grade as Grade
+      name: `Programme Test ${firstTemplate.grade} - Année 2025`,
+      grade: firstTemplate.grade,
+      templateId: firstTemplate.id
     }
   })
 
-  // Create all program elements with their hierarchical structure
-  await createProgramElements(seedData.programTemplate.elements, programTemplate.id)
+  // Copy all program elements from template to program
+  await copyProgramElementsFromTemplate(firstTemplate.id, testProgram.id)
 
-  // Create program based on the template
-  const program = await prisma.program.create({
-    data: {
-      name: `Programme ${seedData.programTemplate.grade} - Année 2025`,
-      grade: seedData.programTemplate.grade as Grade,
-      templateId: programTemplate.id
-    }
-  })
+  console.log(`✅ Programme créé avec ${await prisma.programElement.count({ where: { programId: testProgram.id } })} éléments copiés`)
 
   // Create user
   const user = await prisma.user.create({
@@ -85,7 +79,7 @@ async function seedFromFile(jsonPath: string) {
       lastName: "Dupont",
       age: 6,
       gender: Gender.FEMALE,
-      programId: program.id,
+      programId: testProgram.id,
       userId: user.id
     }
   })
@@ -96,14 +90,14 @@ async function seedFromFile(jsonPath: string) {
       lastName: "Martin",
       age: 7,
       gender: Gender.MALE,
-      programId: program.id,
+      programId: testProgram.id,
       userId: user.id
     }
   })
 
-  // Get some program elements for journal entries
+  // Get some program elements for journal entries (now from the program, not template)
   const programElements = await prisma.programElement.findMany({
-    where: { programId: program.id },
+    where: { programId: testProgram.id },
     take: 2
   })
 
@@ -134,12 +128,12 @@ async function seedFromFile(jsonPath: string) {
     })
   }
 
-  // Create a journal entry with template elements
-  const templateElement = await prisma.programElement.findFirst({
-    where: { programTemplateId: programTemplate.id }
+  // Create a journal entry with program elements
+  const programElement = await prisma.programElement.findFirst({
+    where: { programId: testProgram.id }
   })
 
-  if (templateElement) {
+  if (programElement) {
     await prisma.journalEntry.create({
       data: {
         date: new Date("2023-10-20"),
@@ -147,38 +141,13 @@ async function seedFromFile(jsonPath: string) {
         images: ["thomas_arts_20231020.jpg"],
         childId: child2.id,
         validatedElements: {
-          connect: [{ id: templateElement.id }]
+          connect: [{ id: programElement.id }]
         }
       }
     })
   }
 
-  console.log(`Base de données initialisée avec succès avec les données du template ${programTemplate.grade}`)
-  console.log(`Template créé: ${programTemplate.name}`)
-  
-  const elementCount = await prisma.programElement.count({
-    where: { programTemplateId: programTemplate.id }
-  })
-  console.log(`${elementCount} éléments de programme créés pour ${programTemplate.grade}`)
-}
-
-async function main() {
-  // Clean database (optional, only once)
-  await prisma.journalEntry.deleteMany({})
-  await prisma.programElement.deleteMany({})
-  await prisma.child.deleteMany({})
-  await prisma.program.deleteMany({})
-  await prisma.programTemplate.deleteMany({})
-  await prisma.user.deleteMany({})
-
-  // Read all seed files in the directory
-  const seedsDir = path.join(__dirname, '../src/assets/program_templates')
-  const files = fs.readdirSync(seedsDir).filter(f => f.endsWith('.json'))
-
-  for (const file of files) {
-    const jsonPath = path.join(seedsDir, file)
-    await seedFromFile(jsonPath)
-  }
+  console.log('✅ Base de données initialisée avec succès avec des données de test')
 }
 
 main()
