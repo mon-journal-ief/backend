@@ -54,7 +54,8 @@ async function main() {
     data: {
       name: `Programme Test ${firstTemplate.grade} - Année 2025`,
       grade: firstTemplate.grade,
-      templateId: firstTemplate.id
+      templateId: firstTemplate.id,
+      description: firstTemplate.description
     }
   })
 
@@ -81,7 +82,7 @@ async function main() {
       lastName: "Dupont",
       age: 6,
       gender: Gender.FEMALE,
-      programId: testProgram.id,
+      programId: null,
       userId: user.id
     }
   })

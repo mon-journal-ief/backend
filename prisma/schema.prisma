@@ -50,11 +50,12 @@ model ProgramTemplate {
 }
 
 model Program {
-  id       String           @id @default(uuid())
-  name     String
-  grade    Grade
-  elements ProgramElement[]
-  children Child[]
+  id          String           @id @default(uuid())
+  name        String
+  description String
+  grade       Grade
+  elements    ProgramElement[]
+  children    Child[]
 
   template   ProgramTemplate? @relation(fields: [templateId], references: [id])
   templateId String?
