@@ -10,7 +10,30 @@ export async function getChildren(req: Request, res: Response): Promise<void> {
         userId: req.user.id
       },
       include: {
-        program: true,
+        program: {
+          include: {
+            elements: {
+              where: {
+                parentId: null // Only get root elements
+              },
+              include: {
+                children: {
+                  include: {
+                    children: {
+                      include: {
+                        children: {
+                          include: {
+                            children: true // Support up to 5 levels deep
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
         journalEntries: true
       },
       orderBy: {
@@ -38,7 +61,26 @@ export async function getChildById(req: Request, res: Response): Promise<void> {
       include: {
         program: {
           include: {
-            elements: true
+            elements: {
+              where: {
+                parentId: null // Only get root elements
+              },
+              include: {
+                children: {
+                  include: {
+                    children: {
+                      include: {
+                        children: {
+                          include: {
+                            children: true // Support up to 5 levels deep
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         journalEntries: {

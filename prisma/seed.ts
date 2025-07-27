@@ -1,33 +1,9 @@
 import { PrismaClient, Gender, Grade } from '../generated/prisma/client'
 import { resetProgramTemplates } from '../src/scripts/resetProgramTemplates'
+import { copyProgramElementsFromTemplate } from '../src/utils/programUtils'
 import bcrypt from 'bcrypt'
 
 const prisma = new PrismaClient()
-
-async function copyProgramElementsFromTemplate(templateId: string, programId: string, parentId?: string): Promise<void> {
-  // Get all template elements at this level
-  const templateElements = await prisma.programElement.findMany({
-    where: {
-      programTemplateId: templateId,
-      parentId: parentId
-    }
-  })
-
-  for (const templateElement of templateElements) {
-    // Create program element based on template element
-    const programElement = await prisma.programElement.create({
-      data: {
-        name: templateElement.name,
-        description: templateElement.description,
-        programId: programId,
-        parentId: parentId
-      }
-    })
-
-    // Recursively copy children
-    await copyProgramElementsFromTemplate(templateId, programId, programElement.id)
-  }
-}
 
 async function main() {
   // Clean database (optional, only once)

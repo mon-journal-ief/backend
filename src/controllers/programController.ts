@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import prisma from '../config/db'
+import { copyProgramElementsFromTemplate } from '../utils/programUtils'
 
 // Get all programs
 export async function getAllPrograms(req: Request, res: Response) {
@@ -37,19 +38,44 @@ export async function getProgram(req: Request, res: Response) {
 
 // Create new program
 export async function createProgram(req: Request, res: Response) {
-    const { name, grade, description } = req.body
+    const { name, grade, description, templateId } = req.body
     if (!name || !grade) {
         res.status(400).json({ message: 'Name and grade are required' })
         return
     }
-    const program = await prisma.program.create({
-        data: {
-            name,
-            grade,
-            description
+
+    try {
+        // If templateId is provided, verify it exists
+        if (templateId) {
+            const template = await prisma.programTemplate.findUnique({
+                where: { id: templateId }
+            })
+
+            if (!template) {
+                res.status(400).json({ message: 'Invalid template ID' })
+                return
+            }
         }
-    })
-    res.json(program)
+
+        const program = await prisma.program.create({
+            data: {
+                name,
+                grade,
+                description,
+                templateId
+            }
+        })
+
+        // If created from template, copy all elements with hierarchy
+        if (templateId) {
+            await copyProgramElementsFromTemplate(templateId, program.id)
+        }
+
+        res.json(program)
+    } catch (error) {
+        console.error('Error creating program:', error)
+        res.status(500).json({ message: 'Error creating program' })
+    }
 }
 
 // Update program
