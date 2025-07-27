@@ -37,7 +37,7 @@ export async function getProgram(req: Request, res: Response) {
 
 // Create new program
 export async function createProgram(req: Request, res: Response) {
-    const { name, grade } = req.body
+    const { name, grade, description } = req.body
     if (!name || !grade) {
         res.status(400).json({ message: 'Name and grade are required' })
         return
@@ -45,7 +45,8 @@ export async function createProgram(req: Request, res: Response) {
     const program = await prisma.program.create({
         data: {
             name,
-            grade
+            grade,
+            description
         }
     })
     res.json(program)
@@ -54,7 +55,7 @@ export async function createProgram(req: Request, res: Response) {
 // Update program
 export async function updateProgram(req: Request, res: Response) {
     const { id } = req.params
-    const { name, grade } = req.body
+    const { name, grade, description } = req.body
     let program
     try {
         program = await prisma.program.update({
@@ -65,7 +66,7 @@ export async function updateProgram(req: Request, res: Response) {
                 elements: true,
                 children: true
             },
-            data: { name, grade }
+            data: { name, grade, description }
         })
     } catch (error) {
         res.status(404).json({ message: 'Program not found' })
