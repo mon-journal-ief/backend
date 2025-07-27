@@ -1,5 +1,6 @@
 import { PrismaClient, Gender, Grade } from '../generated/prisma/client'
 import { resetProgramTemplates } from '../src/scripts/resetProgramTemplates'
+import bcrypt from 'bcrypt'
 
 const prisma = new PrismaClient()
 
@@ -63,12 +64,13 @@ async function main() {
   console.log(`✅ Programme créé avec ${await prisma.programElement.count({ where: { programId: testProgram.id } })} éléments copiés`)
 
   // Create user
+  const hashedPassword = await bcrypt.hash("rrrrrr", 10)
   const user = await prisma.user.create({
     data: {
       id: crypto.randomUUID(),
       name: `Ding dong`,
       email: `r@r.rr`,
-      password: "rrrrrr"
+      password: hashedPassword
     }
   })
 
