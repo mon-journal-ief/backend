@@ -52,13 +52,13 @@ export async function createProgramElement(req: Request, res: Response) {
 // Update program element
 export async function updateProgramElement(req: Request, res: Response) {
     const { id } = req.params
-    const { name, description } = req.body
+    const { name, description, parentId } = req.body
 
     const programElement = await prisma.programElement.update({
         where: {
             id: id
         },
-        data: { name, description },
+        data: { name, description, parentId },
         include: {
             program: true,
             journalEntries: true
