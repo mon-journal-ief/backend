@@ -22,7 +22,7 @@ export async function getProgramElement(req: Request, res: Response) {
         },
         include: {
             program: true,
-            journalEntries: true
+            journalEntries: true,
         }
     })
     if (!programElement) {
@@ -43,7 +43,8 @@ export async function createProgramElement(req: Request, res: Response) {
         },
         include: {
             program: true,
-            journalEntries: true
+            journalEntries: true,
+            children: true
         }
     })
     res.json(programElement)
@@ -61,7 +62,8 @@ export async function updateProgramElement(req: Request, res: Response) {
         data: { name, description, parentId },
         include: {
             program: true,
-            journalEntries: true
+            journalEntries: true,
+            children: true
         }
     })
 
@@ -77,7 +79,8 @@ export async function deleteProgramElement(req: Request, res: Response) {
         },
         include: {
             program: true,
-            journalEntries: true
+            journalEntries: true,
+            children: true
         }
     })
     res.json(programElement)
