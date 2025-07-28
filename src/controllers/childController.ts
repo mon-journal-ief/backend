@@ -29,7 +29,8 @@ export async function getChildren(req: Request, res: Response): Promise<void> {
                       }
                     }
                   }
-                }
+                },
+                journalEntries: true
               }
             }
           }
@@ -72,13 +73,17 @@ export async function getChildById(req: Request, res: Response): Promise<void> {
                       include: {
                         children: {
                           include: {
-                            children: true // Support up to 5 levels deep
+                            children: true, // Support up to 5 levels deep
+                            journalEntries: true
                           }
-                        }
+                        },
+                        journalEntries: true
                       }
-                    }
+                    },
+                    journalEntries: true
                   }
-                }
+                },
+                journalEntries: true
               }
             }
           }
