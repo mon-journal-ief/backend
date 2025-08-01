@@ -6,6 +6,7 @@ import programElementRoutes from './routes/programElementRoutes'
 import authRoutes from './routes/authRoutes'
 import childRoutes from './routes/childRoutes'
 import journalEntryRoutes from './routes/journalEntryRoutes'
+import exportRoutes from './routes/exportRoutes'
 
 const app = express()
 app.use(express.json())
@@ -22,6 +23,7 @@ app.use('/program', programRoutes)
 app.use('/auth', authRoutes)
 app.use('/children', childRoutes)
 app.use('/journal-entries', journalEntryRoutes)
+app.use('/export', exportRoutes)
 
 app.listen(4000, () => {
     console.log('Express server is running on port 4000')
