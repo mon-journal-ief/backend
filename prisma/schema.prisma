@@ -89,6 +89,7 @@ model Child {
   id             String         @id @default(uuid())
   name           String
   lastName       String?
+  profileImage   String?
   age            Int?
   gender         Gender?
   journalEntries JournalEntry[]
