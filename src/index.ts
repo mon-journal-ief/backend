@@ -12,7 +12,14 @@ import uploadRoutes from './routes/uploadRoutes'
 
 const app = express()
 app.use(express.json())
-app.use(cors())
+
+// CORS disabled for debug
+app.use(cors({
+  origin: '*',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'x-auth-token', 'Authorization']
+}))
 
 // Routes
 app.get('/', async (req, res) => {
