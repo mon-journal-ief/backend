@@ -183,8 +183,11 @@ export async function getCurrentUser(req: Request, res: Response): Promise<void>
         email: true,
         children: {
           include: {
-            program: true
-          }
+            program: true,
+          },
+          orderBy: {
+            name: 'asc',
+          },
         }
       },
     })
