@@ -70,7 +70,7 @@ export async function createJournalEntry(req: Request, res: Response) {
     }
     const journalEntry = await prisma.journalEntry.create({
       data: {
-        ...(date !== undefined && { date: new Date(date) }),
+        date: new Date(date),
         ...(comment !== undefined && { comment }),
         images,
         childId,
@@ -109,7 +109,7 @@ export async function updateJournalEntry(req: Request, res: Response) {
     const updatedJournalEntry = await prisma.journalEntry.update({
       where: { id },
       data: {
-        ...(date && { date: new Date(date) }),
+        date: new Date(date),
         ...(comment !== undefined && { comment }),
         ...(images && { images }),
         ...(validatedElementIds && {

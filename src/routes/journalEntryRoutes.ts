@@ -21,7 +21,7 @@ router.get('/:id', authenticate, getJournalEntryById)
 router.post(
   '/',
   check('childId', 'childId is required').not().isEmpty(),
-  check('date').optional(),
+  check('date', 'date is required').not().isEmpty(),
   authenticate,
   createJournalEntry
 )
@@ -29,7 +29,7 @@ router.post(
 // Update a journal entry
 router.put(
   '/:id',
-  check('date').optional().not().isEmpty(),
+  check('date', 'date is required').not().isEmpty(),
   check('comment').optional(),
   authenticate,
   updateJournalEntry

@@ -106,7 +106,7 @@ model Child {
 
 model JournalEntry {
   id                String           @id @default(uuid())
-  date              DateTime?
+  date              DateTime
   comment           String?
   images            String[]
   validatedElements ProgramElement[] @relation("ValidatedElements")
