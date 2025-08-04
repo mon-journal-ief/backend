@@ -10,6 +10,15 @@ export async function getAllProgramTemplates(req: Request, res: Response) {
         }
     })
 
+    // Sort by grade (corresponding to age progression)
+    const gradeOrder = ['Maternelle', 'CP', 'CE1', 'CE2', 'CM1', 'CM2', 'Sixième', 'Cinquième', 'Quatrième', 'Troisième', 'Seconde', 'Première', 'Terminale']
+
+    programTemplates.sort((a, b) => {
+        const indexA = gradeOrder.indexOf(a.grade)
+        const indexB = gradeOrder.indexOf(b.grade)
+        return indexA - indexB
+    })
+
     res.json(programTemplates)
 }
 
