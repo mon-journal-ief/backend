@@ -1,0 +1,279 @@
+{
+  "programTemplate": {
+    "name": "Programme Cycle 2 - CE1",
+    "description": "Programme officiel français pour le CE1 - Ministère de l'Éducation nationale",
+    "grade": "CE1",
+    "elements": [
+      {
+        "name": "Français - Lecture et compréhension de l'écrit",
+        "description": "Maîtrise de la lecture et compréhension des textes",
+        "children": [
+          {
+            "name": "Identifier des mots de manière de plus en plus aisée",
+            "description": "Automatiser la reconnaissance des mots",
+            "children": [
+              {
+                "name": "Discriminer de manière auditive et savoir analyser les constituants des mots",
+                "description": "Maîtriser les correspondances graphophonologiques"
+              },
+              {
+                "name": "Savoir déchiffrer et reconnaître la signification des mots nouveaux",
+                "description": "Développer des stratégies de décodage"
+              },
+              {
+                "name": "Lire et comprendre des textes adaptés à la maturité",
+                "description": "Comprendre des textes de complexité croissante"
+              }
+            ]
+          },
+          {
+            "name": "Comprendre un texte",
+            "description": "Développer les stratégies de compréhension",
+            "children": [
+              {
+                "name": "Mobiliser des compétences de décodage",
+                "description": "Lire de manière fluide"
+              },
+              {
+                "name": "Mobiliser des expériences antérieures de lecture",
+                "description": "Faire des liens avec ses connaissances"
+              },
+              {
+                "name": "Mobiliser des connaissances lexicales",
+                "description": "Comprendre le vocabulaire du texte"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Français - Écriture",
+        "description": "Maîtrise du geste graphique et de la production d'écrits",
+        "children": [
+          {
+            "name": "Maîtriser les gestes de l'écriture cursive",
+            "description": "Automatiser l'écriture cursive",
+            "children": [
+              {
+                "name": "Écrire de manière fluide et efficace",
+                "description": "Automatiser les gestes de l'écriture"
+              },
+              {
+                "name": "Maîtriser la forme des lettres cursives",
+                "description": "Respecter les normes de l'écriture cursive"
+              },
+              {
+                "name": "Maîtriser les liaisons",
+                "description": "Lier correctement les lettres entre elles"
+              }
+            ]
+          },
+          {
+            "name": "Produire des écrits",
+            "description": "Rédiger des textes courts",
+            "children": [
+              {
+                "name": "Identifier les caractéristiques propres à différents genres de textes",
+                "description": "Distinguer récit, documentaire, poésie"
+              },
+              {
+                "name": "Rédiger un texte d'environ une demi-page",
+                "description": "Produire un écrit cohérent et organisé"
+              },
+              {
+                "name": "Relire ses écrits et les améliorer",
+                "description": "Réviser et corriger ses productions"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Mathématiques - Nombres et calculs",
+        "description": "Maîtrise des nombres et des opérations",
+        "children": [
+          {
+            "name": "Comprendre et utiliser des nombres entiers pour dénombrer, ordonner, repérer, comparer",
+            "description": "Maîtriser les nombres jusqu'à 1000",
+            "children": [
+              {
+                "name": "Dénombrer, constituer et comparer des collections",
+                "description": "Travailler avec des quantités jusqu'à 1000"
+              },
+              {
+                "name": "Utiliser diverses représentations des nombres",
+                "description": "Passer d'une représentation à l'autre"
+              },
+              {
+                "name": "Ordonner des nombres entiers",
+                "description": "Ranger, encadrer, intercaler des nombres"
+              },
+              {
+                "name": "Repérer un rang ou une position dans une file ou sur une piste",
+                "description": "Utiliser les nombres ordinaux"
+              }
+            ]
+          },
+          {
+            "name": "Nommer, lire, écrire, représenter des nombres entiers",
+            "description": "Maîtriser l'écriture des nombres",
+            "children": [
+              {
+                "name": "Connaître les désignations orales et écrites des nombres entiers",
+                "description": "Maîtriser la numération jusqu'à 1000"
+              },
+              {
+                "name": "Passer d'une représentation à une autre",
+                "description": "Utiliser différents supports (abaques, tableaux)"
+              }
+            ]
+          },
+          {
+            "name": "Calculer avec des nombres entiers",
+            "description": "Maîtriser les quatre opérations",
+            "children": [
+              {
+                "name": "Mémoriser des faits numériques et des procédures",
+                "description": "Connaître les tables d'addition et de multiplication (×2, ×5, ×10)"
+              },
+              {
+                "name": "Élaborer ou choisir des stratégies de calcul à l'oral et à l'écrit",
+                "description": "Développer des stratégies de calcul mental et posé"
+              },
+              {
+                "name": "Vérifier la vraisemblance d'un résultat",
+                "description": "Estimer et contrôler ses calculs"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Mathématiques - Espace et géométrie",
+        "description": "Repérage spatial et géométrie plane",
+        "children": [
+          {
+            "name": "Se repérer et se déplacer en utilisant des repères et des représentations",
+            "description": "Maîtriser l'orientation et le repérage",
+            "children": [
+              {
+                "name": "Se repérer dans son environnement proche",
+                "description": "Utiliser un vocabulaire précis pour décrire la position"
+              },
+              {
+                "name": "S'orienter et se déplacer en utilisant des repères",
+                "description": "Lire un plan simple, suivre un itinéraire"
+              },
+              {
+                "name": "Réaliser un déplacement en suivant une consigne ou un programme",
+                "description": "Programmer et exécuter des déplacements"
+              }
+            ]
+          },
+          {
+            "name": "Reconnaître, nommer, décrire, reproduire quelques solides et figures géométriques",
+            "description": "Géométrie dans le plan et dans l'espace",
+            "children": [
+              {
+                "name": "Reconnaître et nommer les figures usuelles",
+                "description": "Identifier carré, rectangle, triangle, cercle"
+              },
+              {
+                "name": "Reconnaître et nommer quelques solides",
+                "description": "Identifier cube, pavé, boule, cylindre, pyramide, cône"
+              },
+              {
+                "name": "Reproduire des figures sur papier quadrillé",
+                "description": "Utiliser la règle et l'équerre"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Questionner le monde",
+        "description": "Découverte du monde et initiation scientifique",
+        "children": [
+          {
+            "name": "Questionner le monde du vivant, de la matière et des objets",
+            "description": "Approche scientifique du monde",
+            "children": [
+              {
+                "name": "Connaître des caractéristiques du monde vivant",
+                "description": "Observer les animaux et végétaux, leurs besoins"
+              },
+              {
+                "name": "Identifier les trois états de la matière",
+                "description": "Distinguer solide, liquide, gaz"
+              },
+              {
+                "name": "Identifier un changement d'état de l'eau",
+                "description": "Comprendre fusion, solidification, évaporation"
+              },
+              {
+                "name": "Décrire les besoins essentiels de quelques animaux et végétaux",
+                "description": "Comprendre les conditions de vie des êtres vivants"
+              }
+            ]
+          },
+          {
+            "name": "Questionner l'espace et le temps",
+            "description": "Se repérer dans l'espace et le temps",
+            "children": [
+              {
+                "name": "Se situer dans l'espace et dans le temps",
+                "description": "Utiliser les repères temporels et spatiaux"
+              },
+              {
+                "name": "Comparer quelques modes de vie des hommes et des femmes",
+                "description": "Découvrir d'autres époques et d'autres lieux"
+              },
+              {
+                "name": "Comprendre qu'un espace géographique est organisé",
+                "description": "Lire des paysages, comprendre l'organisation de l'espace"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Enseignement moral et civique",
+        "description": "Valeurs républicaines et vivre ensemble",
+        "children": [
+          {
+            "name": "Respecter autrui",
+            "description": "Développer le respect de soi et des autres",
+            "children": [
+              {
+                "name": "Identifier et partager des émotions, des sentiments",
+                "description": "Reconnaître et exprimer ses émotions"
+              },
+              {
+                "name": "Se situer et s'exprimer en respectant les codes de la communication orale",
+                "description": "Prendre la parole de manière respectueuse"
+              },
+              {
+                "name": "Accepter les différences",
+                "description": "Respecter la diversité des personnes"
+              }
+            ]
+          },
+          {
+            "name": "Acquérir et partager les valeurs de la République",
+            "description": "Comprendre les principes républicains",
+            "children": [
+              {
+                "name": "Connaître quelques principes et valeurs fondatrices d'une société démocratique",
+                "description": "Découvrir liberté, égalité, fraternité, laïcité"
+              },
+              {
+                "name": "Connaître les symboles de la République française",
+                "description": "Identifier drapeau, hymne, Marianne, devise"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

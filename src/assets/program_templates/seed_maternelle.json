@@ -1,0 +1,235 @@
+{
+  "programTemplate": {
+    "name": "Programme Cycle 1 - École maternelle",
+    "description": "Programme officiel français pour le cycle 1 (PS, MS, GS) - Ministère de l'Éducation nationale",
+    "grade": "Maternelle",
+    "elements": [
+      {
+        "name": "Mobiliser le langage dans toutes ses dimensions",
+        "description": "Développement du langage oral et écrit",
+        "children": [
+          {
+            "name": "L'oral",
+            "description": "Développer les compétences de communication orale",
+            "children": [
+              {
+                "name": "Oser entrer en communication",
+                "description": "Prendre la parole, s'exprimer devant les autres"
+              },
+              {
+                "name": "Comprendre et apprendre",
+                "description": "Écouter, comprendre des consignes, des histoires"
+              },
+              {
+                "name": "Échanger et réfléchir avec les autres",
+                "description": "Participer à des échanges collectifs, argumenter"
+              },
+              {
+                "name": "Commencer à réfléchir sur la langue",
+                "description": "Manipuler les syllabes, identifier des sons"
+              }
+            ]
+          },
+          {
+            "name": "L'écrit",
+            "description": "Découvrir la fonction et le fonctionnement de l'écrit",
+            "children": [
+              {
+                "name": "Découvrir la fonction de l'écrit",
+                "description": "Comprendre que l'écrit transmet des informations"
+              },
+              {
+                "name": "Commencer à produire des écrits",
+                "description": "Tracer des lettres, écrire son prénom"
+              },
+              {
+                "name": "Découvrir le principe alphabétique",
+                "description": "Associer lettres et sons, reconnaître les lettres"
+              },
+              {
+                "name": "Commencer à écrire tout seul",
+                "description": "Écrire des mots simples en utilisant ses connaissances"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Agir, s'exprimer, comprendre à travers l'activité physique",
+        "description": "Développement moteur et corporel",
+        "children": [
+          {
+            "name": "Agir dans l'espace, dans la durée et sur les objets",
+            "description": "Développer les habiletés motrices",
+            "children": [
+              {
+                "name": "Courir, sauter, lancer",
+                "description": "Maîtriser les actions motrices de base"
+              },
+              {
+                "name": "Ajuster ses équilibres",
+                "description": "Développer l'équilibre statique et dynamique"
+              },
+              {
+                "name": "Coordonner ses gestes et ses déplacements",
+                "description": "Améliorer la coordination motrice"
+              }
+            ]
+          },
+          {
+            "name": "Adapter ses équilibres et ses déplacements",
+            "description": "S'adapter à différents environnements",
+            "children": [
+              {
+                "name": "Se déplacer avec aisance",
+                "description": "Marcher, courir, grimper en sécurité"
+              },
+              {
+                "name": "Prendre des risques contrôlés",
+                "description": "Oser s'engager dans l'action en toute sécurité"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Agir, s'exprimer, comprendre à travers les activités artistiques",
+        "description": "Expression et création artistique",
+        "children": [
+          {
+            "name": "Les productions plastiques et visuelles",
+            "description": "Créer et s'exprimer par les arts visuels",
+            "children": [
+              {
+                "name": "Dessiner",
+                "description": "S'exercer au graphisme décoratif et au dessin"
+              },
+              {
+                "name": "S'exercer au graphisme décoratif",
+                "description": "Tracer des lignes, des formes, des motifs"
+              },
+              {
+                "name": "Réaliser des compositions plastiques",
+                "description": "Utiliser divers matériaux et techniques"
+              },
+              {
+                "name": "Observer, comprendre et transformer des images",
+                "description": "Analyser et modifier des images"
+              }
+            ]
+          },
+          {
+            "name": "Univers sonores",
+            "description": "Découvrir et créer avec les sons",
+            "children": [
+              {
+                "name": "Jouer avec sa voix et acquérir un répertoire de comptines",
+                "description": "Chanter, réciter, mémoriser des textes"
+              },
+              {
+                "name": "Explorer des instruments",
+                "description": "Découvrir et utiliser des instruments de musique"
+              },
+              {
+                "name": "Affiner son écoute",
+                "description": "Distinguer les sons, les bruits, les musiques"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Construire les premiers outils pour structurer sa pensée",
+        "description": "Mathématiques et logique",
+        "children": [
+          {
+            "name": "Découvrir les nombres et leurs utilisations",
+            "description": "Construire le nombre",
+            "children": [
+              {
+                "name": "Utiliser les nombres",
+                "description": "Compter, dénombrer, comparer des quantités"
+              },
+              {
+                "name": "Étudier les nombres",
+                "description": "Mémoriser la suite des nombres jusqu'à 30"
+              },
+              {
+                "name": "Avoir une première approche des quantités",
+                "description": "Composer et décomposer des collections"
+              }
+            ]
+          },
+          {
+            "name": "Explorer des formes, des grandeurs, des suites organisées",
+            "description": "Géométrie et mesures",
+            "children": [
+              {
+                "name": "Identifier des formes simples",
+                "description": "Reconnaître carré, rectangle, triangle, rond"
+              },
+              {
+                "name": "Classer ou ranger des objets",
+                "description": "Trier selon différents critères"
+              },
+              {
+                "name": "Reproduire un assemblage",
+                "description": "Construire selon un modèle"
+              },
+              {
+                "name": "Reproduire, continuer un rythme",
+                "description": "Identifier et poursuivre des suites logiques"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Explorer le monde",
+        "description": "Découverte du monde qui nous entoure",
+        "children": [
+          {
+            "name": "Se repérer dans le temps et l'espace",
+            "description": "Construire les repères temporels et spatiaux",
+            "children": [
+              {
+                "name": "Situer des événements vécus",
+                "description": "Utiliser hier, aujourd'hui, demain"
+              },
+              {
+                "name": "Ordonner une suite de photographies",
+                "description": "Comprendre la chronologie"
+              },
+              {
+                "name": "Se situer par rapport à d'autres",
+                "description": "Utiliser le vocabulaire spatial"
+              },
+              {
+                "name": "Se repérer dans un environnement proche",
+                "description": "S'orienter dans l'école, le quartier"
+              }
+            ]
+          },
+          {
+            "name": "Découvrir le monde du vivant",
+            "description": "Observer et comprendre le vivant",
+            "children": [
+              {
+                "name": "Découvrir différents milieux",
+                "description": "Observer la nature, les animaux, les plantes"
+              },
+              {
+                "name": "Connaître les manifestations de la vie",
+                "description": "Comprendre naître, grandir, se reproduire, mourir"
+              },
+              {
+                "name": "Découvrir son corps",
+                "description": "Nommer les parties du corps, comprendre les besoins"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

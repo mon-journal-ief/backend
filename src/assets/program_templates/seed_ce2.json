@@ -1,0 +1,311 @@
+{
+  "programTemplate": {
+    "name": "Programme Cycle 2 - CE2",
+    "description": "Programme officiel français pour le CE2 - Ministère de l'Éducation nationale",
+    "grade": "CE2",
+    "elements": [
+      {
+        "name": "Français - Lecture et compréhension de l'écrit",
+        "description": "Maîtrise avancée de la lecture et compréhension approfondie",
+        "children": [
+          {
+            "name": "Identifier des mots rapidement",
+            "description": "Automatisation complète de la reconnaissance des mots",
+            "children": [
+              {
+                "name": "Maîtriser les correspondances graphophonologiques",
+                "description": "Décoder automatiquement les mots nouveaux"
+              },
+              {
+                "name": "Mémoriser des mots fréquents et irréguliers",
+                "description": "Constituer un stock orthographique"
+              },
+              {
+                "name": "Lire à voix haute avec fluidité",
+                "description": "Respecter la ponctuation et l'intonation"
+              }
+            ]
+          },
+          {
+            "name": "Comprendre un texte littéraire et l'interpréter",
+            "description": "Développer une compréhension fine des textes",
+            "children": [
+              {
+                "name": "Être capable de s'engager dans une démarche progressive pour accéder au sens",
+                "description": "Utiliser des stratégies de compréhension variées"
+              },
+              {
+                "name": "Être capable de mettre en relation le texte lu avec les lectures antérieures",
+                "description": "Faire des liens intertextuels"
+              },
+              {
+                "name": "Être capable d'identifier les personnages d'une fiction",
+                "description": "Analyser les relations entre personnages"
+              }
+            ]
+          },
+          {
+            "name": "Comprendre des textes documentaires",
+            "description": "Extraire des informations explicites et implicites",
+            "children": [
+              {
+                "name": "Prélever des informations ponctuelles",
+                "description": "Retrouver des informations explicites"
+              },
+              {
+                "name": "Relier les informations entre elles",
+                "description": "Comprendre l'organisation du texte"
+              },
+              {
+                "name": "Utiliser ses connaissances pour mieux comprendre",
+                "description": "Mobiliser ses connaissances antérieures"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Français - Écriture et production d'écrits",
+        "description": "Maîtrise de l'écriture cursive et production de textes variés",
+        "children": [
+          {
+            "name": "Copier de manière experte",
+            "description": "Maîtriser parfaitement l'écriture cursive",
+            "children": [
+              {
+                "name": "Maîtriser les gestes de l'écriture cursive exécutés avec une vitesse et une sûreté croissantes",
+                "description": "Écrire de manière fluide et rapide"
+              },
+              {
+                "name": "Transcrire sans erreur un texte d'au moins dix lignes",
+                "description": "Copier avec précision et rapidité"
+              }
+            ]
+          },
+          {
+            "name": "Produire des écrits en commençant à s'approprier une démarche",
+            "description": "Rédiger des textes de plus en plus longs et variés",
+            "children": [
+              {
+                "name": "Connaître les caractéristiques principales des différents genres d'écrits",
+                "description": "Adapter son écriture au type de texte"
+              },
+              {
+                "name": "Mettre en œuvre une démarche de production de textes",
+                "description": "Planifier, rédiger, réviser"
+              },
+              {
+                "name": "Rédiger un texte d'environ une page",
+                "description": "Produire des textes cohérents et organisés"
+              },
+              {
+                "name": "Améliorer une production, notamment l'orthographe",
+                "description": "Réviser et corriger ses écrits"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Mathématiques - Nombres et calculs",
+        "description": "Approfondissement des nombres et des opérations",
+        "children": [
+          {
+            "name": "Utiliser et représenter les grands nombres entiers",
+            "description": "Maîtriser les nombres jusqu'à 10 000",
+            "children": [
+              {
+                "name": "Connaître les unités de numération et leurs relations",
+                "description": "Maîtriser unités, dizaines, centaines, milliers"
+              },
+              {
+                "name": "Associer un nombre entier à une position sur une demi-droite graduée",
+                "description": "Placer et lire des nombres sur une droite numérique"
+              },
+              {
+                "name": "Comparer, ranger, encadrer des grands nombres",
+                "description": "Ordonner des nombres jusqu'à 10 000"
+              }
+            ]
+          },
+          {
+            "name": "Calculer avec des nombres entiers",
+            "description": "Maîtriser les quatre opérations",
+            "children": [
+              {
+                "name": "Connaître les tables de multiplication jusqu'à 10",
+                "description": "Mémoriser toutes les tables de multiplication"
+              },
+              {
+                "name": "Utiliser des stratégies de calcul mental",
+                "description": "Développer l'efficacité en calcul mental"
+              },
+              {
+                "name": "Mettre en œuvre un algorithme de calcul posé pour l'addition, la soustraction, la multiplication",
+                "description": "Maîtriser les techniques opératoires"
+              },
+              {
+                "name": "Connaître quelques relations arithmétiques",
+                "description": "Comprendre double/moitié, triple/tiers"
+              }
+            ]
+          },
+          {
+            "name": "Résoudre des problèmes impliquant des grandeurs",
+            "description": "Appliquer les mathématiques à des situations concrètes",
+            "children": [
+              {
+                "name": "Résoudre des problèmes de comparaison, d'augmentation, de diminution",
+                "description": "Modéliser des situations par des opérations"
+              },
+              {
+                "name": "Résoudre des problèmes de partage ou de groupements",
+                "description": "Comprendre la division comme partage ou groupement"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Mathématiques - Grandeurs et mesures",
+        "description": "Approfondissement des mesures et de leur utilisation",
+        "children": [
+          {
+            "name": "Comparer, estimer, mesurer des grandeurs géométriques",
+            "description": "Maîtriser les unités de mesure",
+            "children": [
+              {
+                "name": "Utiliser le lexique, les unités, les instruments de mesures spécifiques",
+                "description": "Maîtriser le vocabulaire et les outils de mesure"
+              },
+              {
+                "name": "Comparer des objets selon plusieurs grandeurs et identifier quand il s'agit d'une longueur, d'une masse, d'une contenance ou d'une durée",
+                "description": "Distinguer les différents types de grandeurs"
+              },
+              {
+                "name": "Mesurer des segments, des distances",
+                "description": "Utiliser la règle graduée avec précision"
+              },
+              {
+                "name": "Mesurer l'aire d'une surface grâce à un pavage effectif à l'aide d'une surface de référence",
+                "description": "Comprendre la notion d'aire par pavage"
+              }
+            ]
+          },
+          {
+            "name": "Résoudre des problèmes impliquant des longueurs, des masses, des contenances, des durées, des prix",
+            "description": "Appliquer les mesures dans des contextes variés",
+            "children": [
+              {
+                "name": "Résoudre des problèmes dont la résolution implique des conversions",
+                "description": "Convertir entre les unités usuelles"
+              },
+              {
+                "name": "Calculer une durée à partir de l'heure de début et de l'heure de fin",
+                "description": "Maîtriser les calculs de durée"
+              },
+              {
+                "name": "Calculer un prix, une monnaie à rendre",
+                "description": "Résoudre des problèmes de monnaie"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Questionner le monde",
+        "description": "Approfondissement de la découverte du monde",
+        "children": [
+          {
+            "name": "Identifier des enjeux liés à l'environnement",
+            "description": "Comprendre les interactions homme-environnement",
+            "children": [
+              {
+                "name": "Identifier l'impact de l'activité humaine sur l'environnement",
+                "description": "Comprendre les conséquences des actions humaines"
+              },
+              {
+                "name": "Identifier quelques interactions dans l'école",
+                "description": "Observer les relations entre êtres vivants"
+              },
+              {
+                "name": "Connaître quelques besoins vitaux des végétaux",
+                "description": "Comprendre les conditions de croissance des plantes"
+              }
+            ]
+          },
+          {
+            "name": "Comprendre la fonction et le fonctionnement d'objets fabriqués",
+            "description": "Approche technologique des objets",
+            "children": [
+              {
+                "name": "Observer et utiliser des objets techniques",
+                "description": "Analyser le fonctionnement d'objets simples"
+              },
+              {
+                "name": "Identifier des activités de la vie quotidienne ou professionnelle faisant appel à des outils et objets techniques",
+                "description": "Relier objets et usages"
+              }
+            ]
+          },
+          {
+            "name": "Se situer dans l'espace et dans le temps",
+            "description": "Développer les repères spatio-temporels",
+            "children": [
+              {
+                "name": "Repérer et situer quelques événements dans un temps long",
+                "description": "Construire des repères historiques"
+              },
+              {
+                "name": "Comparer des modes de vie à différentes époques",
+                "description": "Comprendre l'évolution des sociétés"
+              },
+              {
+                "name": "Identifier des paysages",
+                "description": "Distinguer les différents types de paysages"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Arts plastiques",
+        "description": "Expression artistique et créativité avancée",
+        "children": [
+          {
+            "name": "Expérimenter, produire, créer",
+            "description": "Développer sa créativité artistique",
+            "children": [
+              {
+                "name": "Choisir, organiser et mobiliser des gestes, des outils et des matériaux",
+                "description": "Maîtriser les techniques artistiques"
+              },
+              {
+                "name": "Représenter le monde environnant ou donner forme à son imaginaire",
+                "description": "Créer des œuvres personnelles"
+              },
+              {
+                "name": "Expérimenter les effets des couleurs, des matériaux, des supports",
+                "description": "Explorer les possibilités artistiques"
+              }
+            ]
+          },
+          {
+            "name": "Mettre en œuvre un projet artistique",
+            "description": "Mener un projet de création",
+            "children": [
+              {
+                "name": "Respecter l'espace, les outils et les matériaux partagés",
+                "description": "Travailler en respectant les règles collectives"
+              },
+              {
+                "name": "Mener à terme une production individuelle dans le cadre d'un projet",
+                "description": "Persévérer dans un projet artistique"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

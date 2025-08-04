@@ -27,14 +27,19 @@ enum Gender {
 }
 
 enum Grade {
-  PS
-  MS
-  GS
+  Maternelle
   CP
   CE1
   CE2
   CM1
   CM2
+  Sixième
+  Cinquième
+  Quatrième
+  Troisième
+  Seconde
+  Première
+  Terminale
 }
 
 model ProgramTemplate {
