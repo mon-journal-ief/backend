@@ -1,10 +1,9 @@
 import express from 'express'
-import { getAllProgramElements, getProgramElement, createProgramElement, updateProgramElement, deleteProgramElement } from '../controllers/programElementController'
+import { getProgramElement, createProgramElement, updateProgramElement, deleteProgramElement } from '../controllers/programElementController'
 import { authenticate } from '../middleware/auth'
 
 const router = express.Router()
 
-router.get('/', authenticate, getAllProgramElements)
 router.get('/:id', authenticate, getProgramElement)
 router.post('/', authenticate, createProgramElement)
 router.put('/:id', authenticate, updateProgramElement)
