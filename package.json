@@ -9,7 +9,8 @@
       "@prisma/engines",
       "bcrypt",
       "esbuild",
-      "prisma"
+      "prisma",
+      "sharp"
     ]
   },
   "scripts": {

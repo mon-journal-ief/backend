@@ -1,5 +1,5 @@
-# Use Node.js 18 Alpine
-FROM node:18-alpine
+# Use Node.js 20 Alpine
+FROM node:20-alpine
 
 # Install pnpm
 RUN npm install -g pnpm
@@ -11,7 +11,7 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 
 # Install dependencies
-RUN pnpm install --prod --frozen-lockfile
+RUN pnpm install --frozen-lockfile
 
 # Copy source code
 COPY . .
