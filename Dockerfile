@@ -11,7 +11,7 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 
 # Install dependencies
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --prod --frozen-lockfile
 
 # Copy source code
 COPY . .
@@ -33,7 +33,7 @@ RUN addgroup -g 1001 -S nodejs && \
     adduser -S nodejs -u 1001
 
 # Change ownership of uploads directory to nodejs user
-RUN chown -R nodejs:nodejs uploads
+RUN chown -R nodejs:nodejs uploads generated
 
 # Switch to non-root user
 USER nodejs
