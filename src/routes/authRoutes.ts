@@ -1,5 +1,5 @@
 import express from 'express'
-import { register, login, getCurrentUser, refreshToken, logout } from '../controllers/authController'
+import { register, login, getCurrentUser, refreshToken, logout, requestPasswordReset, confirmPasswordReset, sendSubscriptionEmail, sendWelcomeEmail, verifyEmail, resendEmailVerification } from '../controllers/authController'
 import { authenticate } from '../middleware/auth'
 import { check } from 'express-validator'
 
@@ -35,6 +35,43 @@ router.post(
     check('password', 'Password must be at least 6 characters').isLength({ min: 6 })
   ],
   register
+)
+
+// Request password reset
+router.post(
+  '/request-password-reset',
+  [
+    check('email', 'Please include a valid email').isEmail()
+  ],
+  requestPasswordReset
+)
+
+// Confirm password reset
+router.post(
+  '/confirm-password-reset',
+  [
+    check('token', 'Reset token is required').notEmpty(),
+    check('password', 'Password must be at least 6 characters').isLength({ min: 6 })
+  ],
+  confirmPasswordReset
+)
+
+// Verify email address
+router.post(
+  '/verify-email',
+  [
+    check('token', 'Verification token is required').notEmpty()
+  ],
+  verifyEmail
+)
+
+// Resend email verification
+router.post(
+  '/resend-verification',
+  [
+    check('email', 'Please include a valid email').isEmail()
+  ],
+  resendEmailVerification
 )
 
 export default router

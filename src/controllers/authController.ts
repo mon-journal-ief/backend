@@ -5,10 +5,23 @@ import jwt from 'jsonwebtoken'
 import { validationResult } from 'express-validator'
 import { User } from '../../generated/prisma/client'
 import crypto from 'crypto'
+import emailService from '../services/emailService'
 
 interface TokenResponse {
   accessToken: string
   refreshToken: string
+}
+
+interface AuthResponse<T = any> {
+  success: boolean
+  data?: T
+  error?: {
+    code: string
+    message: string
+    requiresVerification?: boolean
+    userId?: string
+    email?: string
+  }
 }
 
 function generateRefreshToken(): string {
@@ -47,7 +60,14 @@ export async function register(req: Request, res: Response): Promise<void> {
   const errors = validationResult(req)
 
   if (!errors.isEmpty()) {
-    res.status(400).json({ errors: errors.array() })
+    const response: AuthResponse = {
+      success: false,
+      error: {
+        code: 'VALIDATION_ERROR',
+        message: errors.array().map((error) => error.msg).join(', ')
+      }
+    }
+    res.json(response)
     return
   }
 
@@ -58,7 +78,14 @@ export async function register(req: Request, res: Response): Promise<void> {
     let user = await prisma.user.findUnique({ where: { email } })
 
     if (user) {
-      res.status(400).json({ message: 'User already exists' })
+      const response: AuthResponse = {
+        success: false,
+        error: {
+          code: 'USER_EXISTS',
+          message: 'Un compte avec cet email existe déjà'
+        }
+      }
+      res.json(response)
       return
     }
 
@@ -66,20 +93,46 @@ export async function register(req: Request, res: Response): Promise<void> {
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
 
-    // Create user
+    // Generate email verification token
+    const emailVerificationToken = crypto.randomBytes(32).toString('hex')
+    const emailVerificationExpires = new Date()
+    emailVerificationExpires.setHours(emailVerificationExpires.getHours() + 24) // 24 hour expiration
+
+    // Create user (not verified initially)
     user = await prisma.user.create({
       data: {
         email,
         password: hashedPassword,
-        name
+        name,
+        emailVerificationToken,
+        emailVerificationExpires
       }
     })
 
-    const tokens = await generateTokens(user)
-    res.json(tokens)
+    // Send email verification (don't block the response if email fails)
+    emailService.sendEmailVerification(user.email, user.name, emailVerificationToken).catch(error => {
+      console.error('Failed to send verification email:', error)
+    })
+    
+    const response: AuthResponse = {
+      success: true,
+      data: {
+        message: 'Compte créé avec succès. Veuillez vérifier votre email pour activer votre compte.',
+        userId: user.id,
+        email: user.email
+      }
+    }
+    res.json(response)
   } catch (err) {
     console.error(err)
-    res.status(500).send('Server error')
+    const response: AuthResponse = {
+      success: false,
+      error: {
+        code: 'SERVER_ERROR',
+        message: 'Erreur serveur'
+      }
+    }
+    res.json(response)
   }
 }
 
@@ -87,7 +140,14 @@ export async function register(req: Request, res: Response): Promise<void> {
 export async function login(req: Request, res: Response): Promise<void> {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
-    res.status(400).json({ errors: errors.array() })
+    const response: AuthResponse = {
+      success: false,
+      error: {
+        code: 'VALIDATION_ERROR',
+        message: errors.array().map((error) => error.msg).join(', ')
+      }
+    }
+    res.json(response)
     return
   }
 
@@ -100,23 +160,64 @@ export async function login(req: Request, res: Response): Promise<void> {
     })
 
     if (!user) {
-      res.status(400).json({ message: 'Invalid credentials' })
+      const response: AuthResponse = {
+        success: false,
+        error: {
+          code: 'INVALID_CREDENTIALS',
+          message: 'Identifiants invalides'
+        }
+      }
+      res.json(response)
       return
     }
 
     // Compare password
     const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) {
-      res.status(400).json({ message: 'Invalid credentials' })
+      const response: AuthResponse = {
+        success: false,
+        error: {
+          code: 'INVALID_CREDENTIALS',
+          message: 'Identifiants invalides'
+        }
+      }
+      res.json(response)
+      return
+    }
+
+    // Check if email is verified
+    if (!user.emailVerified) {
+      const response: AuthResponse = {
+        success: false,
+        error: {
+          code: 'EMAIL_NOT_VERIFIED',
+          message: 'Veuillez vérifier votre email avant de vous connecter.',
+          requiresVerification: true,
+          userId: user.id,
+          email: user.email
+        }
+      }
+      res.json(response)
       return
     }
 
     // Generate tokens
     const tokens = await generateTokens(user)
-    res.json(tokens)
+    const response: AuthResponse<TokenResponse> = {
+      success: true,
+      data: tokens
+    }
+    res.json(response)
   } catch (err) {
     console.error(err)
-    res.status(500).send('Server error')
+    const response: AuthResponse = {
+      success: false,
+      error: {
+        code: 'SERVER_ERROR',
+        message: 'Erreur serveur'
+      }
+    }
+    res.json(response)
   }
 }
 
@@ -125,7 +226,7 @@ export async function refreshToken(req: Request, res: Response): Promise<void> {
   const { refreshToken } = req.body
 
   if (!refreshToken) {
-    res.status(401).json({ message: 'Refresh token is required' })
+    res.status(401).json({ message: 'Refresh token requis' })
     return
   }
 
@@ -141,7 +242,7 @@ export async function refreshToken(req: Request, res: Response): Promise<void> {
     })
 
     if (!user) {
-      res.status(401).json({ message: 'Invalid or expired refresh token' })
+      res.status(401).json({ message: 'Refresh token invalide ou expiré' })
       return
     }
 
@@ -165,7 +266,7 @@ export async function logout(req: Request, res: Response): Promise<void> {
       }
     })
 
-    res.json({ message: 'Logged out successfully' })
+    res.json({ message: 'Déconnexion réussie' })
   } catch (err) {
     console.error(err)
     res.status(500).send('Server error')
@@ -193,6 +294,296 @@ export async function getCurrentUser(req: Request, res: Response): Promise<void>
     })
 
     res.json(user)
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('Server error')
+  }
+}
+
+// Request password reset
+export async function requestPasswordReset(req: Request, res: Response): Promise<void> {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() })
+    return
+  }
+
+  const { email } = req.body
+
+  try {
+    // Check if user exists
+    const user = await prisma.user.findUnique({ where: { email } })
+
+    // Always return success to prevent email enumeration attacks
+    if (!user) {
+      res.json({ message: 'Si cette adresse email existe dans notre système, vous recevrez un lien de réinitialisation.' })
+      return
+    }
+
+    // Generate reset token
+    const resetToken = crypto.randomBytes(32).toString('hex')
+    const resetTokenExpiresAt = new Date()
+    resetTokenExpiresAt.setHours(resetTokenExpiresAt.getHours() + 1) // 1 hour expiration
+
+    // Save reset token to database
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        resetToken,
+        resetTokenExpiresAt
+      }
+    })
+
+    // Send password reset email
+    await emailService.sendPasswordResetEmail(user.email, user.name, resetToken)
+
+    res.json({ message: 'Si cette adresse email existe dans notre système, vous recevrez un lien de réinitialisation.' })
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('Server error')
+  }
+}
+
+// Confirm password reset
+export async function confirmPasswordReset(req: Request, res: Response): Promise<void> {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() })
+    return
+  }
+
+  const { token, password } = req.body
+
+  try {
+    // Find user with valid reset token
+    const user = await prisma.user.findFirst({
+      where: {
+        resetToken: token,
+        resetTokenExpiresAt: {
+          gt: new Date() // Token must not be expired
+        }
+      }
+    })
+
+    if (!user) {
+      res.status(400).json({ message: 'Token de réinitialisation invalide ou expiré' })
+      return
+    }
+
+    // Hash new password
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+
+    // Update user password and clear reset token
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        password: hashedPassword,
+        resetToken: null,
+        resetTokenExpiresAt: null
+      }
+    })
+
+    const response: AuthResponse = {
+      success: true,
+      data: {
+        message: 'Mot de passe réinitialisé avec succès'
+      }
+    }
+    res.json(response)
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('Server error')
+  }
+}
+
+// Verify email address
+export async function verifyEmail(req: Request, res: Response): Promise<void> {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() })
+    return
+  }
+
+  const { token } = req.body
+
+  try {
+    // Find user with valid verification token
+    const user = await prisma.user.findFirst({
+      where: {
+        emailVerificationToken: token,
+        emailVerificationExpires: {
+          gt: new Date() // Token must not be expired
+        }
+      }
+    })
+
+    if (!user) {
+      const response: AuthResponse = {
+        success: false,
+        error: {
+          code: 'INVALID_TOKEN',
+          message: 'Token de vérification invalide ou expiré'
+        }
+      }
+      res.json(response)
+      return
+    }
+
+    // Mark email as verified and clear verification token
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        emailVerified: true,
+        emailVerificationToken: null,
+        emailVerificationExpires: null
+      }
+    })
+
+    // Generate tokens for immediate login
+    const tokens = await generateTokens(user)
+    const response: AuthResponse<TokenResponse & { message: string }> = {
+      success: true,
+      data: {
+        message: 'Email vérifié avec succès ! Bienvenue sur Mon Journal IEF.',
+        ...tokens
+      }
+    }
+    res.json(response)
+  } catch (err) {
+    console.error(err)
+    const response: AuthResponse = {
+      success: false,
+      error: {
+        code: 'SERVER_ERROR',
+        message: 'Erreur serveur'
+      }
+    }
+    res.json(response)
+  }
+}
+
+// Resend email verification
+export async function resendEmailVerification(req: Request, res: Response): Promise<void> {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const response: AuthResponse = {
+      success: false,
+      error: {
+        code: 'VALIDATION_ERROR',
+        message: errors.array().map((error) => error.msg).join(', ')
+      }
+    }
+    res.json(response)
+    return
+  }
+
+  const { email } = req.body
+
+  try {
+    // Find user by email
+    const user = await prisma.user.findUnique({ where: { email } })
+
+    if (!user) {
+      // Don't reveal if email exists or not
+      const response: AuthResponse = {
+        success: true,
+        data: {
+          message: `Si cette adresse email existe et n'est pas encore vérifiée, un nouvel email de vérification sera envoyé.`
+        }
+      }
+      res.json(response)
+      return
+    }
+
+    if (user.emailVerified) {
+      const response: AuthResponse = {
+        success: false,
+        error: {
+          code: 'EMAIL_ALREADY_VERIFIED',
+          message: 'Cette adresse email est déjà vérifiée.'
+        }
+      }
+      res.json(response)
+      return
+    }
+
+    // Generate new verification token
+    const emailVerificationToken = crypto.randomBytes(32).toString('hex')
+    const emailVerificationExpires = new Date()
+    emailVerificationExpires.setHours(emailVerificationExpires.getHours() + 24) // 24 hour expiration
+
+    // Update user with new token
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        emailVerificationToken,
+        emailVerificationExpires
+      }
+    })
+
+    // Send new verification email
+    await emailService.sendEmailVerification(user.email, user.name, emailVerificationToken)
+
+    const response: AuthResponse = {
+      success: true,
+      data: {
+        message: `Si cette adresse email existe et n'est pas encore vérifiée, un nouvel email de vérification sera envoyé.`
+      }
+    }
+    res.json(response)
+  } catch (err) {
+    console.error(err)
+    const response: AuthResponse = {
+      success: false,
+      error: {
+        code: 'SERVER_ERROR',
+        message: 'Erreur serveur'
+      }
+    }
+    res.json(response)
+  }
+}
+
+// Send subscription confirmation email (only for standard plan)
+export async function sendSubscriptionEmail(req: Request, res: Response): Promise<void> {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() })
+    return
+  }
+
+  const { email, name } = req.body
+
+  try {
+    await emailService.sendSubConfirmationStandard(email, name)
+    res.json({ message: 'Email de confirmation d\'abonnement envoyé avec succès' })
+  } catch (err) {
+    console.error(err)
+    res.status(500).send('Server error')
+  }
+}
+
+// Send welcome email (can be called for different scenarios)
+export async function sendWelcomeEmail(req: Request, res: Response): Promise<void> {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    res.status(400).json({ errors: errors.array() })
+    return
+  }
+
+  const { email, name, plan } = req.body
+
+  try {
+    if (plan === 'standard') {
+      await emailService.sendWelcomeStandard(email, name)
+    } else if (plan === 'solidarity') {
+      await emailService.sendWelcomeSolidarity(email, name)
+    } else {
+      res.status(400).json({ message: 'Plan invalide' })
+      return
+    }
+    res.json({ message: 'Email de bienvenue envoyé avec succès' })
   } catch (err) {
     console.error(err)
     res.status(500).send('Server error')
