@@ -31,8 +31,8 @@ RUN cp -r dist/src/* dist/ && rm -rf dist/src
 RUN mkdir -p uploads && chmod 755 uploads
 
 # Create non-root user for security
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nodejs -u 1001
+RUN groupadd --gid 1001 nodejs && \
+    useradd --uid 1001 --gid nodejs --shell /bin/bash --create-home nodejs
 
 # Change ownership of uploads directory to nodejs user
 RUN chown -R nodejs:nodejs uploads generated
