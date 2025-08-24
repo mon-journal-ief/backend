@@ -1,5 +1,7 @@
 # Use Node.js 20 Alpine
-FROM node:20-alpine
+FROM node:20-bookworm
+
+RUN npx -y playwright@1.55.0 install --with-deps
 
 # Install pnpm
 RUN npm install -g pnpm
