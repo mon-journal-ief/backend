@@ -98,6 +98,7 @@ model ProgramElement {
   id          String @id @default(uuid())
   name        String
   description String
+  isValidated Boolean @default(false)
 
   program   Program? @relation(fields: [programId], references: [id])
   programId String?

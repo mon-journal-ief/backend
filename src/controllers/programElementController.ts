@@ -103,7 +103,7 @@ export async function createProgramElement(req: Request, res: Response) {
 // Update program element (must belong to user's program)
 export async function updateProgramElement(req: Request, res: Response) {
     const { id } = req.params
-    const { name, description, parentId } = req.body
+    const { name, description, parentId, isValidated } = req.body
 
     try {
         // First get the existing program element to check ownership
@@ -143,7 +143,58 @@ export async function updateProgramElement(req: Request, res: Response) {
             where: {
                 id: id
             },
-            data: { name, description, parentId },
+            data: { name, description, parentId, isValidated },
+            include: {
+                program: true,
+                journalEntries: true,
+                children: true
+            }
+        })
+
+        res.json(programElement)
+    } catch (err) {
+        console.error(err)
+        res.status(500).send('Server error')
+    }
+}
+
+// Validate/Unvalidate program element (must belong to user's program)
+export async function validateProgramElement(req: Request, res: Response) {
+    const { id } = req.params
+    const { isValidated } = req.body
+
+    try {
+        // First get the existing program element to check ownership
+        const existingElement = await prisma.programElement.findUnique({
+            where: { id: id },
+            select: { programId: true, isValidated: true }
+        })
+
+        if (!existingElement) {
+            res.status(404).json({ message: 'Program element not found' })
+            return
+        }
+
+        // Verify that the program element's program belongs to the user
+        if (existingElement.programId) {
+            const hasPermission = await checkProgramOwnership(req.user.id, existingElement.programId)
+            if (!hasPermission) {
+                res.status(403).json({ message: 'Access denied: Program element does not belong to user' })
+                return
+            }
+        }
+
+        // Validate the isValidated parameter
+        if (typeof isValidated !== 'boolean') {
+            res.status(400).json({ message: 'isValidated must be a boolean value' })
+            return
+        }
+
+        const programElement = await prisma.programElement.update({
+            where: {
+                id: id
+            },
+            data: { isValidated },
             include: {
                 program: true,
                 journalEntries: true,
