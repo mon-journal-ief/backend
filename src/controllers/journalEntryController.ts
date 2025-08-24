@@ -71,7 +71,7 @@ export async function createJournalEntry(req: Request, res: Response) {
     const journalEntry = await prisma.journalEntry.create({
       data: {
         date: new Date(date),
-        ...(comment !== undefined && { comment }),
+        comment,
         images,
         childId,
         validatedElements: validatedElementIds && validatedElementIds.length > 0
@@ -110,7 +110,7 @@ export async function updateJournalEntry(req: Request, res: Response) {
       where: { id },
       data: {
         date: new Date(date),
-        ...(comment !== undefined && { comment }),
+        comment,
         ...(images && { images }),
         ...(validatedElementIds && {
           validatedElements: {
