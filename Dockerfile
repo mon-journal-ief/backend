@@ -1,5 +1,7 @@
 # Use Node.js 20 Alpine
-FROM node:20-alpine
+FROM node:20-bookworm
+
+RUN npx -y playwright@1.55.0 install --with-deps
 
 # Install pnpm
 RUN npm install -g pnpm
@@ -29,14 +31,11 @@ RUN cp -r dist/src/* dist/ && rm -rf dist/src
 RUN mkdir -p uploads && chmod 755 uploads
 
 # Create non-root user for security
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nodejs -u 1001
+RUN groupadd --gid 1001 nodejs && \
+    useradd --uid 1001 --gid nodejs --shell /bin/bash --create-home nodejs
 
 # Change ownership of uploads directory to nodejs user
 RUN chown -R nodejs:nodejs uploads generated
-
-# Install Playwright's browser
-RUN pnpm exec playwright install
 
 # Switch to non-root user
 USER nodejs
