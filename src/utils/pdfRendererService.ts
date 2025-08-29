@@ -34,14 +34,14 @@ export async function renderJournalToPDF(
     console.log(`📔 Fetched data: child ${child.name}, ${journalEntries.length} entries`)
 
     // Call external Playwright service
-    const playwrightServiceUrl = process.env.PLAYWRIGHT_SERVICE_URL || 'http://localhost:7000'
+    const scrapperServiceUrl = process.env.SCRAPPER_SERVICE_URL || 'http://localhost:7000'
     const frontendUrl = process.env.FRONTEND_URL
 
     if (!frontendUrl) {
       throw new Error('FRONTEND_URL environment variable is required')
     }
 
-    const response = await fetch(`${playwrightServiceUrl}/api/generate-pdf`, {
+    const response = await fetch(`${scrapperServiceUrl}/api/generate-pdf`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

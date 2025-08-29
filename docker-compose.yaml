@@ -19,6 +19,8 @@ services:
     container_name: ief-scrapper
     image: ief-scrapper
     network_mode: host
+    ports:
+      - "7000:7000"
 
 networks:
   ief-network:
