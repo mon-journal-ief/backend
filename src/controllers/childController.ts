@@ -117,7 +117,7 @@ export async function createChild(req: Request, res: Response): Promise<void> {
     return
   }
 
-  const { name, lastName, age, gender, programId } = req.body
+  const { name, lastName, birthdate, gender, programId } = req.body
 
   try {
     // If programId is provided, verify it exists
@@ -136,7 +136,7 @@ export async function createChild(req: Request, res: Response): Promise<void> {
       data: {
         name,
         lastName,
-        age,
+        birthdate: birthdate ? new Date(birthdate) : null,
         gender,
         userId: req.user.id,
         programId: programId
@@ -163,7 +163,7 @@ export async function updateChild(req: Request, res: Response): Promise<void> {
   }
 
   const { id } = req.params
-  const { name, lastName, age, gender, programId } = req.body
+  const { name, lastName, birthdate, gender, programId } = req.body
 
   try {
     // Check if child exists and belongs to the user
@@ -196,7 +196,7 @@ export async function updateChild(req: Request, res: Response): Promise<void> {
       data: {
         ...(name && { name }),
         ...(lastName && { lastName }),
-        ...(age && { age }),
+        ...(birthdate && { birthdate: new Date(birthdate) }),
         ...(gender && { gender }),
         ...(programId !== undefined && { programId: programId || null })
       },

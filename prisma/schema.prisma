@@ -95,7 +95,7 @@ model Program {
 }
 
 model ProgramElement {
-  id          String @id @default(uuid())
+  id          String  @id @default(uuid())
   name        String
   description String
   isValidated Boolean @default(false)
@@ -121,7 +121,7 @@ model Child {
   name           String
   lastName       String?
   profileImage   String?
-  age            Int?
+  birthdate      DateTime?
   gender         Gender?
   journalEntries JournalEntry[]
 

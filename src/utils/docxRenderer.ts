@@ -2,6 +2,7 @@ import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, Tabl
 import prisma from '../config/db'
 import fs from 'fs/promises'
 import path from 'path'
+import { calculateAge } from './ageCalculator'
 
 const UPLOAD_DIR = path.join(process.cwd(), 'uploads', 'images')
 
@@ -205,13 +206,13 @@ export async function renderJournalToDocx(
                   })
                 ]
               }),
-              ...(child.age ? [new TableRow({
+              ...(calculateAge(child.birthdate) ? [new TableRow({
                 children: [
                   new TableCell({
                     children: [new Paragraph({ children: [new TextRun({ text: "Âge", bold: true })] })],
                   }),
                   new TableCell({
-                    children: [new Paragraph({ children: [new TextRun({ text: `${child.age} ans` })] })],
+                    children: [new Paragraph({ children: [new TextRun({ text: `${calculateAge(child.birthdate)} ans` })] })],
                   })
                 ]
               })] : []),
