@@ -56,7 +56,7 @@ async function main() {
     data: {
       name: "Emma",
       lastName: "Dupont",
-      age: 6,
+      birthdate: new Date('2018-03-15'), // 6 years old approximately
       gender: Gender.FEMALE,
       programId: null,
       userId: user.id
@@ -67,7 +67,7 @@ async function main() {
     data: {
       name: "Thomas",
       lastName: "Martin",
-      age: 7,
+      birthdate: new Date('2017-08-22'), // 7 years old approximately
       gender: Gender.MALE,
       programId: testProgram.id,
       userId: user.id
