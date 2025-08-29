@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import prisma from '../config/db'
-import { renderJournalToPDF } from '../utils/pdfRenderer'
+import { renderJournalToPDF } from '../utils/pdfRendererService'
 import { renderJournalToDocx } from '../utils/docxRenderer'
 
 // Export journal entries to PDF for a child

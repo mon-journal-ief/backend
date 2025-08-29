@@ -1,7 +1,5 @@
 # Use Node.js 20 Alpine
-FROM node:20-bookworm
-
-RUN npx -y playwright@1.55.0 install --with-deps
+FROM node:20-alpine
 
 # Install pnpm
 RUN npm install -g pnpm
@@ -31,8 +29,8 @@ RUN cp -r dist/src/* dist/ && rm -rf dist/src
 RUN mkdir -p uploads && chmod 755 uploads
 
 # Create non-root user for security
-RUN groupadd --gid 1001 nodejs && \
-    useradd --uid 1001 --gid nodejs --shell /bin/bash --create-home nodejs
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001
 
 # Change ownership of uploads directory to nodejs user
 RUN chown -R nodejs:nodejs uploads generated
