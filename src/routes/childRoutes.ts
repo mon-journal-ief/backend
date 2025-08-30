@@ -1,7 +1,9 @@
 import express from 'express'
 import { getChildren, getChildById, createChild, updateChild, deleteChild } from '../controllers/childController'
+import { uploadProfileImage, deleteProfileImage } from '../controllers/childImageController'
 import { authenticate } from '../middleware/auth'
 import { check } from 'express-validator'
+import { RateLimitService } from '../services/rateLimitService'
 
 const router = express.Router()
 
@@ -29,5 +31,11 @@ router.put(
 
 // Delete a child
 router.delete('/:id', authenticate, deleteChild)
+
+// Upload a profile image for a child
+router.post('/profile-images', RateLimitService.profileImageUpload, authenticate, uploadProfileImage)
+
+// Delete a profile image
+router.delete('/profile-images/:filename', RateLimitService.profileImageDelete, authenticate, deleteProfileImage)
 
 export default router 

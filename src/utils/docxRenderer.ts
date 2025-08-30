@@ -1,16 +1,13 @@
 import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, Table, TableRow, TableCell, WidthType, BorderStyle, ImageRun } from 'docx'
 import prisma from '../config/db'
-import fs from 'fs/promises'
-import path from 'path'
 import { calculateAge } from './ageCalculator'
-
-const UPLOAD_DIR = path.join(process.cwd(), 'uploads', 'images')
+import { downloadFromScaleway } from '../services/scalewayStorageService'
 
 // Helper function to read image file and return buffer
 async function readImageFile(filename: string): Promise<Buffer | null> {
   try {
-    const imagePath = path.join(UPLOAD_DIR, filename)
-    const imageBuffer = await fs.readFile(imagePath)
+    // Download from Scaleway Object Storage
+    const imageBuffer = await downloadFromScaleway(filename)
     return imageBuffer
   } catch (error) {
     console.warn(`⚠️ Could not read image file: ${filename}`, error)

@@ -6,8 +6,10 @@ import {
   updateJournalEntry,
   deleteJournalEntry
 } from '../controllers/journalEntryController'
+import { uploadJournalEntryImage, deleteJournalEntryImage } from '../controllers/journalEntryImageController'
 import { authenticate } from '../middleware/auth'
 import { check } from 'express-validator'
+import { RateLimitService } from '../services/rateLimitService'
 
 const router = express.Router()
 
@@ -38,5 +40,11 @@ router.put(
 
 // Delete a journal entry
 router.delete('/:id', authenticate, deleteJournalEntry)
+
+// Upload an image for a journal entry
+router.post('/images', RateLimitService.journalEntryImageUpload, authenticate, uploadJournalEntryImage)
+
+// Delete a journal entry image
+router.delete('/images/:filename', RateLimitService.journalEntryImageDelete, authenticate, deleteJournalEntryImage)
 
 export default router 
