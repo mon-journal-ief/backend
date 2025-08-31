@@ -257,6 +257,12 @@ export async function deleteChild(req: Request, res: Response): Promise<void> {
       return
     }
 
+    // Remove all journal entries for this child first
+    await prisma.journalEntry.deleteMany({
+      where: { childId: id }
+    })
+
+    // Now delete the child
     await prisma.child.delete({
       where: { id }
     })
