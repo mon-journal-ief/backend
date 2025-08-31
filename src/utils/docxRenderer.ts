@@ -1,16 +1,51 @@
 import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, Table, TableRow, TableCell, WidthType, BorderStyle, ImageRun } from 'docx'
+import sharp from 'sharp'
 import prisma from '../config/db'
 import { calculateAge } from './ageCalculator'
-import { downloadFromScaleway } from '../services/scalewayStorageService'
+import { downloadFromScaleway, isScalewayConfigured } from '../services/scalewayStorageService'
+
+// Helper function to extract filename from image URL
+function extractFilenameFromUrl(imageUrl: string): string {
+  return imageUrl.includes('/images/') 
+    ? imageUrl.split('/images/')[1] 
+    : imageUrl.split('/').pop() || imageUrl
+}
 
 // Helper function to read image file and return buffer
-async function readImageFile(filename: string): Promise<Buffer | null> {
+async function readImageFile(imageUrl: string): Promise<Buffer | null> {
   try {
+    // Check if Scaleway is configured
+    if (!isScalewayConfigured()) {
+      return await fetchImageFromUrl(imageUrl)
+    }
+
+    const filename = extractFilenameFromUrl(imageUrl)
+    
     // Download from Scaleway Object Storage
     const imageBuffer = await downloadFromScaleway(filename)
     return imageBuffer
   } catch (error) {
-    console.warn(`⚠️ Could not read image file: ${filename}`, error)
+    console.warn(`⚠️ Could not download image from S3: ${extractFilenameFromUrl(imageUrl)}`, error)
+    
+    // Fallback: try to fetch directly from the public URL
+    return await fetchImageFromUrl(imageUrl)
+  }
+}
+
+// Fallback function to fetch image directly from URL
+async function fetchImageFromUrl(imageUrl: string): Promise<Buffer | null> {
+  try {
+    const response = await fetch(imageUrl)
+    
+    if (!response.ok) {
+      return null
+    }
+    
+    const arrayBuffer = await response.arrayBuffer()
+    const buffer = Buffer.from(arrayBuffer)
+    return buffer
+  } catch (error) {
+    console.warn(`⚠️ Could not fetch image from URL: ${extractFilenameFromUrl(imageUrl)}`, error)
     return null
   }
 }
@@ -37,19 +72,29 @@ async function createImageRuns(images: string[]): Promise<Paragraph[]> {
   )
 
   // Process each image
-  for (const imageName of images) {
-    const imageBuffer = await readImageFile(imageName)
+  for (const imageUrl of images) {
+    const imageBuffer = await readImageFile(imageUrl)
     
     if (imageBuffer) {
       try {
+        // Get image dimensions to calculate aspect ratio
+        const metadata = await sharp(imageBuffer).metadata()
+        const originalWidth = metadata.width || 400
+        const originalHeight = metadata.height || 300
+        const aspectRatio = originalWidth / originalHeight
+        
+        // Calculate height to maintain aspect ratio with max width of 400
+        const maxWidth = 400
+        const calculatedHeight = Math.round(maxWidth / aspectRatio)
+        
         imageParagraphs.push(
           new Paragraph({
             children: [
               new ImageRun({
                 data: imageBuffer,
                 transformation: {
-                  width: 400, // 400 pixels wide
-                  height: 300, // 300 pixels high (will maintain aspect ratio)
+                  width: maxWidth,
+                  height: calculatedHeight,
                 },
                 type: 'jpg', // Default type, docx will handle conversion
               })
@@ -59,12 +104,14 @@ async function createImageRuns(images: string[]): Promise<Paragraph[]> {
           })
         )
         
-        // Add image caption
+        // Add image caption with just the filename
+        const filename = extractFilenameFromUrl(imageUrl)
+        
         imageParagraphs.push(
           new Paragraph({
             children: [
               new TextRun({
-                text: imageName,
+                text: filename,
                 size: 16,
                 color: "6B7280",
                 italics: true
@@ -75,13 +122,15 @@ async function createImageRuns(images: string[]): Promise<Paragraph[]> {
           })
         )
       } catch (error) {
-        console.warn(`⚠️ Could not embed image: ${imageName}`, error)
+        const filename = extractFilenameFromUrl(imageUrl)
+        
+        console.warn(`⚠️ Could not embed image: ${filename}`, error)
         // Add placeholder text for failed image
         imageParagraphs.push(
           new Paragraph({
             children: [
               new TextRun({
-                text: `📷 Image: ${imageName} (non disponible)`,
+                text: `📷 Image: ${filename} (non disponible)`,
                 color: "DC2626",
                 italics: true
               })
@@ -91,12 +140,14 @@ async function createImageRuns(images: string[]): Promise<Paragraph[]> {
         )
       }
     } else {
+      const filename = extractFilenameFromUrl(imageUrl)
+      
       // Add placeholder text for missing image
       imageParagraphs.push(
         new Paragraph({
           children: [
             new TextRun({
-              text: `📷 Image: ${imageName} (fichier non trouvé)`,
+              text: `📷 Image: ${filename} (fichier non trouvé)`,
               color: "DC2626",
               italics: true
             })
@@ -210,16 +261,6 @@ export async function renderJournalToDocx(
                   }),
                   new TableCell({
                     children: [new Paragraph({ children: [new TextRun({ text: `${calculateAge(child.birthdate)} ans` })] })],
-                  })
-                ]
-              })] : []),
-              ...(child.gender ? [new TableRow({
-                children: [
-                  new TableCell({
-                    children: [new Paragraph({ children: [new TextRun({ text: "Genre", bold: true })] })],
-                  }),
-                  new TableCell({
-                    children: [new Paragraph({ children: [new TextRun({ text: child.gender })] })],
                   })
                 ]
               })] : []),
