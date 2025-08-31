@@ -30,12 +30,20 @@ export async function getChildren(req: Request, res: Response): Promise<void> {
                     }
                   }
                 },
-                journalEntries: true
+                journalEntries: {
+                  orderBy: {
+                    date: 'desc'
+                  }
+                }
               }
             }
           }
         },
-        journalEntries: true
+        journalEntries: {
+          orderBy: {
+            date: 'desc'
+          }
+        }
       },
       orderBy: {
         name: 'asc'
@@ -74,16 +82,32 @@ export async function getChildById(req: Request, res: Response): Promise<void> {
                         children: {
                           include: {
                             children: true, // Support up to 5 levels deep
-                            journalEntries: true
+                            journalEntries: {
+                              orderBy: {
+                                date: 'desc'
+                              }
+                            }
                           }
                         },
-                        journalEntries: true
+                        journalEntries: {
+                          orderBy: {
+                            date: 'desc'
+                          }
+                        }
                       }
                     },
-                    journalEntries: true
+                    journalEntries: {
+                      orderBy: {
+                        date: 'desc'
+                      }
+                    }
                   }
                 },
-                journalEntries: true
+                journalEntries: {
+                  orderBy: {
+                    date: 'desc'
+                  }
+                }
               }
             }
           }
@@ -91,6 +115,9 @@ export async function getChildById(req: Request, res: Response): Promise<void> {
         journalEntries: {
           include: {
             validatedElements: true
+          },
+          orderBy: {
+            date: 'desc'
           }
         }
       }
