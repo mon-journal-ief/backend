@@ -47,6 +47,7 @@ async function main() {
       id: 'b7738591-4c9c-46ba-a7f3-7b81ed81c572',
       name: `Ding dong`,
       email: `r@r.rr`,
+      emailVerified: true,
       password: hashedPassword
     }
   })

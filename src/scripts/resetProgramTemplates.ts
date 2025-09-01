@@ -7,6 +7,7 @@ const prisma = new PrismaClient()
 interface ProgramElementData {
   name: string
   description: string
+  exercices?: string[]
   children?: ProgramElementData[]
 }
 
@@ -14,6 +15,11 @@ interface ProgramTemplateData {
   name: string
   description: string
   grade: string
+  sources?: {
+    name: string
+    url: string
+  }[]
+  cycle?: number
   elements: ProgramElementData[]
 }
 
@@ -31,6 +37,7 @@ async function createProgramElements(
       data: {
         name: element.name,
         description: element.description,
+        exercices: element.exercices || [],
         programTemplateId: templateId,
         parentId: parentId
       }
@@ -52,7 +59,9 @@ async function seedFromFile(jsonPath: string) {
     data: {
       name: seedData.programTemplate.name,
       description: seedData.programTemplate.description,
-      grade: seedData.programTemplate.grade as Grade
+      grade: seedData.programTemplate.grade as Grade,
+      sources: seedData.programTemplate.sources ? seedData.programTemplate.sources as any : undefined,
+      cycle: seedData.programTemplate.cycle || undefined
     }
   })
 

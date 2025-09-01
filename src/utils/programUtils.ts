@@ -39,6 +39,7 @@ async function copyProgramElementsRecursive(
       data: {
         name: templateElement.name,
         description: templateElement.description,
+        exercices: templateElement.exercices,
         programId: programId,
         parentId: programParentId
       }

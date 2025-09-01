@@ -1,0 +1,455 @@
+{
+  "programTemplate": {
+    "name": "Programme Cycle 1 - École Maternelle",
+    "description": "Programme officiel de l'Éducation nationale pour l'école maternelle (3-6 ans).",
+    "grade": "Maternelle",
+    "sources": [
+      {
+        "name": "Consignes officielles",
+        "url": "https://www.education.gouv.fr/programmes-et-horaires-l-ecole-maternelle-4193"
+      },
+      {
+        "name": "Programme Officiel (2021, toujours en vigueur)",
+        "url": "https://eduscol.education.fr/document/20062/download"
+      },
+      {
+        "name": "Annexe 1: Développement du langage (2025)",
+        "url": "https://www.education.gouv.fr/sites/default/files/ensel135_annexe1.pdf"
+      },
+      {
+        "name": "Annexe 2: Mathématiques (2025)",
+        "url": "https://www.education.gouv.fr/sites/default/files/ensel135_annexe2.pdf"
+      },
+      {
+        "name": "Annexe 3: Éducation à la vie affective et relationnelle (2025)",
+        "url": "https://www.education.gouv.fr/media/199596/download"
+      }
+    ],
+    "cycle": 1,
+    "elements": [
+      {
+        "name": "Mobiliser le langage dans toutes ses dimensions",
+        "description": "Votre enfant va apprendre à bien parler et à découvrir l'écrit. C'est la base de tous les autres apprentissages.",
+        "children": [
+          {
+            "name": "L'oral",
+            "description": "Votre enfant apprend à bien parler, à écouter et à se faire comprendre par les autres.",
+            "children": [
+              {
+                "name": "Oser entrer en communication",
+                "description": "Votre enfant prend confiance pour parler aux autres, poser des questions et dire ce qu'il pense.",
+                "exercices": [
+                  "Participer à des échanges collectifs en petit groupe ou en grand groupe",
+                  "Prendre la parole pour raconter, décrire, expliquer, questionner",
+                  "Utiliser un vocabulaire de plus en plus précis",
+                  "Reformuler pour se faire comprendre"
+                ]
+              },
+              {
+                "name": "(3 ans) Comprendre et apprendre",
+                "description": "Votre enfant écoute des histoires et comprend ce qu'on lui dit, même quand c'est un peu compliqué.",
+                "exercices": [
+                  "Écouter des histoires et en comprendre les éléments principaux",
+                  "Reformuler dans ses propres mots un passage entendu",
+                  "Répondre à des questions sur un texte lu par l'adulte",
+                  "Participer à des échanges en respectant les règles de communication"
+                ]
+              },
+              {
+                "name": "(4 ans) Échanger et réfléchir avec les autres",
+                "description": "Votre enfant raconte des histoires, explique ce qu'il fait et discute avec les autres. Il enrichit son vocabulaire.",
+                "exercices": [
+                  "Raconter en se faisant comprendre une histoire inventée",
+                  "Décrire une image de manière détaillée",
+                  "Expliquer une règle de jeu à un camarade",
+                  "Argumenter son point de vue dans un débat adapté"
+                ]
+              },
+              {
+                "name": "(5 ans) Commencer à réfléchir sur la langue et acquérir une conscience phonologique",
+                "description": "Votre enfant joue avec les sons des mots, trouve des rimes et compte les syllabes. C'est la préparation à la lecture.",
+                "exercices": [
+                  "Jouer avec les rimes et les assonances",
+                  "Scander les syllabes d'un mot",
+                  "Identifier le nombre de syllabes dans un mot",
+                  "Produire des mots qui riment avec un mot donné"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "L'écrit",
+            "description": "Votre enfant découvre à quoi servent les livres, les lettres et l'écriture dans la vie de tous les jours.",
+            "children": [
+              {
+                "name": "(3 ans) Découvrir la fonction de l'écrit",
+                "description": "Votre enfant comprend qu'on écrit pour se souvenir, pour communiquer ou pour raconter des histoires.",
+                "exercices": [
+                  "Explorer différents types d'écrits (albums, lettres, recettes, etc.)",
+                  "Comprendre qu'on lit de gauche à droite et de haut en bas",
+                  "Associer les trois écritures d'une même lettre",
+                  "Écrire son prénom en capitales d'imprimerie"
+                ]
+              },
+              {
+                "name": "(4 ans) Commencer à écrire tout seul",
+                "description": "Votre enfant apprend les bons gestes pour écrire et essaie d'écrire des mots comme il les entend.",
+                "exercices": [
+                  "Tracer des lettres en respectant le sens de l'écriture",
+                  "Écrire des mots simples en encodage phonétique",
+                  "Copier un mot, une phrase en écriture cursive",
+                  "Dicter à l'adulte des textes de plusieurs phrases"
+                ]
+              },
+              {
+                "name": "(5 ans) Découvrir le principe alphabétique",
+                "description": "Votre enfant comprend que les lettres correspondent aux sons qu'il entend et commence à lire ses premiers mots.",
+                "exercices": [
+                  "Reconnaître les lettres de l'alphabet",
+                  "Associer lettres et sons dans des mots simples",
+                  "Lire quelques mots très fréquents",
+                  "Écrire seul des mots en utilisant ses connaissances phoniques"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Agir, s'exprimer, comprendre à travers l'activité physique",
+        "description": "Votre enfant bouge, court, saute et découvre ce que son corps peut faire. Il apprend à bien coordonner ses mouvements.",
+        "children": [
+          {
+            "name": "Agir dans l'espace, dans la durée et sur les objets",
+            "description": "Votre enfant apprend à bouger dans différents espaces, à porter des objets et à faire des efforts adaptés.",
+            "exercices": [
+              "Parcours de motricité avec différents obstacles",
+              "Jeux d'équilibre et de coordination",
+              "Activités de lancer, porter, tirer, pousser",
+              "Jeux dans différents espaces (cour, gymnase, piscine)"
+            ]
+          },
+          {
+            "name": "Adapter ses équilibres et ses déplacements",
+            "description": "Votre enfant apprend à garder l'équilibre dans des situations nouvelles et à se repérer dans l'espace.",
+            "exercices": [
+              "Se déplacer en sautant, roulant, glissant",
+              "Maintenir l'équilibre en situation inhabituelle",
+              "Ajuster ses déplacements en fonction d'un but",
+              "Respecter les règles de sécurité"
+            ]
+          },
+          {
+            "name": "Communiquer avec les autres au travers d'actions à visée expressive ou artistique",
+            "description": "Votre enfant exprime ses émotions et ses idées avec son corps, par la danse et les gestes.",
+            "exercices": [
+              "Danse libre et danse structurée",
+              "Expression corporelle sur différents thèmes",
+              "Rondes et jeux chantés",
+              "Mimes et jeux théâtraux corporels"
+            ]
+          },
+          {
+            "name": "Collaborer, coopérer, s'opposer",
+            "description": "Votre enfant apprend à jouer avec les autres, à respecter les règles et à faire des efforts en équipe.",
+            "exercices": [
+              "Jeux collectifs avec règles simples",
+              "Activités de coopération par équipes",
+              "Jeux d'opposition mesurée",
+              "Respect des règles et fair-play"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Agir, s'exprimer, comprendre à travers les activités artistiques",
+        "description": "Votre enfant développe sa créativité en dessinant, peignant, chantant et en faisant du théâtre.",
+        "children": [
+          {
+            "name": "Productions plastiques et visuelles",
+            "description": "Votre enfant crée avec ses mains : il dessine, peint, colle et modele. Il découvre aussi de belles œuvres d'art.",
+            "exercices": [
+              "Dessiner avec différents outils et supports",
+              "Peinture libre et dirigée avec pinceaux, éponges, doigts",
+              "Collages avec matériaux divers",
+              "Modelage avec pâte à modeler, argile",
+              "Observation et description d'œuvres d'art"
+            ]
+          },
+          {
+            "name": "Univers sonores",
+            "description": "Votre enfant explore les sons, chante, écoute de la musique et apprend à reconnaître différents bruits.",
+            "exercices": [
+              "Exploration vocale (chuchoter, crier, moduler)",
+              "Écoute de paysages sonores variés",
+              "Jeux avec les instruments de musique",
+              "Création de rythmes simples",
+              "Mémorisation de comptines et chansons"
+            ]
+          },
+          {
+            "name": "Spectacle vivant",
+            "description": "Votre enfant danse, joue des petites scènes de théâtre et fait des spectacles avec ses camarades.",
+            "exercices": [
+              "Danse créative et danse traditionnelle",
+              "Jeux théâtraux et saynètes",
+              "Marionnettes et jeux de rôles",
+              "Spectacles pour les autres classes",
+              "Découverte de spectacles vivants"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Acquérir les premiers outils mathématiques",
+        "description": "Votre enfant découvre les nombres, les formes et les tailles en jouant et en manipulant des objets.",
+        "children": [
+          {
+            "name": "Découvrir les nombres et leurs utilisations",
+            "description": "Votre enfant apprend à compter, à comparer des quantités et à comprendre à quoi servent les nombres.",
+            "children": [
+              {
+                "name": "(3 ans) Approcher les quantités et les nombres",
+                "description": "Votre enfant compare des groupes d'objets (plus, moins, pareil) et apprend à compter jusqu'à 3.",
+                "exercices": [
+                  "Jeux de distribution (autant de... que de...)",
+                  "Comptines numériques",
+                  "Comparaison de collections d'objets",
+                  "Dénombrement de petites quantités"
+                ]
+              },
+              {
+                "name": "(4 ans) Utiliser le nombre pour désigner un rang",
+                "description": "Votre enfant compte jusqu'à 10, reconnaît les chiffres écrits et comprend leur place dans l'ordre.",
+                "exercices": [
+                  "Jeux de société avec dés et pions",
+                  "Calendrier et rituel de la date",
+                  "Comptage jusqu'à 10 avec objets",
+                  "Reconnaissance des chiffres écrits"
+                ]
+              },
+              {
+                "name": "(5 ans) Résoudre des problèmes numériques",
+                "description": "Votre enfant résout des petits problèmes avec les nombres et comprend qu'un groupe de 5 objets reste 5, même si on les déplace.",
+                "exercices": [
+                  "Problèmes d'ajout et de retrait",
+                  "Partage équitable de collections",
+                  "Décomposition de nombres jusqu'à 10",
+                  "Jeux mathématiques avec règles"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Explorer des formes, des grandeurs, des suites organisées",
+            "description": "Votre enfant découvre les formes (rond, carré...), compare les tailles et apprend à organiser et classer.",
+            "children": [
+              {
+                "name": "Reconnaître des formes",
+                "description": "Votre enfant reconnaît et nomme les formes (cercle, carré, triangle...) et reconstruit des modèles.",
+                "exercices": [
+                  "Jeux de reconnaissance de formes géométriques",
+                  "Puzzles et tangrams",
+                  "Construction avec solides géométriques",
+                  "Tri et classement par forme"
+                ]
+              },
+              {
+                "name": "Comparer et classer selon la taille, la masse, la contenance",
+                "description": "Votre enfant range les objets du plus petit au plus grand, compare ce qui est lourd ou léger, plein ou vide.",
+                "exercices": [
+                  "Jeux de comparaison de tailles (plus grand/plus petit)",
+                  "Expériences de pesée avec balance",
+                  "Jeux de transvasement (plus/moins plein)",
+                  "Classement d'objets selon différents critères"
+                ]
+              },
+              {
+                "name": "Algorithmique et suites organisées",
+                "description": "Votre enfant reconnaît des suites (rouge-bleu-rouge-bleu...) et continue le motif qui se répète.",
+                "exercices": [
+                  "Jeux de perles avec alternance de couleurs",
+                  "Suites de gestes ou de sons à continuer",
+                  "Frises décoratives à compléter",
+                  "Jeux de logique avec formes et couleurs"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Explorer le monde",
+        "description": "Votre enfant découvre le monde qui l'entoure : les animaux, les plantes, les objets et comment tout cela fonctionne.",
+        "children": [
+          {
+            "name": "Se repérer dans le temps et l'espace",
+            "description": "Votre enfant apprend à se repérer dans le temps (hier, aujourd'hui, demain) et dans l'espace (ici, là-bas, près, loin).",
+            "children": [
+              {
+                "name": "Stabiliser les premiers repères temporels",
+                "description": "Votre enfant comprend l'ordre des moments de la journée et de la semaine (avant, après, en même temps).",
+                "exercices": [
+                  "Rituel de la date et du calendrier",
+                  "Frise chronologique de la journée",
+                  "Séquençage d'histoires en images",
+                  "Albums sur le temps qui passe"
+                ]
+              },
+              {
+                "name": "Commencer à représenter l'espace",
+                "description": "Votre enfant dessine des plans simples de sa classe ou de sa maison et utilise les mots de position (devant, derrière, à côté...).",
+                "exercices": [
+                  "Plan de la classe et de l'école",
+                  "Maquettes et parcours",
+                  "Jeux de localisation (devant/derrière, etc.)",
+                  "Dessins de l'espace familier"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Explorer le monde du vivant, des objets et de la matière",
+            "description": "Votre enfant observe, touche et expérimente pour comprendre ce qui est vivant ou pas, et comment fonctionnent les objets.",
+            "children": [
+              {
+                "name": "Découvrir le monde vivant",
+                "description": "Votre enfant découvre comment grandissent les animaux et les plantes, et ce dont ils ont besoin pour vivre.",
+                "exercices": [
+                  "Élevages en classe (phasmes, poissons, etc.)",
+                  "Jardinage et plantations",
+                  "Observation des cycles de vie",
+                  "Soins aux animaux et plantes"
+                ]
+              },
+              {
+                "name": "Explorer la matière",
+                "description": "Votre enfant touche et expérimente avec différents matériaux (eau, sable, pâte...) pour voir ce qui se passe.",
+                "exercices": [
+                  "Expériences avec l'eau (flotte/coule)",
+                  "Manipulation de différentes matières (sable, pâte, etc.)",
+                  "Cuisine et transformations alimentaires",
+                  "Mélanges et dissolutions"
+                ]
+              },
+              {
+                "name": "Utiliser, fabriquer, manipuler des objets",
+                "description": "Votre enfant apprend à choisir les bons outils pour ses activités, construit des objets et découvre les tablettes ou ordinateurs.",
+                "exercices": [
+                  "Construction avec différents matériaux",
+                  "Utilisation d'outils adaptés (ciseaux, colle, etc.)",
+                  "Démontage et remontage d'objets simples",
+                  "Première utilisation de tablettes ou ordinateurs"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Apprendre ensemble et vivre ensemble - Éducation affective et relationnelle",
+        "description": "Votre enfant apprend à vivre avec les autres, à connaître son corps et ses émotions, et à respecter les différences.",
+        "children": [
+          {
+            "name": "Se connaître, vivre et grandir avec son corps",
+            "description": "Votre enfant apprend à connaître son corps, à reconnaître ses émotions et à devenir autonome.",
+            "children": [
+              {
+                "name": "(3 ans) Connaître son corps et comprendre l'intimité",
+                "description": "Votre enfant apprend les noms des parties de son corps et comprend que certaines parties sont privées.",
+                "exercices": [
+                  "Schéma corporel avec imagiers et jouets",
+                  "Jeux sur les parties du corps",
+                  "Situations d'habillage et de toilette en autonomie",
+                  "Albums sur l'intimité et le respect du corps"
+                ]
+              },
+              {
+                "name": "(4 ans) Identifier et exprimer ses émotions",
+                "description": "Votre enfant reconnaît quand il est joyeux, triste, en colère ou a peur, et apprend à le dire. Il découvre aussi comment naissent les bébés.",
+                "exercices": [
+                  "Jeux de reconnaissance d'émotions sur visages",
+                  "Expression corporelle des émotions",
+                  "Albums sur les naissances et la famille",
+                  "Parcours motricité avec expression des ressentis"
+                ]
+              },
+              {
+                "name": "(5 ans) Gérer ses émotions et développer l'empathie",
+                "description": "Votre enfant apprend à se calmer quand il est énervé et à comprendre ce que ressentent les autres.",
+                "exercices": [
+                  "Reconnaître émotions à partir d'œuvres d'art",
+                  "Temps d'expression lors de conflits",
+                  "Découverte des 5 sens et expression des ressentis",
+                  "Identification des adultes ressources"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Rencontrer les autres et construire des relations",
+            "description": "Votre enfant apprend à dire oui ou non, à faire confiance aux bonnes personnes et à se faire des amis.",
+            "children": [
+              {
+                "name": "(3 ans) Apprendre le consentement et le refus",
+                "description": "Votre enfant apprend à dire clairement oui ou non, et à respecter quand les autres disent non.",
+                "exercices": [
+                  "Gestes et mots simples pour dire oui/non",
+                  "Situations de demande de permission",
+                  "Rondes et jeux sur consentement/refus",
+                  "Expression corporelle sur accord/désaccord"
+                ]
+              },
+              {
+                "name": "(4 ans) Identifier les personnes de confiance",
+                "description": "Votre enfant apprend à reconnaître les adultes en qui il peut avoir confiance et à faire la différence entre les bons et les mauvais secrets.",
+                "exercices": [
+                  "Albums sur les secrets positifs et négatifs",
+                  "Création de 'marguerite des adultes de confiance'",
+                  "Jeux sur la confiance (colin-maillard)",
+                  "Apprentissage de la demande d'aide"
+                ]
+              },
+              {
+                "name": "(5 ans) Développer l'amitié et les relations positives",
+                "description": "Votre enfant comprend ce que c'est qu'être ami et apprend à créer de bonnes relations avec les autres.",
+                "exercices": [
+                  "Expression des différents types de relations",
+                  "Activités collaboratives entre classes",
+                  "Jeux de société coopératifs",
+                  "Messages clairs lors de conflits"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Trouver sa place dans la société",
+            "description": "Votre enfant découvre que nous sommes tous différents mais égaux, et que les filles et les garçons peuvent faire les mêmes choses.",
+            "children": [
+              {
+                "name": "(3 ans) Comprendre l'égalité filles-garçons",
+                "description": "Votre enfant comprend les différences entre filles et garçons, mais aussi que tous peuvent jouer aux mêmes jeux.",
+                "exercices": [
+                  "Albums sur la diversité et l'égalité",
+                  "Répartition équitable des espaces de jeu",
+                  "Choix libres d'activités sans distinction de genre",
+                  "Expression des goûts personnels"
+                ]
+              },
+              {
+                "name": "(4 ans) Développer l'empathie et le respect",
+                "description": "Votre enfant apprend à être gentil avec les autres et à comprendre que ses mots et ses gestes peuvent faire du bien ou du mal.",
+                "exercices": [
+                  "Identification des émotions d'autrui",
+                  "Dialogues imaginaires entre personnages",
+                  "Activités collaboratives et coopératives",
+                  "Déconstruction des stéréotypes"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

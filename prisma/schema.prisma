@@ -72,6 +72,8 @@ model ProgramTemplate {
   name        String
   description String
   grade       Grade
+  sources     Json? // Array of sources with name and url
+  cycle       Int
   elements    ProgramElement[]
   programs    Program[]
 
@@ -95,10 +97,11 @@ model Program {
 }
 
 model ProgramElement {
-  id          String  @id @default(uuid())
+  id          String   @id @default(uuid())
   name        String
   description String
-  isValidated Boolean @default(false)
+  exercices   String[] @default([])
+  isValidated Boolean  @default(false)
 
   program   Program? @relation(fields: [programId], references: [id])
   programId String?
