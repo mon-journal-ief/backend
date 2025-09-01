@@ -1,0 +1,516 @@
+{
+  "programTemplate": {
+    "name": "Programme Cycle 1 - École maternelle",
+    "description": "Programme officiel de l'école maternelle (cycle unique, 3-6 ans). Objectif central: langage oral et entrée progressive dans la culture de l'écrit; développement moteur et artistique; premiers outils pour structurer la pensée (nombres, formes, grandeurs, motifs); exploration du monde (temps, espace, vivant, objets, outils numériques). Références: BO n°25 du 24-06-2021 et annexes pédagogiques.",
+    "cycle": 1,
+    "grades": [
+      "PS",
+      "MS",
+      "GS"
+    ],
+    "ageRange": "3-6 ans",
+    "officialReferences": [
+      {
+        "filename": "annexe_programme_maternelle-2021.pdf",
+        "boNumber": "BO n°25",
+        "date": "2021-06-24"
+      },
+      {
+        "filename": "ensel135_annexe1.pdf"
+      },
+      {
+        "filename": "ensel135_annexe2.pdf"
+      }
+    ],
+    "elements": [
+      {
+        "name": "Mobiliser le langage dans toutes ses dimensions",
+        "description": "Développer un langage oral riche et structuré; entrer dans la culture de l'écrit; préparer l'apprentissage de la lecture/écriture (geste, conscience phonologique, principe alphabétique). En fin de GS, viser une maîtrise lexicale d’au moins ~2500 mots.",
+        "children": [
+          {
+            "name": "Langage oral",
+            "description": "Oser communiquer, comprendre, s’exprimer, enrichir vocabulaire et syntaxe; échanger et réfléchir avec les autres.",
+            "children": [
+              {
+                "name": "Oser entrer en communication et s'exprimer clairement",
+                "description": "Parler devant autrui, se faire comprendre, adapter sa voix et son propos.",
+                "progression": {
+                  "3-4": [
+                    "Prendre la parole en situation de jeu ou de routine (appel, collation)."
+                  ],
+                  "4-5": [
+                    "Raconter un court vécu avec aide (images, objets)."
+                  ],
+                  "5-6": [
+                    "Raconter un événement de manière chronologique sans support."
+                  ]
+                },
+                "exercices": [
+                  "Rituels quotidiens de prise de parole (présence, météo, responsabilités).",
+                  "Jeux de rôle et marottes pour raconter une scène connue.",
+                  "Boîte à histoires / tapis d’histoires: raconter avec supports puis sans."
+                ],
+                "indicators": [
+                  "S'exprime audiblement, phrase simple puis complexe.",
+                  "Maintient le sujet, suit une trame temporelle (d’abord/ensuite)."
+                ],
+                "recordingHints": [
+                  "Audio court du récit",
+                  "Photo du support (marotte/boîte à histoires)"
+                ]
+              },
+              {
+                "name": "Comprendre et apprendre par le langage",
+                "description": "Compréhension d’histoires et de consignes; réutilisation du lexique nouveau.",
+                "progression": {
+                  "3-4": [
+                    "Comprendre des consignes simples contextualisées."
+                  ],
+                  "4-5": [
+                    "Comprendre des récits à structure répétitive; repérer personnages."
+                  ],
+                  "5-6": [
+                    "Inférer émotions/intentions; reformuler un passage entendu."
+                  ]
+                },
+                "exercices": [
+                  "Questions guidées sur personnages, lieux, émotions.",
+                  "Reformulation à deux voix (adulte/enfant) d’un passage.",
+                  "Tri d’images séquentielles pour reconstruire l’histoire."
+                ],
+                "indicators": [
+                  "Identifie personnages principaux/secondaires.",
+                  "Répond à des questions littérales puis implicites (pourquoi?)."
+                ],
+                "recordingHints": [
+                  "Photos des séquences d’images triées",
+                  "Note des réponses de l’enfant"
+                ]
+              },
+              {
+                "name": "Vocabulaire et syntaxe",
+                "description": "Enrichir le lexique et structurer la phrase; appropriation progressive de la langue française.",
+                "progression": {
+                  "3-4": [
+                    "Nommer objets familiers; utiliser je/tu."
+                  ],
+                  "4-5": [
+                    "Employer adjectifs usuels, prépositions (dans, sur...)."
+                  ],
+                  "5-6": [
+                    "Produire des phrases complexes (relatives simples, connecteurs)."
+                  ]
+                },
+                "exercices": [
+                  "Jeux de catégorisation (animaux, outils, aliments).",
+                  "Description d’images (où? qui? quoi? comment?).",
+                  "Mémory lexical; loto des actions (verbes)."
+                ],
+                "indicators": [
+                  "Réemploi de mots nouveaux en contexte.",
+                  "Utilise connecteurs temporels (puis, enfin)."
+                ],
+                "recordingHints": [
+                  "Liste de mots appris",
+                  "Courte vidéo d’une description d’image"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Entrer dans la culture de l'écrit",
+            "description": "Découvrir les supports et fonctions de l’écrit; comprendre des textes lus; commencer à produire des écrits avec l’adulte.",
+            "children": [
+              {
+                "name": "Découvrir supports et fonctions de l’écrit",
+                "description": "Identifier types d’écrits (lettre, recette, affiche, documentaire), mise en page et destinataire.",
+                "progression": {
+                  "3-4": [
+                    "Reconnaître écrits usuels de la classe (emploi du temps, étiquettes)."
+                  ],
+                  "4-5": [
+                    "Associer un type d’écrit à son usage (recette → cuisiner)."
+                  ],
+                  "5-6": [
+                    "Repérer organisation (titre, page, ligne, ponctuation simple)."
+                  ]
+                },
+                "exercices": [
+                  "Chasse aux écrits dans la classe/école (photos).",
+                  "Tri d’étiquettes par fonction (chanter, raconter, informer).",
+                  "Fabrication d’une affiche (dictée à l’adulte)."
+                ],
+                "indicators": [
+                  "Explique à quoi sert un écrit rencontré.",
+                  "Utilise le vocabulaire du livre (page, ligne, majuscule)."
+                ],
+                "recordingHints": [
+                  "Photos d’écrits trouvés",
+                  "Copie de l’affiche réalisée"
+                ]
+              },
+              {
+                "name": "Comprendre des textes lus par l’adulte",
+                "description": "Construire des repères narratifs, personnages archétypaux, émotions et motivations.",
+                "exercices": [
+                  "Raconter l’histoire sans support après plusieurs lectures.",
+                  "Jeu des émotions: relier événements et ressentis des personnages.",
+                  "Référencer des récurrences (loup, ogre, renard) dans plusieurs albums."
+                ],
+                "indicators": [
+                  "Explique les motivations des personnages.",
+                  "Établit des liens avec ses propres expériences."
+                ],
+                "recordingHints": [
+                  "Enregistrement audio d’un récit libre",
+                  "Dessin de l’épisode clé annoté"
+                ]
+              },
+              {
+                "name": "Produire des écrits (dictée à l’adulte)",
+                "description": "Commencer à planifier un court écrit collectif; connaître quelques caractéristiques de genres (recette, lettre, notice).",
+                "exercices": [
+                  "Rédaction collective d’une recette (liste d’ingrédients, étapes).",
+                  "Lettre à un personnage; notice de fabrication illustrée."
+                ],
+                "indicators": [
+                  "Propose des formulations pertinentes pour le genre ciblé.",
+                  "Repère l’ordre logique des étapes."
+                ],
+                "recordingHints": [
+                  "Scan de la dictée à l’adulte",
+                  "Photos des étapes réelles (recette, fabrication)"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Se préparer à apprendre à lire et à écrire",
+            "description": "Geste d’écriture; conscience phonologique; familiarisation au principe alphabétique; écriture du prénom, capitales puis cursive en GS.",
+            "children": [
+              {
+                "name": "Geste d’écriture",
+                "description": "Posture, tenue de l’outil, tracés dirigés; progression vers la cursive en GS.",
+                "exercices": [
+                  "Parcours graphiques (boucles, ponts, vagues) sur grands supports.",
+                  "Copie du prénom (capitales → cursive) en GS."
+                ],
+                "indicators": [
+                  "Tenue correcte de l’outil; régularité des tracés.",
+                  "Transcrit sans modèle des mots connus (en GS)."
+                ],
+                "recordingHints": [
+                  "Photos de cahiers/affichages",
+                  "Feuilles de tracés datées"
+                ]
+              },
+              {
+                "name": "Conscience phonologique et principe alphabétique",
+                "description": "Jeux de rimes, syllabes, attaque; repérage de lettres; lien phonème-graphème (GS).",
+                "exercices": [
+                  "Jeu des rimes et des syllabes frappées.",
+                  "Tri d’images par son d’attaque.",
+                  "Abécédaire personnel (lettres du prénom, correspondance son/lettre en GS)."
+                ],
+                "indicators": [
+                  "Isole syllabes; reconnaît rimes.",
+                  "Associe quelques sons à des lettres (GS)."
+                ],
+                "recordingHints": [
+                  "Photo de l’abécédaire",
+                  "Liste des correspondances travaillées"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Agir, s’exprimer, comprendre à travers l’activité physique",
+        "description": "Développer motricité globale et fine, équilibre, adresse; coopérer, respecter des règles, gérer l’effort; s’exprimer par le mouvement.",
+        "children": [
+          {
+            "name": "Agir et s’exprimer avec son corps",
+            "description": "Parcours, déplacements, manipulations d’objets; prise de risques mesurés.",
+            "exercices": [
+              "Parcours moteurs (ramper, sauter, grimper).",
+              "Jeux d’adresse: lancers/réceptions, cibles variées."
+            ],
+            "indicators": [
+              "Adapte son déplacement à l’environnement.",
+              "Régule sa force et sa trajectoire."
+            ],
+            "recordingHints": [
+              "Photos/vidéos sur le parcours",
+              "Scores simples (cibles touchées)"
+            ]
+          },
+          {
+            "name": "Jeux collectifs et règles",
+            "description": "Entrer dans des jeux codifiés, coopérer/ s’opposer, respecter consignes et rôles.",
+            "exercices": [
+              "Jeux de poursuite et d’opposition aménagés.",
+              "Relais coopératifs avec matériel varié."
+            ],
+            "indicators": [
+              "Respecte règles et tours de rôle.",
+              "Communique pour coopérer."
+            ],
+            "recordingHints": [
+              "Grille d’observation simple",
+              "Photo d’équipe et matériel utilisé"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Agir, s’exprimer, comprendre à travers les activités artistiques",
+        "description": "Arts visuels et musique: expérimenter, produire, créer; écouter, observer; conduire un projet; partager des références culturelles.",
+        "children": [
+          {
+            "name": "Arts visuels",
+            "description": "Exploration de gestes, outils, matériaux; couleurs, supports; représentation du réel et de l’imaginaire.",
+            "exercices": [
+              "Ateliers de mélange de couleurs, empreintes, collages.",
+              "Projets: série d’images, livre-objet."
+            ],
+            "indicators": [
+              "Choisit et organise outils/matériaux.",
+              "Explique son intention de création."
+            ],
+            "recordingHints": [
+              "Photos des productions",
+              "Commentaire dicté à l’adulte"
+            ]
+          },
+          {
+            "name": "Éducation musicale / expression vocale et corporelle",
+            "description": "Chanter, écouter, reproduire des rythmes, danser; constituer un répertoire.",
+            "exercices": [
+              "Chants et jeux rythmiques (percussions corporelles).",
+              "Écoute d’œuvres et réaction musicale/dansée."
+            ],
+            "indicators": [
+              "Tient une pulsation simple; reprend un motif rythmique.",
+              "Chante juste sur un répertoire connu."
+            ],
+            "recordingHints": [
+              "Enregistrements audio courts",
+              "Liste du répertoire"
+            ]
+          },
+          {
+            "name": "Conduire un projet artistique",
+            "description": "Mener à terme une production individuelle/collective; respecter espaces/outils.",
+            "exercices": [
+              "Exposition de classe; décor pour un récit; livre collectif."
+            ],
+            "indicators": [
+              "Persévère jusqu’à la finition.",
+              "Respecte l’espace et le matériel partagé."
+            ],
+            "recordingHints": [
+              "Photos étapes du projet",
+              "Fiche projet (objectif, étapes, rôle)"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Construire les premiers outils pour structurer sa pensée",
+        "description": "Découvrir les nombres et leurs utilisations; explorer formes, grandeurs et motifs; verbaliser stratégies et procédures.",
+        "children": [
+          {
+            "name": "Découvrir les nombres et leurs utilisations",
+            "description": "Exprimer des quantités; stabiliser les petits nombres; utiliser le nombre pour désigner, comparer, ordonner; premiers calculs.",
+            "children": [
+              {
+                "name": "Construire les quantités et premiers calculs",
+                "description": "Dénombrement, correspondance terme à terme, comparaisons.",
+                "exercices": [
+                  "Collections à créer/compléter; « autant que », « un de plus/de moins ».",
+                  "Jeux de doigts, dés, dominos; problèmes de partage très simples."
+                ],
+                "indicators": [
+                  "Dénombre sans erreurs petites collections.",
+                  "Explique sa procédure (correspondance, sur-comptage)."
+                ],
+                "recordingHints": [
+                  "Photo des collections",
+                  "Note de la stratégie verbalisée"
+                ]
+              },
+              {
+                "name": "Suite orale et écrite des nombres",
+                "description": "Dire la comptine; reconnaître chiffres usuels; associer écriture et quantité.",
+                "exercices": [
+                  "Bandes numériques; étiquettes-chiffres à associer aux collections."
+                ],
+                "indicators": [
+                  "Poursuit une suite numérique; associe écriture-chiffre à quantité."
+                ],
+                "recordingHints": [
+                  "Photo bande numérique personnalisée"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Explorer des formes, des grandeurs et des suites organisées",
+            "description": "Comparer, estimer, mesurer de manière qualitative; reconnaître et produire des motifs; explorer l'espace et les formes.",
+            "children": [
+              {
+                "name": "Longueurs",
+                "description": "Comparaisons directes/indirectes; ordonnancement d’objets rectilignes.",
+                "progression": {
+                  "5-6": [
+                    "Comparer indirectement des longueurs avec une bande témoin.",
+                    "Ordonner jusqu’à cinq objets par longueur.",
+                    "Produire un objet de même longueur qu’un autre."
+                  ]
+                },
+                "exercices": [
+                  "Bande témoin: reporter et comparer plusieurs longueurs.",
+                  "Classement d’objets du plus court au plus long."
+                ],
+                "indicators": [
+                  "Utilise correctement la bande témoin.",
+                  "Explique sa démarche (alignement, repères)."
+                ],
+                "recordingHints": [
+                  "Photos des classements",
+                  "Bande témoin annotée"
+                ]
+              },
+              {
+                "name": "Masse",
+                "description": "Comparer et ordonner des masses; réaliser l’équilibre; vocabulaire précis.",
+                "progression": {
+                  "5-6": [
+                    "Utiliser une balance Roberval pour comparer/ordonner trois objets.",
+                    "Employer « plus lourd », « plus léger », « même masse »; transitivité (si a<b et b<c alors a<c)."
+                  ]
+                },
+                "exercices": [
+                  "Comparaisons: boule de pétanque vs. balle plastique; sachet coton vs. sachet sable (même volume).",
+                  "Ordre de trois masses par pesées successives sur Roberval."
+                ],
+                "indicators": [
+                  "Réalise un équilibre stable; justifie l’ordre trouvé.",
+                  "Emploie correctement le lexique des masses."
+                ],
+                "recordingHints": [
+                  "Photo de la balance en équilibre",
+                  "Tableau d’ordonnancement"
+                ]
+              },
+              {
+                "name": "Motifs organisés (suites)",
+                "description": "Reconnaître, prolonger, produire des motifs selon une règle.",
+                "exercices": [
+                  "Perles/cubes: AB, AAB, ABC; reproduction et invention de motifs.",
+                  "Motifs corporels (frapper-taper-frapper…)."
+                ],
+                "indicators": [
+                  "Décrit la règle du motif.",
+                  "Produit un motif conforme puis varié."
+                ],
+                "recordingHints": [
+                  "Photo des suites produites",
+                  "Dictée à l’adulte de la règle verbalisée"
+                ]
+              },
+              {
+                "name": "Formes et espace",
+                "description": "Manipuler blocs et solides; repérer, décrire des positions; reproduire des assemblages.",
+                "exercices": [
+                  "Construire/reproduire un modèle en blocs.",
+                  "Jeux de repérage: devant/derrière, à gauche/à droite."
+                ],
+                "indicators": [
+                  "Utilise un vocabulaire spatial correct.",
+                  "Analyse un modèle pour le reproduire."
+                ],
+                "recordingHints": [
+                  "Photos des constructions",
+                  "Fiche modèle vs. réalisation"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Explorer le monde",
+        "description": "Structurer des repères spatiaux et temporels; observer le vivant; découvrir objets, matières et phénomènes physiques simples; utiliser des outils numériques à bon escient.",
+        "children": [
+          {
+            "name": "Se repérer dans le temps et l’espace",
+            "description": "Routines, événements, calendriers; repérage dans des lieux connus; déplacements.",
+            "exercices": [
+              "Frise de la journée/semaine; calendrier avec événements.",
+              "Parcours d’orientation simple dans l’école."
+            ],
+            "indicators": [
+              "Situe des événements passés/prochains.",
+              "Suit un itinéraire simple avec repères."
+            ],
+            "recordingHints": [
+              "Photo de la frise",
+              "Plan annoté du parcours"
+            ]
+          },
+          {
+            "name": "Explorer le vivant",
+            "description": "Besoins vitaux des végétaux et des animaux; observation d’interactions simples.",
+            "exercices": [
+              "Culture de graines: varier eau/lumière/sol; journal de pousse.",
+              "Observation d’animaux/coins nature; règles de respect du vivant."
+            ],
+            "indicators": [
+              "Relie conditions de croissance aux observations.",
+              "Décrit besoins essentiels (eau, lumière, terre)."
+            ],
+            "recordingHints": [
+              "Photos à dates régulières",
+              "Graphique de croissance simple"
+            ]
+          },
+          {
+            "name": "Objets techniques et phénomènes physiques",
+            "description": "Observer et utiliser des objets; repérer fonctions; premiers phénomènes (gravité, aimants, lumière) par manipulation répétée.",
+            "exercices": [
+              "Montages/démontages simples; notices illustrées (en GS).",
+              "Manipulations: loupes, aimants, plans inclinés, poulies; constater régularités."
+            ],
+            "indicators": [
+              "Explique la fonction d’un objet utilisé.",
+              "Énonce une régularité observée (ex.: aimants attirent certains objets)."
+            ],
+            "recordingHints": [
+              "Photos pas-à-pas d’un montage",
+              "Tableau « Je vois / Je pense »"
+            ]
+          },
+          {
+            "name": "Outils numériques",
+            "description": "Repères d’usage adapté et utile (tablette, ordinateur); produire de simples traces.",
+            "exercices": [
+              "Prendre une photo légendée d’une production.",
+              "Utiliser un pictogramme ou une application de dessin simple."
+            ],
+            "indicators": [
+              "Choisit un outil numérique pertinent au besoin.",
+              "Respecte règles d’usage et de sécurité simples."
+            ],
+            "recordingHints": [
+              "Capture d’écran",
+              "Photo de l’enfant en situation d’usage raisonné"
+            ]
+          }
+        ]
+      }
+    ],
+    "exportNotes": "Pour l’inspection: associez vos entrées de journal aux nœuds les plus fins (objectifs) et joignez photos, enregistrements courts et verbalisations clés. Le PDF/Word d’export pourra inclure pour chaque domaine: objectifs ciblés, activités menées, indicateurs observés, et traces datées."
+  }
+}

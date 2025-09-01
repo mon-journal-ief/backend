@@ -3,6 +3,9 @@
     "name": "Programme Cycle 1 - École maternelle",
     "description": "Programme officiel français pour le cycle 1 (PS, MS, GS) - Ministère de l'Éducation nationale",
     "grade": "Maternelle",
+    "officialLinks": [
+      "https://www.education.gouv.fr/sites/default/files/ensel135_annexe1.pdf"
+    ],
     "elements": [
       {
         "name": "Mobiliser le langage dans toutes ses dimensions",

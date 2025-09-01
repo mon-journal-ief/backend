@@ -3,6 +3,7 @@
     "name": "Programme Cycle 2 - CE2",
     "description": "Programme officiel français pour le CE2 - Ministère de l'Éducation nationale",
     "grade": "CE2",
+    "cycle": 2,
     "elements": [
       {
         "name": "Français - Lecture et compréhension de l'écrit",
