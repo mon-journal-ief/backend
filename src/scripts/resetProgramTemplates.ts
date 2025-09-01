@@ -60,8 +60,8 @@ async function seedFromFile(jsonPath: string) {
       name: seedData.programTemplate.name,
       description: seedData.programTemplate.description,
       grade: seedData.programTemplate.grade as Grade,
-      sources: seedData.programTemplate.sources ? seedData.programTemplate.sources as any : undefined,
-      cycle: seedData.programTemplate.cycle || undefined
+      sources: seedData.programTemplate.sources!,
+      cycle: seedData.programTemplate.cycle!
     }
   })
 

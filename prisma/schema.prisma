@@ -72,8 +72,8 @@ model ProgramTemplate {
   name        String
   description String
   grade       Grade
-  sources     Json? // Array of sources with name and url
   cycle       Int
+  sources     Json // Array of sources with name and url
   elements    ProgramElement[]
   programs    Program[]
 
@@ -86,6 +86,8 @@ model Program {
   name        String
   description String?
   grade       Grade?
+  cycle       Int?
+  sources     Json? // Array of sources with name and url
   elements    ProgramElement[]
   children    Child[]
 
