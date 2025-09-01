@@ -23,26 +23,6 @@ export async function getAllProgramTemplates(req: Request, res: Response) {
     res.json(programTemplates)
 }
 
-// Get single program template
-export async function getProgramTemplate(req: Request, res: Response) {
-    const { id } = req.params
-    const programTemplate = await prisma.programTemplate.findUnique({
-        where: {
-            id: id
-        },
-        include: {
-            elements: true,
-            programs: true
-        }
-    })
-    if (!programTemplate) {
-        res.status(404).json({ message: 'Program template not found' })
-        return
-    }
-    res.json(programTemplate)
-}
-
-
 // Import program template for a child
 export async function copyProgramTemplate(req: Request, res: Response) {
     try {
