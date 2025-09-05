@@ -15,8 +15,8 @@ export async function getAllProgramTemplates(req: Request, res: Response) {
     const gradeOrder = ['Maternelle', 'CP', 'CE1', 'CE2', 'CM1', 'CM2', 'Sixième', 'Cinquième', 'Quatrième', 'Troisième', 'Seconde', 'Première', 'Terminale']
 
     programTemplates.sort((a, b) => {
-        const indexA = gradeOrder.indexOf(a.grade)
-        const indexB = gradeOrder.indexOf(b.grade)
+        const indexA = gradeOrder.indexOf(a.grades[0])
+        const indexB = gradeOrder.indexOf(b.grades[0])
         return indexA - indexB
     })
 
@@ -72,7 +72,7 @@ export async function copyProgramTemplate(req: Request, res: Response) {
             data: {
                 name: template.name,
                 description: template.description,
-                grade: template.grade,
+                grades: template.grades,
                 sources: template.sources!,
                 cycle: template.cycle,
                 templateId: template.id

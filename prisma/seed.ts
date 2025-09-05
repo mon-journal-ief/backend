@@ -28,8 +28,9 @@ async function main() {
   // Create a program based on the first template
   const testProgram = await prisma.program.create({
     data: {
-      name: `Programme Test ${firstTemplate.grade} - Année 2025`,
-      grade: firstTemplate.grade,
+      name: `Programme Test ${firstTemplate.cycle} - Année 2025`,
+      grades: firstTemplate.grades,
+      cycle: firstTemplate.cycle,
       templateId: firstTemplate.id,
       description: firstTemplate.description
     }
@@ -87,7 +88,7 @@ async function main() {
       data: {
         date: new Date("2023-10-15"),
         comment: "Emma a fait de grands progrès en lecture aujourd'hui. Elle a réussi à déchiffrer un texte court sans aide.",
-        images: ["emma_lecture_20231015.jpg"],
+        images: [],
         childId: child1.id,
         validatedElements: {
           connect: [{ id: programElements[0].id }]
@@ -99,7 +100,7 @@ async function main() {
       data: {
         date: new Date("2023-10-25"),
         comment: "Emma a travaillé sur les additions jusqu'à 20 aujourd'hui. Elle a compris le principe du report.",
-        images: ["emma_maths_20231025.jpg"],
+        images: [],
         childId: child1.id,
         validatedElements: {
           connect: [{ id: programElements[1].id }]
@@ -118,7 +119,7 @@ async function main() {
       data: {
         date: new Date("2023-10-20"),
         comment: "Thomas a bien travaillé sur les arts plastiques aujourd'hui. Il a créé une belle représentation de son environnement.",
-        images: ["thomas_arts_20231020.jpg"],
+        images: [],
         childId: child2.id,
         validatedElements: {
           connect: [{ id: programElement.id }]

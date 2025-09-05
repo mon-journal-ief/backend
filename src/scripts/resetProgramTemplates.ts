@@ -14,7 +14,7 @@ interface ProgramElementData {
 interface ProgramTemplateData {
   name: string
   description: string
-  grade: string
+  grades: string[]
   sources?: {
     name: string
     url: string
@@ -59,7 +59,7 @@ async function seedFromFile(jsonPath: string) {
     data: {
       name: seedData.programTemplate.name,
       description: seedData.programTemplate.description,
-      grade: seedData.programTemplate.grade as Grade,
+      grades: seedData.programTemplate.grades as Grade[],
       sources: seedData.programTemplate.sources!,
       cycle: seedData.programTemplate.cycle!
     }
@@ -73,7 +73,7 @@ async function seedFromFile(jsonPath: string) {
   const elementCount = await prisma.programElement.count({
     where: { programTemplateId: programTemplate.id }
   })
-  console.log(`${elementCount} éléments de programme créés pour ${programTemplate.grade}`)
+  console.log(`${elementCount} éléments de programme créés pour ${programTemplate.cycle}`)
 }
 
 async function resetProgramTemplates() {

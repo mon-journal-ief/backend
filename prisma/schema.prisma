@@ -40,7 +40,9 @@ enum Gender {
 }
 
 enum Grade {
-  Maternelle
+  PS
+  MS
+  GS
   CP
   CE1
   CE2
@@ -71,7 +73,7 @@ model ProgramTemplate {
   id          String           @id @default(uuid())
   name        String
   description String
-  grade       Grade
+  grades      Grade[]
   cycle       Int
   sources     Json // Array of sources with name and url
   elements    ProgramElement[]
@@ -85,7 +87,7 @@ model Program {
   id          String           @id @default(uuid())
   name        String
   description String?
-  grade       Grade?
+  grades      Grade[]
   cycle       Int?
   sources     Json? // Array of sources with name and url
   elements    ProgramElement[]
