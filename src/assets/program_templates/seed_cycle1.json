@@ -2,26 +2,26 @@
   "programTemplate": {
     "name": "Programme Cycle 1 - École Maternelle",
     "description": "Programme officiel de l'Éducation nationale pour l'école maternelle (3-6 ans).",
-    "grade": "Maternelle",
+    "grades": ["PS", "MS", "GS"],
     "sources": [
       {
         "name": "Consignes officielles",
         "url": "https://www.education.gouv.fr/programmes-et-horaires-l-ecole-maternelle-4193"
       },
       {
-        "name": "Programme Officiel (2021, toujours en vigueur)",
+        "name": "Programme officiel (2021, toujours en vigueur)",
         "url": "https://eduscol.education.fr/document/20062/download"
       },
       {
-        "name": "Annexe 1: Développement du langage (2025)",
+        "name": "Développement du langage (2025)",
         "url": "https://www.education.gouv.fr/sites/default/files/ensel135_annexe1.pdf"
       },
       {
-        "name": "Annexe 2: Mathématiques (2025)",
+        "name": "Mathématiques (2025)",
         "url": "https://www.education.gouv.fr/sites/default/files/ensel135_annexe2.pdf"
       },
       {
-        "name": "Annexe 3: Éducation à la vie affective et relationnelle (2025)",
+        "name": "Éducation à la vie affective et relationnelle (2025)",
         "url": "https://www.education.gouv.fr/media/199596/download"
       }
     ],

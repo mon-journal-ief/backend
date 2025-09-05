@@ -1,0 +1,782 @@
+{
+  "programTemplate": {
+    "name": "Programme Cycle 2 - École Élémentaire",
+    "description": "Programme officiel de l'Éducation nationale pour l'école élémentaire (6-9 ans) : CP, CE1, CE2.",
+    "grades": ["CP", "CE1", "CE2"],
+    "sources": [
+      {
+        "name": "Programme officiel (2020, toujours en vigueur)",
+        "url": "https://www.education.gouv.fr/media/70279/download"
+      },
+      {
+        "name": "Français CP, CE1, CE2 (2025)",
+        "url": "https://www.education.gouv.fr/sites/default/files/ensel135_annexe3.pdf"
+      },
+      {
+        "name": "Mathématiques CP, CE1, CE2 (2025)",
+        "url": "https://www.education.gouv.fr/sites/default/files/ensel135_annexe4.pdf"
+      },
+      {
+        "name": "Enseignement moral et civique CP et CE1 (2025)",
+        "url": "https://www.education.gouv.fr/sites/default/files/ensel934_annexe_ok.pdf"
+      },
+      {
+        "name": "Document d’accompagnement pour l’évaluation des acquis (2016)",
+        "url": "https://www.education.gouv.fr/programmes-et-horaires-l-ecole-elementaire-9011"
+      },
+      {
+        "name": "Éducation à la vie affective et relationnelle (2025)",
+        "url": "https://www.education.gouv.fr/media/199597/download"
+      } 
+    ],
+    "cycle": 2,
+    "elements": [
+      {
+        "name": "Français",
+        "description": "Votre enfant apprend à lire couramment, à écrire et à s'exprimer clairement. C'est la base de tous les apprentissages scolaires.",
+        "children": [
+          {
+            "name": "Lecture et compréhension de l'écrit",
+            "description": "Votre enfant apprend à déchiffrer puis à lire de manière fluide et à comprendre ce qu'il lit.",
+            "children": [
+              {
+                "name": "(CP) Identifier les mots de manière de plus en plus aisée",
+                "description": "Votre enfant apprend les correspondances entre les lettres et les sons pour déchiffrer les mots.",
+                "exercices": [
+                  "Décoder et encoder 12 à 15 correspondances graphophonémiques en période 1",
+                  "Déchiffrer des syllabes, des mots puis des phrases",
+                  "Mémoriser les mots fréquents et réguliers",
+                  "Décoder 30 mots par minute minimum en fin de CP"
+                ]
+              },
+              {
+                "name": "(CP) Lire à voix haute",
+                "description": "Votre enfant apprend à lire à haute voix de manière fluide et expressive.",
+                "exercices": [
+                  "Oraliser les syllabes déchiffrées et encodées",
+                  "Lire des textes déchiffrables en respectant la ponctuation",
+                  "Lire avec une vitesse de 30 mots par minute sans préparation, 50 après préparation",
+                  "Amorcer une lecture expressive"
+                ]
+              },
+              {
+                "name": "(CP) Comprendre un texte",
+                "description": "Votre enfant apprend à comprendre le sens de ce qu'il lit et à répondre à des questions.",
+                "exercices": [
+                  "Dégager le sens global d'un texte entendu ou lu",
+                  "Identifier les mots inconnus et chercher leur sens",
+                  "Comprendre ce qui est implicite (inférences simples)",
+                  "Lire et comprendre en autonomie un texte d'une dizaine de lignes"
+                ]
+              },
+              {
+                "name": "(CE1) Automatiser le décodage",
+                "description": "Votre enfant perfectionne sa lecture et lit de plus en plus rapidement et facilement.",
+                "exercices": [
+                  "Automatiser le décodage des correspondances graphophonémiques",
+                  "Décoder toutes les CGP y compris les plus complexes",
+                  "Identifier directement l'ensemble des mots courants",
+                  "Lire un texte avec une vitesse de 70 mots par minute"
+                ]
+              },
+              {
+                "name": "(CE2) Lire avec fluidité",
+                "description": "Votre enfant lit couramment et comprend des textes de plus en plus longs et complexes.",
+                "exercices": [
+                  "Lire un texte avec une vitesse de 90 mots par minute",
+                  "Lire de manière expressive en adaptant le ton",
+                  "Comprendre des textes résistants avec l'aide du professeur",
+                  "Développer des stratégies de compréhension"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Écriture",
+            "description": "Votre enfant apprend à former les lettres, à copier et à produire ses propres textes.",
+            "children": [
+              {
+                "name": "(CP) Apprendre à écrire en écriture cursive",
+                "description": "Votre enfant apprend à tracer les lettres attachées et à écrire de manière lisible.",
+                "exercices": [
+                  "Tracer les lettres en respectant le sens de l'écriture",
+                  "Écrire des lettres, des syllabes, des mots en cursive",
+                  "Respecter les proportions et l'alignement",
+                  "Automatiser le geste graphique"
+                ]
+              },
+              {
+                "name": "(CP) Encoder puis écrire sous dictée",
+                "description": "Votre enfant apprend à écrire les mots qu'il entend en utilisant ses connaissances des sons.",
+                "exercices": [
+                  "Encoder des syllabes et des mots simples",
+                  "Écrire sous dictée des mots réguliers",
+                  "Utiliser ses connaissances des correspondances graphophonémiques",
+                  "Mémoriser l'orthographe des mots fréquents"
+                ]
+              },
+              {
+                "name": "(CP) Produire des écrits",
+                "description": "Votre enfant commence à écrire ses propres phrases et petits textes.",
+                "exercices": [
+                  "Écrire des phrases simples",
+                  "Produire un court texte narratif",
+                  "Réviser et améliorer ses écrits",
+                  "Participer à des écrits collaboratifs"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Oral",
+            "description": "Votre enfant développe ses capacités à écouter, comprendre et s'exprimer à l'oral.",
+            "children": [
+              {
+                "name": "Écouter pour comprendre",
+                "description": "Votre enfant apprend à être attentif et à comprendre ce qu'on lui dit ou lit.",
+                "exercices": [
+                  "Écouter des textes lus par l'adulte",
+                  "Comprendre des consignes orales",
+                  "Reformuler ce qui a été entendu",
+                  "Répondre à des questions sur un texte entendu"
+                ]
+              },
+              {
+                "name": "Dire pour être compris",
+                "description": "Votre enfant apprend à s'exprimer clairement pour que les autres le comprennent.",
+                "exercices": [
+                  "Raconter une histoire de manière structurée",
+                  "Décrire une image ou un objet",
+                  "Expliquer une démarche ou un raisonnement",
+                  "Réciter des poèmes et des textes"
+                ]
+              },
+              {
+                "name": "Participer à des échanges",
+                "description": "Votre enfant apprend à discuter, débattre et échanger avec les autres.",
+                "exercices": [
+                  "Respecter les règles de la conversation",
+                  "Poser des questions pertinentes",
+                  "Exprimer son point de vue",
+                  "Écouter et réagir aux propos des autres"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Vocabulaire",
+            "description": "Votre enfant enrichit son vocabulaire et apprend à utiliser les mots avec précision.",
+            "children": [
+              {
+                "name": "Enrichir son vocabulaire",
+                "description": "Votre enfant découvre de nouveaux mots dans toutes les matières.",
+                "exercices": [
+                  "Apprendre le vocabulaire spécialisé de chaque discipline",
+                  "Utiliser des mots précis pour s'exprimer",
+                  "Constituer des collections de mots par thème",
+                  "Réemployer le vocabulaire appris dans différents contextes"
+                ]
+              },
+              {
+                "name": "Établir des relations entre les mots",
+                "description": "Votre enfant comprend les liens entre les mots : synonymes, contraires, familles de mots.",
+                "exercices": [
+                  "Trouver des synonymes et des antonymes",
+                  "Regrouper les mots par familles",
+                  "Comprendre la formation des mots (préfixes, suffixes)",
+                  "Utiliser le dictionnaire"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Grammaire et orthographe",
+            "description": "Votre enfant découvre le fonctionnement de la langue française et apprend les règles d'orthographe.",
+            "children": [
+              {
+                "name": "Se repérer dans la phrase simple",
+                "description": "Votre enfant apprend à identifier les différents éléments d'une phrase.",
+                "exercices": [
+                  "Identifier le sujet et le verbe",
+                  "Reconnaître les types de phrases",
+                  "Utiliser la ponctuation",
+                  "Transformer des phrases (affirmative/négative)"
+                ]
+              },
+              {
+                "name": "Découvrir l'orthographe grammaticale",
+                "description": "Votre enfant apprend les accords et les règles d'orthographe de base.",
+                "exercices": [
+                  "Accorder le verbe avec son sujet",
+                  "Accorder l'adjectif avec le nom",
+                  "Distinguer les homophones grammaticaux (a/à, et/est)",
+                  "Appliquer les règles d'orthographe apprises"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Mathématiques",
+        "description": "Votre enfant apprend à compter, calculer et résoudre des problèmes. Il découvre les formes géométriques et les mesures.",
+        "children": [
+          {
+            "name": "Nombres, calcul et résolution de problèmes",
+            "description": "Votre enfant apprend les nombres, les opérations et résout des problèmes mathématiques.",
+            "children": [
+              {
+                "name": "(CP) Les nombres entiers jusqu'à 100",
+                "description": "Votre enfant apprend à compter, comparer et utiliser les nombres jusqu'à 100.",
+                "exercices": [
+                  "Comparer et dénombrer des collections en les organisant",
+                  "Construire des collections de taille donnée",
+                  "Utiliser diverses représentations des nombres (matériel, dessins, écriture)",
+                  "Compter de 2 en 2, de 5 en 5, de 10 en 10"
+                ]
+              },
+              {
+                "name": "(CP) Les quatre opérations",
+                "description": "Votre enfant découvre l'addition et la soustraction, puis la multiplication et la division.",
+                "exercices": [
+                  "Résoudre des problèmes d'addition et de soustraction",
+                  "Calculer des sommes et des différences",
+                  "Comprendre le sens de la multiplication",
+                  "Résoudre des problèmes de partage"
+                ]
+              },
+              {
+                "name": "(CP) Le calcul mental",
+                "description": "Votre enfant apprend à calculer de tête rapidement et efficacement.",
+                "exercices": [
+                  "Mémoriser les faits numériques (tables d'addition)",
+                  "Calculer mentalement des additions et soustractions simples",
+                  "Utiliser les compléments à 10",
+                  "Calculer avec les dizaines"
+                ]
+              },
+              {
+                "name": "(CE1) Les nombres entiers jusqu'à 1000",
+                "description": "Votre enfant étend sa connaissance des nombres et travaille avec des centaines.",
+                "exercices": [
+                  "Lire, écrire et décomposer les nombres jusqu'à 1000",
+                  "Comparer et ranger les nombres",
+                  "Utiliser la numération décimale",
+                  "Encadrer un nombre entre deux dizaines, deux centaines"
+                ]
+              },
+              {
+                "name": "(CE1) Les fractions simples",
+                "description": "Votre enfant découvre les fractions comme parts d'un tout.",
+                "exercices": [
+                  "Partager un tout en parts égales",
+                  "Comprendre les fractions 1/2, 1/3, 1/4",
+                  "Comparer des fractions simples",
+                  "Résoudre des problèmes avec des fractions"
+                ]
+              },
+              {
+                "name": "(CE2) Les nombres jusqu'à 10 000",
+                "description": "Votre enfant travaille avec des nombres encore plus grands et consolide ses connaissances.",
+                "exercices": [
+                  "Lire, écrire et décomposer les nombres jusqu'à 10 000",
+                  "Utiliser les fractions décimales simples",
+                  "Positionner des fractions sur une bande graduée",
+                  "Effectuer des calculs avec des nombres à 4 chiffres"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Grandeurs et mesures",
+            "description": "Votre enfant apprend à mesurer les longueurs, les masses, le temps et utilise la monnaie.",
+            "children": [
+              {
+                "name": "Les longueurs et les masses",
+                "description": "Votre enfant apprend à mesurer et comparer les tailles et les poids.",
+                "exercices": [
+                  "Comparer des longueurs et des masses",
+                  "Utiliser des unités de mesure (mètre, centimètre, kilogramme, gramme)",
+                  "Mesurer avec des instruments (règle, balance)",
+                  "Résoudre des problèmes de mesure"
+                ]
+              },
+              {
+                "name": "La monnaie",
+                "description": "Votre enfant apprend à utiliser l'argent et à faire des calculs avec les euros.",
+                "exercices": [
+                  "Reconnaître les pièces et billets",
+                  "Faire l'appoint, rendre la monnaie",
+                  "Résoudre des problèmes d'achat",
+                  "Utiliser l'écriture décimale pour les prix"
+                ]
+              },
+              {
+                "name": "Le repérage dans le temps",
+                "description": "Votre enfant apprend à lire l'heure et à mesurer les durées.",
+                "exercices": [
+                  "Lire l'heure sur une horloge à aiguilles",
+                  "Utiliser le calendrier",
+                  "Calculer des durées",
+                  "Se repérer dans la journée, la semaine, le mois"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Espace et géométrie",
+            "description": "Votre enfant découvre les formes géométriques et apprend à se repérer dans l'espace.",
+            "children": [
+              {
+                "name": "Les solides",
+                "description": "Votre enfant manipule et reconnaît les formes en trois dimensions.",
+                "exercices": [
+                  "Reconnaître et nommer les solides usuels",
+                  "Décrire les propriétés des solides",
+                  "Construire avec des solides",
+                  "Représenter des solides"
+                ]
+              },
+              {
+                "name": "La géométrie plane",
+                "description": "Votre enfant travaille avec les formes plates : carrés, rectangles, triangles, cercles.",
+                "exercices": [
+                  "Reconnaître et tracer des figures géométriques",
+                  "Utiliser la règle, l'équerre et le compas",
+                  "Identifier les propriétés des figures",
+                  "Reproduire des figures sur quadrillage"
+                ]
+              },
+              {
+                "name": "Le repérage dans l'espace",
+                "description": "Votre enfant apprend à se situer et à situer des objets dans l'espace.",
+                "exercices": [
+                  "Utiliser un vocabulaire spatial précis",
+                  "Se repérer sur un plan, une carte",
+                  "Coder et décoder des déplacements",
+                  "Utiliser des coordonnées simples"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Questionner le monde",
+        "description": "Votre enfant explore le monde qui l'entoure : la nature, les objets, l'espace et le temps.",
+        "children": [
+          {
+            "name": "Questionner le monde du vivant, de la matière et des objets",
+            "description": "Votre enfant observe et expérimente pour comprendre le monde naturel et technique.",
+            "children": [
+              {
+                "name": "Qu'est-ce qui caractérise le vivant ?",
+                "description": "Votre enfant découvre ce qui distingue le vivant du non-vivant et les besoins des êtres vivants.",
+                "exercices": [
+                  "Observer les caractéristiques du vivant",
+                  "Identifier les besoins vitaux des animaux et des plantes",
+                  "Comprendre les cycles de vie",
+                  "Classer les êtres vivants"
+                ]
+              },
+              {
+                "name": "Comment reconnaître le monde vivant ?",
+                "description": "Votre enfant apprend à identifier et classer les animaux et les végétaux.",
+                "exercices": [
+                  "Identifier des animaux et des végétaux",
+                  "Comprendre les régimes alimentaires",
+                  "Observer les adaptations au milieu",
+                  "Réaliser des élevages et des cultures"
+                ]
+              },
+              {
+                "name": "Les objets techniques",
+                "description": "Votre enfant découvre comment fonctionnent les objets du quotidien.",
+                "exercices": [
+                  "Démonter et remonter des objets simples",
+                  "Comprendre la fonction des objets",
+                  "Réaliser des constructions",
+                  "Utiliser des outils numériques"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Questionner l'espace et le temps",
+            "description": "Votre enfant apprend à se repérer dans l'espace et le temps, découvre l'histoire et la géographie.",
+            "children": [
+              {
+                "name": "Se situer dans l'espace",
+                "description": "Votre enfant apprend à se repérer et à représenter l'espace.",
+                "exercices": [
+                  "Se repérer dans l'école, le quartier",
+                  "Lire des plans et des cartes simples",
+                  "Identifier des paysages",
+                  "Comprendre l'organisation de l'espace"
+                ]
+              },
+              {
+                "name": "Se situer dans le temps",
+                "description": "Votre enfant découvre la chronologie et l'histoire.",
+                "exercices": [
+                  "Utiliser les repères temporels",
+                  "Construire des frises chronologiques",
+                  "Découvrir des personnages historiques",
+                  "Comprendre l'évolution des modes de vie"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Enseignements artistiques",
+        "description": "Votre enfant développe sa créativité et sa sensibilité artistique à travers les arts plastiques et la musique.",
+        "children": [
+          {
+            "name": "Arts plastiques",
+            "description": "Votre enfant crée, expérimente et découvre différentes techniques artistiques.",
+            "children": [
+              {
+                "name": "Expérimenter, produire, créer",
+                "description": "Votre enfant explore différents matériaux et techniques pour créer ses œuvres.",
+                "exercices": [
+                  "Dessiner avec différents outils",
+                  "Peindre avec diverses techniques",
+                  "Réaliser des collages et assemblages",
+                  "Modeler et sculpter"
+                ]
+              },
+              {
+                "name": "Mettre en œuvre un projet artistique",
+                "description": "Votre enfant apprend à concevoir et réaliser un projet créatif.",
+                "exercices": [
+                  "Concevoir un projet personnel",
+                  "Choisir des techniques adaptées",
+                  "Collaborer à des projets collectifs",
+                  "Présenter ses réalisations"
+                ]
+              },
+              {
+                "name": "S'exprimer, analyser sa pratique",
+                "description": "Votre enfant apprend à parler de ses créations et de celles des autres.",
+                "exercices": [
+                  "Décrire ses intentions artistiques",
+                  "Comparer différentes œuvres",
+                  "Utiliser un vocabulaire spécialisé",
+                  "Exprimer ses émotions face à l'art"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Éducation musicale",
+            "description": "Votre enfant chante, écoute et crée de la musique.",
+            "children": [
+              {
+                "name": "Chanter",
+                "description": "Votre enfant apprend des chansons et développe sa voix.",
+                "exercices": [
+                  "Chanter en groupe et en solo",
+                  "Mémoriser des chansons variées",
+                  "Travailler la justesse et le rythme",
+                  "Interpréter avec expression"
+                ]
+              },
+              {
+                "name": "Écouter, comparer",
+                "description": "Votre enfant développe son oreille musicale et découvre différents styles.",
+                "exercices": [
+                  "Écouter des œuvres variées",
+                  "Identifier les instruments",
+                  "Comparer différents styles musicaux",
+                  "Exprimer ses préférences"
+                ]
+              },
+              {
+                "name": "Explorer et imaginer",
+                "description": "Votre enfant crée ses propres productions sonores.",
+                "exercices": [
+                  "Improviser avec la voix et les instruments",
+                  "Créer des rythmes",
+                  "Inventer des mélodies simples",
+                  "Sonoriser des histoires"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Éducation physique et sportive",
+        "description": "Votre enfant développe ses capacités motrices et apprend à coopérer à travers le sport et les jeux.",
+        "children": [
+          {
+            "name": "Produire une performance optimale, mesurable à une échéance donnée",
+            "description": "Votre enfant apprend à courir, sauter, lancer pour améliorer ses performances.",
+            "exercices": [
+              "Courir vite sur une courte distance",
+              "Courir longtemps à allure régulière",
+              "Sauter loin et haut",
+              "Lancer précis et loin"
+            ]
+          },
+          {
+            "name": "Adapter ses déplacements à des environnements variés",
+            "description": "Votre enfant apprend à évoluer dans différents milieux en toute sécurité.",
+            "exercices": [
+              "Se déplacer en milieu aquatique",
+              "Évoluer en pleine nature",
+              "Grimper et escalader",
+              "Rouler et glisser"
+            ]
+          },
+          {
+            "name": "S'exprimer devant les autres par une prestation artistique et/ou acrobatique",
+            "description": "Votre enfant crée et présente des enchaînements corporels.",
+            "exercices": [
+              "Réaliser des enchaînements gymniques",
+              "Créer des danses",
+              "S'exprimer en rythme",
+              "Présenter un spectacle"
+            ]
+          },
+          {
+            "name": "Conduire et maîtriser un affrontement collectif ou interindividuel",
+            "description": "Votre enfant apprend les règles des jeux sportifs et développe l'esprit d'équipe.",
+            "exercices": [
+              "Jouer aux jeux collectifs avec ballon",
+              "Respecter les règles et l'arbitrage",
+              "Coopérer avec ses partenaires",
+              "S'opposer dans le respect de l'adversaire"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Enseignement moral et civique",
+        "description": "Votre enfant apprend les valeurs de la République, le respect des autres et développe son esprit critique.",
+        "children": [
+          {
+            "name": "La sensibilité : soi et les autres",
+            "description": "Votre enfant apprend à connaître et exprimer ses émotions, et à respecter celles des autres.",
+            "children": [
+              {
+                "name": "(CP) Identifier et exprimer ses émotions et ses sentiments",
+                "description": "Votre enfant apprend à reconnaître ce qu'il ressent et à le dire avec des mots.",
+                "exercices": [
+                  "Nommer ses émotions (joie, colère, peur, tristesse)",
+                  "Exprimer ses sentiments de manière appropriée",
+                  "Comprendre les émotions des autres",
+                  "Apprendre à se calmer"
+                ]
+              },
+              {
+                "name": "(CE1) S'estimer et être capable d'écoute et d'empathie",
+                "description": "Votre enfant développe la confiance en soi et apprend à comprendre les autres.",
+                "exercices": [
+                  "Reconnaître ses qualités et ses progrès",
+                  "Écouter les autres avec attention",
+                  "Comprendre les points de vue différents",
+                  "Aider ses camarades"
+                ]
+              },
+              {
+                "name": "(CE2) Se sentir membre d'une collectivité",
+                "description": "Votre enfant comprend qu'il fait partie d'un groupe et apprend à y contribuer.",
+                "exercices": [
+                  "Participer à la vie de la classe",
+                  "Respecter les règles communes",
+                  "Contribuer au bien-être collectif",
+                  "Accepter les différences"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Le droit et la règle : des principes pour vivre avec les autres",
+            "description": "Votre enfant découvre les règles de vie en société et comprend pourquoi elles existent.",
+            "children": [
+              {
+                "name": "Comprendre les raisons de l'obéissance aux règles et à la loi",
+                "description": "Votre enfant comprend que les règles permettent de bien vivre ensemble.",
+                "exercices": [
+                  "Identifier les règles de la classe et de l'école",
+                  "Comprendre l'utilité des règles",
+                  "Distinguer ce qui est permis et interdit",
+                  "Respecter les règles de sécurité"
+                ]
+              },
+              {
+                "name": "Comprendre les principes et les valeurs de la République française",
+                "description": "Votre enfant découvre les symboles et les valeurs de la France.",
+                "exercices": [
+                  "Reconnaître les symboles de la République",
+                  "Comprendre la devise : Liberté, Égalité, Fraternité",
+                  "Respecter les symboles nationaux",
+                  "Découvrir l'histoire de France"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Le jugement : penser par soi-même et avec les autres",
+            "description": "Votre enfant apprend à réfléchir, à argumenter et à développer son esprit critique.",
+            "children": [
+              {
+                "name": "Développer les aptitudes à la réflexion critique",
+                "description": "Votre enfant apprend à se poser des questions et à chercher des réponses.",
+                "exercices": [
+                  "Poser des questions pertinentes",
+                  "Chercher des informations fiables",
+                  "Comparer différents points de vue",
+                  "Distinguer le vrai du faux"
+                ]
+              },
+              {
+                "name": "Différencier son intérêt particulier de l'intérêt général",
+                "description": "Votre enfant comprend la différence entre ce qui est bon pour lui et ce qui est bon pour tous.",
+                "exercices": [
+                  "Comprendre l'intérêt collectif",
+                  "Accepter de faire des compromis",
+                  "Participer aux décisions de groupe",
+                  "Respecter l'environnement"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "L'engagement : agir individuellement et collectivement",
+            "description": "Votre enfant apprend à s'impliquer dans la vie de la classe et de l'école.",
+            "children": [
+              {
+                "name": "S'engager et assumer des responsabilités",
+                "description": "Votre enfant apprend à prendre des responsabilités adaptées à son âge.",
+                "exercices": [
+                  "Tenir ses engagements",
+                  "Assumer des responsabilités dans la classe",
+                  "Participer aux projets collectifs",
+                  "Aider les autres élèves"
+                ]
+              },
+              {
+                "name": "Prendre en charge des aspects de la vie collective",
+                "description": "Votre enfant contribue à l'organisation de la vie scolaire.",
+                "exercices": [
+                  "Participer aux conseils d'élèves",
+                  "Organiser des événements",
+                  "Maintenir les espaces communs",
+                  "Résoudre les conflits pacifiquement"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Éducation à la vie affective et relationnelle",
+        "description": "Votre enfant apprend à connaître son corps, ses émotions et à construire des relations respectueuses avec les autres.",
+        "children": [
+          {
+            "name": "Se connaître, vivre et grandir avec son corps",
+            "description": "Votre enfant apprend à connaître et respecter son corps et celui des autres.",
+            "children": [
+              {
+                "name": "(CP) Connaître son corps et comprendre l'intimité",
+                "description": "Votre enfant apprend les noms des parties de son corps et comprend ce qu'est l'intimité.",
+                "exercices": [
+                  "Nommer les parties du corps avec un vocabulaire scientifique",
+                  "Identifier les points communs et différences entre filles et garçons",
+                  "Définir ce qu'est l'intimité",
+                  "Comprendre le droit au respect de son intimité"
+                ]
+              },
+              {
+                "name": "(CE1) Identifier et exprimer ses émotions",
+                "description": "Votre enfant apprend à reconnaître et exprimer ce qu'il ressent.",
+                "exercices": [
+                  "Comprendre et nommer ses sentiments et émotions",
+                  "Exprimer ses émotions de façon appropriée",
+                  "Résoudre des conflits de façon constructive",
+                  "Développer l'empathie"
+                ]
+              },
+              {
+                "name": "(CE2) Comprendre les changements du corps",
+                "description": "Votre enfant comprend que le corps évolue en grandissant.",
+                "exercices": [
+                  "Observer les changements liés à la croissance",
+                  "Comprendre les besoins du corps",
+                  "Adopter des habitudes d'hygiène",
+                  "Respecter les rythmes de chacun"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Rencontrer les autres et construire des relations",
+            "description": "Votre enfant apprend à créer des liens positifs et respectueux avec les autres.",
+            "children": [
+              {
+                "name": "(CP) Comprendre la diversité des émotions et des sentiments",
+                "description": "Votre enfant apprend que chacun a ses propres émotions et qu'il faut les respecter.",
+                "exercices": [
+                  "Identifier les émotions chez les autres",
+                  "Respecter les sentiments d'autrui",
+                  "Apprendre à consoler et réconforter",
+                  "Comprendre que les émotions sont normales"
+                ]
+              },
+              {
+                "name": "(CE1) Apprendre le consentement et le respect",
+                "description": "Votre enfant comprend l'importance du consentement dans les relations.",
+                "exercices": [
+                  "Comprendre ce qu'est le consentement",
+                  "Apprendre à dire oui ou non clairement",
+                  "Respecter le refus des autres",
+                  "Demander la permission avant d'agir"
+                ]
+              },
+              {
+                "name": "(CE2) Développer des relations positives",
+                "description": "Votre enfant apprend à construire des amitiés saines et durables.",
+                "exercices": [
+                  "Comprendre ce qu'est l'amitié",
+                  "Résoudre les conflits par le dialogue",
+                  "Coopérer dans les activités",
+                  "Accepter les différences"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Trouver sa place dans la société",
+            "description": "Votre enfant découvre sa place dans la société et apprend le respect de l'égalité.",
+            "children": [
+              {
+                "name": "Comprendre l'égalité filles-garçons",
+                "description": "Votre enfant comprend que filles et garçons ont les mêmes droits et capacités.",
+                "exercices": [
+                  "Identifier les stéréotypes de genre",
+                  "Comprendre l'égalité des droits",
+                  "Choisir ses activités librement",
+                  "Respecter les choix de chacun"
+                ]
+              },
+              {
+                "name": "Développer l'empathie et le respect",
+                "description": "Votre enfant apprend à comprendre et respecter les autres dans leur diversité.",
+                "exercices": [
+                  "Comprendre les émotions d'autrui",
+                  "Lutter contre les discriminations",
+                  "Valoriser la diversité",
+                  "Promouvoir des relations égalitaires"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
