@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import { addMorganMiddlewares } from './config/morgan'
 import programRoutes from './routes/programRoutes'
 import programTemplateRoutes from './routes/programTemplateRoutes'
 import programElementRoutes from './routes/programElementRoutes'
@@ -10,6 +11,9 @@ import exportRoutes from './routes/exportRoutes'
 import contactRoutes from './routes/contactRoutes'
 
 const app = express()
+
+addMorganMiddlewares(app)
+
 app.use(express.json())
 app.use(cors())
 
