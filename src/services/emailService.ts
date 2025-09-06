@@ -34,11 +34,11 @@ class EmailService {
             background-color: ${palette.primary[50]};
           }
           .container {
-            background-color: ${palette.primary[50]};
+            background-color: ${palette.primary[50]} !important;
             border-radius: 12px;
             padding: 40px;
             box-shadow: 0 4px 6px rgba(55, 50, 42, 0.1);
-            border: 1px solid ${palette.slate[200]};
+            border: 1px solid ${palette.slate[200]} !important;
           }
           .header {
             text-align: center;
@@ -47,7 +47,7 @@ class EmailService {
           .logo {
             font-size: 24px;
             font-weight: bold;
-            color: ${palette.primary[400]};
+            color: ${palette.primary[400]} !important;
             margin-bottom: 10px;
           }
           .title {
@@ -62,16 +62,17 @@ class EmailService {
           }
           .button {
             display: inline-block;
-            background-color: ${palette.primary[400]};
-            color: white;
+            background-color: ${palette.primary[400]} !important;
+            color: white !important;
             padding: 12px 24px;
             text-decoration: none;
             border-radius: 8px;
             font-weight: 500;
             margin: 20px 0;
+            border: none;
           }
           .button:hover {
-            background-color: ${palette.primary[500]};
+            background-color: ${palette.primary[500]} !important;
           }
           .features {
             background-color: ${palette.green[50]};
@@ -106,13 +107,13 @@ class EmailService {
             text-align: center;
           }
           .warning {
-            background-color: ${palette.primary[100]};
-            border: 1px solid ${palette.primary[300]};
+            background-color: ${palette.primary[100]} !important;
+            border: 1px solid ${palette.primary[300]} !important;
             border-radius: 8px;
             padding: 15px;
             margin: 20px 0;
             font-size: 14px;
-            color: ${palette.primary[800]};
+            color: ${palette.primary[800]} !important;
           }
           .link-color {
             color: ${palette.slate[600]};
@@ -166,7 +167,7 @@ class EmailService {
     const html = `
       ${this.getEmailHeader('Réinitialisation de votre mot de passe')}
           <div class="header">
-            <div class="logo">Mon Journal IEF</div>
+            <div class="logo" style="font-size: 24px; font-weight: bold; color: ${palette.primary[400]} !important; margin-bottom: 10px;">Mon Journal IEF</div>
             <h1 class="title">Réinitialisation de votre mot de passe</h1>
             <p class="subtitle">Bonjour ${name},</p>
           </div>
@@ -176,10 +177,10 @@ class EmailService {
           <p>Cliquez sur le bouton ci-dessous pour créer un nouveau mot de passe :</p>
 
           <div style="text-align: center;">
-            <a href="${resetUrl}" class="button">Réinitialiser mon mot de passe</a>
+            <a href="${resetUrl}" class="button" style="display: inline-block; background-color: ${palette.primary[400]} !important; color: white !important; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 500; margin: 20px 0; border: none;">Réinitialiser mon mot de passe</a>
           </div>
 
-          <div class="warning">
+          <div class="warning" style="background-color: ${palette.primary[100]} !important; border: 1px solid ${palette.primary[300]} !important; border-radius: 8px; padding: 15px; margin: 20px 0; font-size: 14px; color: ${palette.primary[800]} !important;">
             <strong>⚠️ Important :</strong> Ce lien est valide pendant 1 heure uniquement. Si vous n'avez pas demandé cette réinitialisation, vous pouvez ignorer cet email en toute sécurité.
           </div>
 
@@ -202,7 +203,7 @@ class EmailService {
     const html = `
       ${this.getEmailHeader('Vérifiez votre adresse email')}
           <div class="header">
-            <div class="logo">Mon Journal IEF</div>
+            <div class="logo" style="font-size: 24px; font-weight: bold; color: ${palette.primary[400]} !important; margin-bottom: 10px;">Mon Journal IEF</div>
             <h1 class="title">Vérifiez votre adresse email</h1>
             <p class="subtitle">Bonjour ${name},</p>
           </div>
@@ -212,10 +213,10 @@ class EmailService {
           <p>Cliquez sur le bouton ci-dessous pour confirmer votre adresse email :</p>
 
           <div style="text-align: center;">
-            <a href="${verificationUrl}" class="button">Vérifier mon email</a>
+            <a href="${verificationUrl}" class="button" style="display: inline-block; background-color: ${palette.primary[400]} !important; color: white !important; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 500; margin: 20px 0; border: none;">Vérifier mon email</a>
           </div>
 
-          <div class="warning">
+          <div class="warning" style="background-color: ${palette.primary[100]} !important; border: 1px solid ${palette.primary[300]} !important; border-radius: 8px; padding: 15px; margin: 20px 0; font-size: 14px; color: ${palette.primary[800]} !important;">
             <strong>⚠️ Important :</strong> Ce lien est valide pendant 24 heures. Si vous n'avez pas créé de compte sur Mon Journal IEF, vous pouvez ignorer cet email en toute sécurité.
           </div>
 
@@ -238,7 +239,7 @@ class EmailService {
     const html = `
       ${this.getEmailHeader('Bienvenue sur Mon Journal IEF !')}
           <div class="header">
-            <div class="logo">Mon Journal IEF</div>
+            <div class="logo" style="font-size: 24px; font-weight: bold; color: ${palette.primary[400]} !important; margin-bottom: 10px;">Mon Journal IEF</div>
             <h1 class="title">Bienvenue sur Mon Journal IEF ! 🎉</h1>
             <p class="subtitle">Bonjour ${name},</p>
           </div>
@@ -248,7 +249,7 @@ class EmailService {
           <p>Merci beaucoup pour votre soutien. N'hésitez pas à me contacter pour toute question ou suggestion.</p>
 
           <div style="text-align: center;">
-            <a href="${dashboardUrl}" class="button">Accéder à mon tableau de bord</a>
+            <a href="${dashboardUrl}" class="button" style="display: inline-block; background-color: ${palette.primary[400]} !important; color: white !important; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 500; margin: 20px 0; border: none;">Accéder à mon tableau de bord</a>
           </div>
 
           ${this.getEmailFooter()}
@@ -265,7 +266,7 @@ class EmailService {
     const html = `
       ${this.getEmailHeader('Bienvenue sur Mon Journal IEF !')}
           <div class="header">
-            <div class="logo">Mon Journal IEF</div>
+            <div class="logo" style="font-size: 24px; font-weight: bold; color: ${palette.primary[400]} !important; margin-bottom: 10px;">Mon Journal IEF</div>
             <h1 class="title">Bienvenue sur Mon Journal IEF ! 🎉</h1>
             <p class="subtitle">Bonjour ${name},</p>
           </div>
@@ -275,7 +276,7 @@ class EmailService {
           <p>Vous pouvez maintenant commencer à créer le journal de suivi de vos enfants et profiter de toutes les fonctionnalités de la plateforme.</p>
 
           <div style="text-align: center;">
-            <a href="${dashboardUrl}" class="button">Accéder à mon journal</a>
+            <a href="${dashboardUrl}" class="button" style="display: inline-block; background-color: ${palette.primary[400]} !important; color: white !important; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 500; margin: 20px 0; border: none;">Accéder à mon journal</a>
           </div>
 
           ${this.getEmailFooter()}
@@ -292,7 +293,7 @@ class EmailService {
     const html = `
       ${this.getEmailHeader('Bienvenue sur Mon Journal IEF ! 🎉')}
           <div class="header">
-            <div class="logo">Mon Journal IEF</div>
+            <div class="logo" style="font-size: 24px; font-weight: bold; color: ${palette.primary[400]} !important; margin-bottom: 10px;">Mon Journal IEF</div>
             <h1 class="title">Bienvenue sur Mon Journal IEF ! 🎉</h1>
             <p class="subtitle">Bonjour ${name},</p>
           </div>
@@ -301,7 +302,7 @@ class EmailService {
           <p>L'accès solidaire est entièrement gratuit, sans conditions. Si un jour votre situation s'améliore et que vous souhaitez soutenir le développement de Mon Journal IEF, ce sera formidable ! Mais aucune pression - l'important est que vous puissiez accompagner sereinement l'instruction de vos enfants. 😊</p>
 
           <div style="text-align: center;">
-            <a href="${dashboardUrl}" class="button">Accéder à mon journal</a>
+            <a href="${dashboardUrl}" class="button" style="display: inline-block; background-color: ${palette.primary[400]} !important; color: white !important; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 500; margin: 20px 0; border: none;">Accéder à mon journal</a>
           </div>
 
           ${this.getEmailFooter()}
@@ -326,7 +327,7 @@ class EmailService {
       ${this.getEmailHeader('Nouveau message de contact')}
         <div class="container">
           <div class="header">
-            <div class="logo">Mon Journal IEF</div>
+            <div class="logo" style="font-size: 24px; font-weight: bold; color: ${palette.primary[400]} !important; margin-bottom: 10px;">Mon Journal IEF</div>
             <div class="title">Nouveau message de contact</div>
             <div class="subtitle">Un utilisateur vous a envoyé un message</div>
           </div>
