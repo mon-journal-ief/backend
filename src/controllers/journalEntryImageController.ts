@@ -59,19 +59,33 @@ export async function deleteJournalEntryImage(req: Request, res: Response): Prom
       // Delete image using common service
       const imageUrl = await UploadService.deleteImage(filename)
       
-      // Remove image references from journal entries specifically
-      await prisma.journalEntry.updateMany({
+      // Remove specific image reference from journal entries while preserving other images
+      const journalEntries = await prisma.journalEntry.findMany({
         where: {
           images: {
             has: imageUrl
           }
         },
-        data: {
-          images: {
-            set: []
-          }
+        select: {
+          id: true,
+          images: true
         }
       })
+
+      // Update each journal entry to remove only the specific image
+      for (const entry of journalEntries) {
+        const updatedImages = entry.images.filter(img => img !== imageUrl)
+        await prisma.journalEntry.update({
+          where: { id: entry.id },
+          data: {
+            images: {
+              set: updatedImages
+            }
+          }
+        })
+      }
+
+      console.log('Journal entry image deleted successfully', journalEntries)
       
       res.json({ 
         message: 'Journal entry image deleted successfully',
