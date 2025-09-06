@@ -78,11 +78,44 @@ export async function register(req: Request, res: Response): Promise<void> {
     let user = await prisma.user.findUnique({ where: { email } })
 
     if (user) {
+      // Case 1: Account exists and is verified - do nothing (return existing error)
+      if (user.emailVerified) {
+        const response: AuthResponse = {
+          success: false,
+          error: {
+            code: 'USER_EXISTS',
+            message: 'Un compte avec cet email existe déjà. Si vous avez oublié votre mot de passe, vous pouvez le réinitialiser dans l\'onglet "Se connecter".'
+          }
+        }
+        res.json(response)
+        return
+      }
+      
+      // Case 2: Account exists but is not verified - resend verification email
+      // Generate new verification token
+      const emailVerificationToken = crypto.randomBytes(32).toString('hex')
+      const emailVerificationExpires = new Date()
+      emailVerificationExpires.setHours(emailVerificationExpires.getHours() + 24) // 24 hour expiration
+
+      // Update user with new token
+      await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          emailVerificationToken,
+          emailVerificationExpires
+        }
+      })
+
+      // Send new verification email (don't block the response if email fails)
+      emailService.sendEmailVerification(user.email, user.name, emailVerificationToken).catch(error => {
+        console.error('Failed to send verification email:', error)
+      })
+
       const response: AuthResponse = {
         success: false,
         error: {
-          code: 'USER_EXISTS',
-          message: 'Un compte avec cet email existe déjà'
+          code: 'USER_EXISTS_UNVERIFIED',
+          message: 'Un compte avec cet email existe déjà mais n\'est pas encore vérifié. Un nouvel email de vérification a été envoyé.'
         }
       }
       res.json(response)
