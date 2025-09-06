@@ -23,10 +23,15 @@ const ADMIN_EMAILS = [
   'r@r.rr',
 ]
 
-export const authenticate = (req: Request, res: Response, next: NextFunction) => {
+export const authenticate = (req: Request, res: Response, next: NextFunction, optional: boolean = false) => {
   const token = req.header('x-auth-token')
 
   if (!token) {
+    if (optional) {
+      // No token provided, continue without user info
+      next()
+      return
+    }
     res.status(401).json({ message: 'No token, authorization denied' })
     return
   }
@@ -36,6 +41,12 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
     req.user = decoded.user
     next()
   } catch (err) {
+    if (optional) {
+      // Token is invalid, but continue without user info (don't fail)
+      next()
+      return
+    }
+    
     if (err instanceof jwt.TokenExpiredError) {
       res.status(401).json({ 
         message: 'Token expired',
@@ -47,6 +58,11 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
     res.status(401).json({ message: 'Token is not valid' })
     return
   }
+}
+
+// Optional authentication - wrapper for backward compatibility
+export const optionalAuthenticate = (req: Request, res: Response, next: NextFunction) => {
+  authenticate(req, res, next, true)
 }
 
 // Admin middleware - checks if user email is in admin whitelist

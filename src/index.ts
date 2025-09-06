@@ -7,6 +7,7 @@ import authRoutes from './routes/authRoutes'
 import childRoutes from './routes/childRoutes'
 import journalEntryRoutes from './routes/journalEntryRoutes'
 import exportRoutes from './routes/exportRoutes'
+import contactRoutes from './routes/contactRoutes'
 
 const app = express()
 app.use(express.json())
@@ -24,6 +25,7 @@ app.use('/auth', authRoutes)
 app.use('/children', childRoutes)
 app.use('/journal-entries', journalEntryRoutes)
 app.use('/export', exportRoutes)
+app.use('/contact', contactRoutes)
 
 
 app.listen(4000, () => {

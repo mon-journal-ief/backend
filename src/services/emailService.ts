@@ -313,6 +313,48 @@ class EmailService {
       html,
     })
   }
+
+  async sendContactFormEmail({ fromEmail, fromName, subject, message }: {
+    fromEmail: string
+    fromName: string
+    subject: string
+    message: string
+  }) {
+    const supportEmail = 'guillaume@mon-journal-ief.com'
+    
+    const html = `
+      ${this.getEmailHeader('Nouveau message de contact')}
+        <div class="container">
+          <div class="header">
+            <div class="logo">Mon Journal IEF</div>
+            <div class="title">Nouveau message de contact</div>
+            <div class="subtitle">Un utilisateur vous a envoyé un message</div>
+          </div>
+          
+          <div style="background-color: ${palette.slate[50]}; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid ${palette.primary[400]};">
+            <h3 style="margin: 0 0 10px 0; color: ${palette.gray[800]};">Détails du contact</h3>
+            <p style="margin: 5px 0;"><strong>De :</strong> ${fromName} (${fromEmail})</p>
+            <p style="margin: 5px 0;"><strong>Sujet :</strong> ${subject}</p>
+          </div>
+          
+          <div style="background-color: white; padding: 20px; border-radius: 8px; margin: 20px 0; border: 1px solid ${palette.slate[200]};">
+            <h3 style="margin: 0 0 15px 0; color: ${palette.gray[800]};">Message</h3>
+            <div style="white-space: pre-wrap; line-height: 1.6; color: ${palette.gray[700]};">${message}</div>
+          </div>
+          
+          <p style="color: ${palette.slate[600]}; font-size: 14px; margin-top: 30px;">
+            Pour répondre à cet utilisateur, envoyez un email à : <a href="mailto:${fromEmail}" style="color: ${palette.primary[400]};">${fromEmail}</a>
+          </p>
+        </div>
+    `
+
+    return this.sendEmail({
+      to: supportEmail,
+      subject: `[Contact] ${subject}`,
+      html,
+      from: `Mon Journal IEF <noreply@mon-journal-ief.com>`
+    })
+  }
 }
 
 export default new EmailService()
