@@ -7,8 +7,8 @@ export function addMorganMiddlewares(app: Express) {
     const isProduction = process.env.NODE_ENV === 'production'
 
     if (isProduction) {
-        // Ensure logs directory exists
-        const logsDir = path.join(__dirname, '../../logs')
+        // Use logs directory (should be created by Docker with proper permissions)
+        const logsDir = path.join(process.cwd(), 'logs')
         if (!fs.existsSync(logsDir)) {
             fs.mkdirSync(logsDir, { recursive: true })
         }

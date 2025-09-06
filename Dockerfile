@@ -25,15 +25,15 @@ RUN pnpm build
 # Copy the built files to the expected location
 RUN cp -r dist/src/* dist/ && rm -rf dist/src
 
-# Create uploads directory with proper permissions
-RUN mkdir -p uploads && chmod 755 uploads
+# Create uploads and logs directories with proper permissions
+RUN mkdir -p uploads logs && chmod 755 uploads logs
 
 # Create non-root user for security
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S nodejs -u 1001
 
-# Change ownership of uploads directory to nodejs user
-RUN chown -R nodejs:nodejs uploads generated
+# Change ownership of uploads, logs, and generated directories to nodejs user
+RUN chown -R nodejs:nodejs uploads logs generated
 
 # Switch to non-root user
 USER nodejs
