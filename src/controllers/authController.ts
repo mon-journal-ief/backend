@@ -32,9 +32,9 @@ async function generateTokens(user: User): Promise<TokenResponse> {
   const accessToken = generateAccessToken(user)
   const refreshToken = generateRefreshToken()
   
-  // Store refresh token in database with 7 day expiration
+  // Store refresh token in database with 60 day expiration
   const refreshTokenExpiresAt = new Date()
-  refreshTokenExpiresAt.setDate(refreshTokenExpiresAt.getDate() + 7)
+  refreshTokenExpiresAt.setDate(refreshTokenExpiresAt.getDate() + 60)
   
   await prisma.user.update({
     where: { id: user.id },
@@ -51,7 +51,7 @@ function generateAccessToken(user: User): string {
   return jwt.sign({
     user: { id: user.id }
   }, process.env.JWT_SECRET || 'defaultsecret', {
-    expiresIn: '1h'
+    expiresIn: '10d'
   })
 }
 
