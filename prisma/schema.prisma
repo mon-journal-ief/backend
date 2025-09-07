@@ -115,7 +115,7 @@ model ProgramElement {
 
   journalEntries JournalEntry[] @relation("ValidatedElements")
 
-  parent   ProgramElement?  @relation("ProgramElementToChildren", fields: [parentId], references: [id])
+  parent   ProgramElement?  @relation("ProgramElementToChildren", fields: [parentId], references: [id], onDelete: Cascade)
   children ProgramElement[] @relation("ProgramElementToChildren")
   parentId String?
 
