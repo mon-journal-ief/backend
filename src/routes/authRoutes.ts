@@ -1,5 +1,5 @@
 import express from 'express'
-import { register, login, getCurrentUser, refreshToken, logout, requestPasswordReset, confirmPasswordReset, sendSubscriptionEmail, sendWelcomeEmail, verifyEmail, resendEmailVerification } from '../controllers/authController'
+import { register, login, getCurrentUser, refreshToken, logout, requestPasswordReset, confirmPasswordReset, verifyEmail, resendEmailVerification } from '../controllers/authController'
 import { authenticate } from '../middleware/auth'
 import { check } from 'express-validator'
 
