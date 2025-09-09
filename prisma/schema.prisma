@@ -16,12 +16,6 @@ model User {
   children      Child[]
   emailVerified Boolean @default(false)
 
-  // Subscription fields
-  plan               Plan               @default(STANDARD)
-  subscriptionStatus SubscriptionStatus @default(TRIAL)
-  trialEndsAt        DateTime?
-  subscriptionEndsAt DateTime?
-
   // Tokens
   emailVerificationToken   String?
   emailVerificationExpires DateTime?
@@ -55,18 +49,6 @@ enum Grade {
   Seconde
   Première
   Terminale
-}
-
-enum Plan {
-  STANDARD
-  SOLIDARITY
-}
-
-enum SubscriptionStatus {
-  TRIAL
-  ACTIVE
-  EXPIRED
-  CANCELLED
 }
 
 model ProgramTemplate {
