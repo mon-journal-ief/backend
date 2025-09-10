@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { handleMulterUpload, UploadService } from '../services/uploadService'
 import prisma from '../config/db'
+import { getImageUrl } from '../services/scalewayStorageService'
 
 export async function uploadProfileImage(req: Request, res: Response): Promise<void> {
   try {
@@ -10,14 +11,20 @@ export async function uploadProfileImage(req: Request, res: Response): Promise<v
     // Add image to child profile (assuming childId is passed in request body)
     const { childId } = req.body
     if (childId) {
+      // Verify the child belongs to the authenticated user
+      const child = await prisma.child.findFirst({
+        where: { id: childId, userId: req.user.id },
+        select: { id: true }
+      })
+
+      if (!child) {
+        res.status(404).json({ message: 'Child not found' })
+        return
+      }
+
       await prisma.child.update({
-        where: {
-          id: childId,
-          userId: req.body.userId
-        },
-        data: {
-          profileImage: uploadResult.url
-        }
+        where: { id: childId },
+        data: { profileImage: uploadResult.url }
       })
     }
     
@@ -54,17 +61,27 @@ export async function deleteProfileImage(req: Request, res: Response): Promise<v
     const { filename } = req.params
     
     try {
-      // Delete image using common service
-      const imageUrl = await UploadService.deleteImage(filename)
+      // Compute URL and check ownership first
+      const imageUrl = getImageUrl(filename)
       
-      // Remove image references from child profiles specifically
+      // Ensure at least one of the authenticated user's children uses this image
+      const affectedChildren = await prisma.child.findMany({
+        where: { profileImage: imageUrl, userId: req.user.id },
+        select: { id: true }
+      })
+
+      if (affectedChildren.length === 0) {
+        res.status(404).json({ message: 'Profile image not found' })
+        return
+      }
+
+      // Delete from storage after ownership verification
+      await UploadService.deleteImage(filename)
+
+      // Remove image references from the current user's child profiles
       await prisma.child.updateMany({
-        where: {
-          profileImage: imageUrl
-        },
-        data: {
-          profileImage: null
-        }
+        where: { profileImage: imageUrl, userId: req.user.id },
+        data: { profileImage: null }
       })
       
       res.json({ 

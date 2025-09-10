@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { handleMulterUpload, UploadService } from '../services/uploadService'
 import prisma from '../config/db'
+import { getImageUrl } from '../services/scalewayStorageService'
 
 export async function uploadJournalEntryImage(req: Request, res: Response): Promise<void> {
   try {
@@ -8,13 +9,27 @@ export async function uploadJournalEntryImage(req: Request, res: Response): Prom
     const uploadResult = await UploadService.uploadImage(file)
     
     // Add image to journal entry (assuming journalEntryId is passed in request body)
-    const { journalEntryId } = req.body
+    const { journalEntryId, childId } = req.body
     if (journalEntryId) {
+      // Verify the journal entry belongs to the authenticated user
+      const journalEntry = await prisma.journalEntry.findUnique({
+        where: { id: journalEntryId },
+        include: { child: { select: { id: true, userId: true } } }
+      })
+
+      if (!journalEntry || journalEntry.child.userId !== req.user.id) {
+        res.status(404).json({ message: 'Journal entry not found' })
+        return
+      }
+
+      // If a childId is provided, ensure it matches the journal entry's child
+      if (childId && journalEntry.child.id !== childId) {
+        res.status(400).json({ message: 'Invalid childId for provided journalEntryId' })
+        return
+      }
+
       await prisma.journalEntry.update({
-        where: {
-          id: journalEntryId,
-          childId: req.body.childId
-        },
+        where: { id: journalEntryId },
         data: {
           images: {
             push: uploadResult.url
@@ -56,21 +71,25 @@ export async function deleteJournalEntryImage(req: Request, res: Response): Prom
     const { filename } = req.params
     
     try {
-      // Delete image using common service
-      const imageUrl = await UploadService.deleteImage(filename)
-      
-      // Remove specific image reference from journal entries while preserving other images
+      // Compute image URL and verify ownership before deleting from storage
+      const imageUrl = getImageUrl(filename)
+
+      // Find only the current user's journal entries that reference this image
       const journalEntries = await prisma.journalEntry.findMany({
         where: {
-          images: {
-            has: imageUrl
-          }
+          images: { has: imageUrl },
+          child: { userId: req.user.id }
         },
-        select: {
-          id: true,
-          images: true
-        }
+        select: { id: true, images: true }
       })
+
+      if (journalEntries.length === 0) {
+        res.status(404).json({ message: 'Journal entry image not found' })
+        return
+      }
+
+      // Delete image using common service (after ownership verification)
+      await UploadService.deleteImage(filename)
 
       // Update each journal entry to remove only the specific image
       for (const entry of journalEntries) {
