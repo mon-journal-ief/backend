@@ -1,10 +1,16 @@
 import { Request, Response } from 'express'
 import prisma from '../config/db'
-import { copyProgramElementsFromTemplate } from '../utils/programUtils'
 
-// Get all programs
+// Get all programs for the user
 export async function getAllPrograms(req: Request, res: Response) {
     const programs = await prisma.program.findMany({
+        where: {
+            children: {
+                some: {
+                    userId: req.user.id
+                }
+            }
+        },
         include: {
             elements: true,
             children: true
@@ -20,9 +26,14 @@ export async function getAllPrograms(req: Request, res: Response) {
 // Get single program
 export async function getProgram(req: Request, res: Response) {
     const { id } = req.params
-    const program = await prisma.program.findUnique({
+    const program = await prisma.program.findFirst({
         where: {
-            id: id
+            id: id,
+            children: {
+                some: {
+                    userId: req.user.id
+                }
+            }
         },
         include: {
             elements: true,
@@ -45,6 +56,19 @@ export async function createProgram(req: Request, res: Response) {
     }
 
     try {
+        // Verify the child belongs to the authenticated user
+        const child = await prisma.child.findFirst({
+            where: {
+                id: childId,
+                userId: req.user.id
+            }
+        })
+
+        if (!child) {
+            res.status(404).json({ message: 'Child not found' })
+            return
+        }
+
         const program = await prisma.program.create({
             data: {
                 name,
@@ -67,9 +91,26 @@ export async function createProgram(req: Request, res: Response) {
 export async function updateProgram(req: Request, res: Response) {
     const { id } = req.params
     const { name, grades, description } = req.body
-    let program
+    
     try {
-        program = await prisma.program.update({
+        // First verify the program belongs to the user
+        const existingProgram = await prisma.program.findFirst({
+            where: {
+                id: id,
+                children: {
+                    some: {
+                        userId: req.user.id
+                    }
+                }
+            }
+        })
+
+        if (!existingProgram) {
+            res.status(404).json({ message: 'Program not found' })
+            return
+        }
+
+        const program = await prisma.program.update({
             where: {
                 id: id
             },
@@ -79,11 +120,12 @@ export async function updateProgram(req: Request, res: Response) {
             },
             data: { name, grades, description }
         })
+        
+        res.json(program)
     } catch (error) {
-        res.status(404).json({ message: 'Program not found' })
-        return
+        console.error('Error updating program:', error)
+        res.status(500).json({ message: 'Error updating program' })
     }
-    res.json(program)
 }
 
 // Delete program
@@ -91,8 +133,16 @@ export async function deleteProgram(req: Request, res: Response) {
     try {
         const { id } = req.params
         
-        const programExists = await prisma.program.findUnique({
-            where: { id }
+        // Verify the program belongs to the user
+        const programExists = await prisma.program.findFirst({
+            where: {
+                id: id,
+                children: {
+                    some: {
+                        userId: req.user.id
+                    }
+                }
+            }
         })
         
         if (!programExists) {
@@ -101,7 +151,10 @@ export async function deleteProgram(req: Request, res: Response) {
         }
         
         const children = await prisma.child.findMany({
-            where: { programId: id },
+            where: { 
+                programId: id,
+                userId: req.user.id
+            },
             select: { id: true }
         })
         
@@ -109,8 +162,12 @@ export async function deleteProgram(req: Request, res: Response) {
             where: { childId: { in: children.map(child => child.id) } }
         })
         
-        await prisma.child.deleteMany({
-            where: { programId: id }
+        await prisma.child.updateMany({
+            where: { 
+                programId: id,
+                userId: req.user.id
+            },
+            data: { programId: null }
         })
         
         await prisma.programElement.deleteMany({
@@ -123,6 +180,7 @@ export async function deleteProgram(req: Request, res: Response) {
         
         res.json(program)
     } catch (error) {
+        console.error('Error deleting program:', error)
         res.status(500).json({ message: 'Error deleting program', error })
     }
 }
