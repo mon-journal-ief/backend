@@ -1,137 +1,78 @@
-## Node Express Typescript Prisma Boilerplate
+# IEF Backend - Instruction en Famille API
 
-🦄 Starter template for your Express Prisma MySQL API
+🏠 Backend API for the IEF (Instruction en Famille) homeschooling journal application.
 
-## 🍔 Stack Specs
+## 📖 About
 
-- Node.js
-- Express
-- TypeScript
-- Prisma
-- MySQL
+This backend is a REST API, not deviating much from a basic CRUD.
 
-## 🧬 Development
+- Add and manage their children
+- Link children to pre-made educational programs (based on official French curriculum)
+- Customize programs as needed
+- Create daily journal entries linked to program elements
+- Add photos and descriptions to entries
+- Export journals to PDF or Word format for inspections
 
-- Clone the repository
+## 📊 Database Schema
 
-```
-git clone https://github.com/mcnaveen/node-express-prisma-boilerplate nepb
-```
-- Cd into the project directory
-```
-cd nepb
-```
+The application uses the following main entities:
 
-- Install dependencies
+- **User**: Parent accounts with authentication
+- **Child**: Children profiles with program assignments
+- **Program**: Educational programs (custom or from templates)
+- **ProgramTemplate**: Pre-made curriculum templates
+- **ProgramElement**: Individual learning objectives
+- **JournalEntry**: Daily activity logs with validated elements
 
-```
-yarn install
-```
 
-- Create a Database in MySQL (or) You can use GUI to create a database
+## 🛠️ Tech Stack
 
-```
-mysql> CREATE DATABASE express;
-```
+- **Runtime**: Node.js with TypeScript
+- **Framework**: Express.js
+- **Database**: PostgreSQL with Prisma ORM
+- **Authentication**: JWT with refresh tokens
+- **File Storage**: Scaleway Object Storage (S3-compatible)
+- **Document Generation**: DOCX library + external PDF service (pdf-scrapper)
+- **Email**: Resend
+- **Rate Limiting**: Express Rate Limit
+- **Logging**: Morgan
 
-- Copy the `.env.sample` file as `.env`
+## 🚀 Quick Start
 
-```
-cp .env.sample .env
-```
+### Prerequisites
 
-- Edit the MySQL Details in the `.env` file
+- Node.js 18+ and pnpm
+- PostgreSQL database
+- Scaleway Object Storage bucket (or S3-compatible storage)
+- Resend account for emails
 
-```
-DATABASE_URL="mysql://USERNAME:PASSWORD@localhost:3306/DBNAME?schema=public"
-```
+### Installation
 
-- Push the Prisma Schema into Database
-
-```
-npx prisma migrate dev
-```
-
-- Run the development server
-
-```
-yarn dev
+1. **Clone and install dependencies**
+```bash
+git clone
+pnpm install
 ```
 
-## 🚀 Production Build
-
-- Run the production build
-
-```
-yarn build
+2. **Environment Setup**
+```bash
+cp .env.example .env
 ```
 
-- Start the production server
-
-```
-yarn start
-```
-
-> Your production build is available on `dist` folder
-
-## 🧭 Endpoints
-
-- `POST` - For Creating New User
-- `GET` - For Getting All Users
-- `GET` - For Getting User By ID
-- `PATCH` - For Updating User By ID
-- `DELETE` - For Deleting User By ID
-
-## 🃏 Examples
-
-> 💡 Please install the Recommended VS Code Extensions and Check `api.rest` file for Examples
-
-- Creating a New User
-
-```
-POST http://localhost:4000/users
-Content-Type: application/json
-
-{
-  "name": "john",
-  "email": "john@gmail.com"
-}
+3. **Database Setup**
+```bash
+# Generate Prisma client
+pnpm prisma:generate
+# Run migrations
+pnpm prisma:migrate
+# Seed database with program templates
+pnpm prisma:seed
 ```
 
-- Getting All Users
-
-```
-GET http://localhost:4000/users
-```
-
-- Getting User By ID
-
-```
-GET http://localhost:4000/users/1
+4. **Start Development Server**
+```bash
+pnpm dev
 ```
 
-- Patching User By ID
+The API will be available at `http://localhost:4000`
 
-```
-PATCH http://localhost:4000/users/1
-Content-Type: application/json
-
-{
-  "name": "newjohn",
-  "email": "john@gmail.com"
-}
-```
-
-- Deleting User By ID
-
-```
-DELETE http://localhost:4000/users/1
-```
-
-## ☑️ LICENSE
-- MIT
-
----
-### 💰 HELP ME WITH DEVELOPMENT COST
-
-<a href="https://www.buymeacoffee.com/mcnaveen" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
