@@ -43,9 +43,12 @@ export async function copyProgramTemplate(req: Request, res: Response) {
             return
         }
 
-        // Verify child exists
-        const child = await prisma.child.findUnique({
-            where: { id: childId }
+        // Verify child exists AND belongs to the authenticated user
+        const child = await prisma.child.findFirst({
+            where: { 
+                id: childId,
+                userId: req.user.id
+            }
         })
 
         if (!child) {
