@@ -61,6 +61,8 @@ cp .env.example .env
 
 3. **Database Setup**
 ```bash
+# Start docker compose
+docker compose up -d
 # Generate Prisma client
 pnpm prisma:generate
 # Run migrations
