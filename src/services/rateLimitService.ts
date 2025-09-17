@@ -22,6 +22,11 @@ export class RateLimitService {
     max: 200,
   })
 
+  static journalEntrySuggestion = rateLimit({
+    ...defaultConfig,
+    max: 10,
+  })
+
   static profileImageUpload = rateLimit({
     ...defaultConfig,
     max: 15,

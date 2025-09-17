@@ -4,7 +4,8 @@ import {
   getJournalEntryById,
   createJournalEntry,
   updateJournalEntry,
-  deleteJournalEntry
+  deleteJournalEntry,
+  getSuggestion
 } from '../controllers/journalEntryController'
 import { uploadJournalEntryImage, deleteJournalEntryImage } from '../controllers/journalEntryImageController'
 import { authenticate } from '../middleware/auth'
@@ -46,5 +47,15 @@ router.post('/images', RateLimitService.journalEntryImageUpload, authenticate, u
 
 // Delete a journal entry image
 router.delete('/images/:filename', RateLimitService.journalEntryImageDelete, authenticate, deleteJournalEntryImage)
+
+// Get AI suggestions for journal entry
+router.post(
+  '/suggestion',
+  RateLimitService.journalEntrySuggestion,
+  check('childId', 'childId is required').not().isEmpty(),
+  check('comment', 'comment is required').not().isEmpty(),
+  authenticate,
+  getSuggestion
+)
 
 export default router 
