@@ -9,6 +9,7 @@ import childRoutes from './routes/childRoutes'
 import journalEntryRoutes from './routes/journalEntryRoutes'
 import exportRoutes from './routes/exportRoutes'
 import contactRoutes from './routes/contactRoutes'
+import userRoutes from './routes/userRoutes'
 
 const app = express()
 
@@ -30,6 +31,7 @@ app.use('/children', childRoutes)
 app.use('/journal-entries', journalEntryRoutes)
 app.use('/export', exportRoutes)
 app.use('/contact', contactRoutes)
+app.use('/user', userRoutes)
 
 
 app.listen(4000, () => {

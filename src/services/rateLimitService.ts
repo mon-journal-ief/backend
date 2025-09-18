@@ -55,5 +55,10 @@ export class RateLimitService {
       code: 'RATE_LIMIT_EXCEEDED'
     },
   })
+
+  static userPreferences = rateLimit({
+    ...defaultConfig,
+    max: 50,
+  })
 }
 
