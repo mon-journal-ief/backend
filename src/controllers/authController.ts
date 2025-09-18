@@ -315,6 +315,8 @@ export async function getCurrentUser(req: Request, res: Response): Promise<void>
         id: true, 
         name: true, 
         email: true,
+        aiSuggestionsEnabled: true,
+        aiOnboardingShown: true,
         children: {
           include: {
             program: true,
