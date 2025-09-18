@@ -16,6 +16,9 @@ model User {
   children      Child[]
   emailVerified Boolean @default(false)
 
+  // AI Usage tracking
+  aiSuggestionUsageCount Int @default(0)
+
   // Tokens
   emailVerificationToken   String?
   emailVerificationExpires DateTime?

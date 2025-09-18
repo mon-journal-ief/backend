@@ -215,6 +215,16 @@ export async function getSuggestion(req: Request, res: Response) {
         programId: child.program.id // Ensure elements belong to the child's program
       }
     })
+
+    // Increment the AI suggestion usage count for the user
+    await prisma.user.update({
+      where: { id: req.user.id },
+      data: {
+        aiSuggestionUsageCount: {
+          increment: 1
+        }
+      }
+    })
     
     res.json(suggestions)
   } catch (err) {
