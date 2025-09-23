@@ -1,44 +1,20 @@
 {
   "name": "ief-backend",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@prisma/client",
-      "@prisma/engines",
-      "bcrypt",
-      "esbuild",
-      "prisma",
-      "sharp"
-    ]
-  },
+  "main": "index.js",
   "scripts": {
     "start": "node ./dist/index.js",
     "dev": "nodemon --exec 'ts-node --transpile-only' ./src/index.ts",
     "typecheck": "tsc --noEmit",
     "build": "tsc -p .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "prisma:seed": "ts-node prisma/seed.ts",
     "scripts:reset-program-templates": "ts-node src/scripts/resetProgramTemplates.ts",
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio"
-  },
-  "prisma": {
-    "seed": "ts-node prisma/seed.ts"
-  },
-  "devDependencies": {
-    "@types/bcrypt": "^5.0.2",
-    "@types/express": "^5.0.1",
-    "@types/jsonwebtoken": "^9.0.9",
-    "@types/mime-types": "^3.0.1",
-    "@types/morgan": "^1.9.10",
-    "@types/multer": "^2.0.0",
-    "@types/node": "^22.15.3",
-    "nodemon": "^3.1.9",
-    "prisma": "^6.10.1",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.879.0",
@@ -58,5 +34,34 @@
     "resend": "^6.0.1",
     "sanitize-filename": "^1.6.3",
     "sharp": "^0.34.3"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^5.4.1",
+    "@eslint/eslintrc": "^3.3.1",
+    "@types/bcrypt": "^5.0.2",
+    "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/mime-types": "^3.0.1",
+    "@types/morgan": "^1.9.10",
+    "@types/multer": "^2.0.0",
+    "@types/node": "^22.15.3",
+    "eslint": "^9.36.0",
+    "nodemon": "^3.1.9",
+    "prisma": "^6.10.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
+      "bcrypt",
+      "esbuild",
+      "prisma",
+      "sharp"
+    ]
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }

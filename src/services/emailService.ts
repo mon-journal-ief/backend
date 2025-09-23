@@ -154,8 +154,10 @@ class EmailService {
       }
 
       console.log('Email sent successfully:', data)
+
       return data
-    } catch (error) {
+    }
+    catch (error) {
       console.error('Email service error:', error)
       throw error
     }
@@ -163,7 +165,7 @@ class EmailService {
 
   async sendPasswordResetEmail(to: string, name: string, resetToken: string) {
     const resetUrl = `${dashboardUrl}reinitialisation?token=${resetToken}`
-    
+
     const html = `
       ${this.getEmailHeader('Réinitialisation de votre mot de passe')}
           <div class="header">
@@ -199,7 +201,7 @@ class EmailService {
 
   async sendEmailVerification(to: string, name: string, verificationToken: string) {
     const verificationUrl = `${dashboardUrl}verification?token=${verificationToken}`
-    
+
     const html = `
       ${this.getEmailHeader('Vérifiez votre adresse email')}
           <div class="header">
@@ -242,7 +244,7 @@ class EmailService {
     message: string
   }) {
     const supportEmail = 'guillaume@mon-journal-ief.com'
-    
+
     const html = `
       ${this.getEmailHeader('Nouveau message de contact')}
         <div class="container">
@@ -273,7 +275,7 @@ class EmailService {
       to: supportEmail,
       subject: `[Contact] ${subject}`,
       html,
-      from: `Mon Journal IEF <noreply@mon-journal-ief.com>`
+      from: `Mon Journal IEF <noreply@mon-journal-ief.com>`,
     })
   }
 }

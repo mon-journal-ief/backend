@@ -1,5 +1,5 @@
-import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3'
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+import { Buffer } from 'node:buffer'
+import { DeleteObjectCommand, GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 
 // Scaleway Object Storage configuration
 const SCALEWAY_ENDPOINT = process.env.SCW_OBJECT_STORAGE_ENDPOINT
@@ -15,7 +15,8 @@ let s3Client: S3Client | null = null
 
 if (!ACCESS_KEY_ID || !SECRET_ACCESS_KEY) {
   console.warn('⚠️ Scaleway credentials not found. Image uploads will fail.')
-} else {
+}
+else {
   s3Client = new S3Client({
     endpoint: SCALEWAY_ENDPOINT,
     region: SCALEWAY_REGION,
@@ -36,7 +37,7 @@ export interface UploadResult {
 export async function uploadToScaleway(
   buffer: Buffer,
   filename: string,
-  contentType: string
+  contentType: string,
 ): Promise<UploadResult> {
   if (!s3Client) throw new Error('Scaleway S3 client not initialized. Check your credentials.')
 
@@ -59,7 +60,8 @@ export async function uploadToScaleway(
       url: publicUrl,
       size: buffer.length,
     }
-  } catch (error) {
+  }
+  catch (error) {
     console.error('❌ Error uploading to Scaleway:', error)
     throw new Error(`Failed to upload image to Scaleway: ${error instanceof Error ? error.message : 'Unknown error'}`)
   }
@@ -75,7 +77,8 @@ export async function deleteFromScaleway(filename: string): Promise<void> {
     })
 
     await s3Client.send(command)
-  } catch (error) {
+  }
+  catch (error) {
     console.error('❌ Error deleting from Scaleway:', error)
     throw new Error(`Failed to delete image from Scaleway: ${error instanceof Error ? error.message : 'Unknown error'}`)
   }
@@ -91,7 +94,7 @@ export async function downloadFromScaleway(filename: string): Promise<Buffer> {
     })
 
     const response = await s3Client.send(command)
-    
+
     if (!response.Body) {
       throw new Error('No file content received')
     }
@@ -99,7 +102,7 @@ export async function downloadFromScaleway(filename: string): Promise<Buffer> {
     // Convert the stream to buffer
     const chunks: Uint8Array[] = []
     const reader = response.Body.transformToWebStream().getReader()
-    
+
     while (true) {
       const { done, value } = await reader.read()
       if (done) break
@@ -107,7 +110,8 @@ export async function downloadFromScaleway(filename: string): Promise<Buffer> {
     }
 
     return Buffer.concat(chunks)
-  } catch (error) {
+  }
+  catch (error) {
     console.error('❌ Error downloading from Scaleway:', error)
     throw new Error(`Failed to download image from Scaleway: ${error instanceof Error ? error.message : 'Unknown error'}`)
   }

@@ -1,7 +1,7 @@
-import { PrismaClient, Gender, Grade } from '../generated/prisma/client'
+import bcrypt from 'bcrypt'
+import { Gender, PrismaClient } from '../generated/prisma/client'
 import { resetProgramTemplates } from '../src/scripts/resetProgramTemplates'
 import { copyProgramElementsFromTemplate } from '../src/utils/programUtils'
-import bcrypt from 'bcrypt'
 
 const prisma = new PrismaClient()
 
@@ -22,6 +22,7 @@ async function main() {
 
   if (!firstTemplate) {
     console.log('❌ Aucun template trouvé')
+
     return
   }
 
@@ -32,8 +33,8 @@ async function main() {
       grades: firstTemplate.grades,
       cycle: firstTemplate.cycle,
       templateId: firstTemplate.id,
-      description: firstTemplate.description
-    }
+      description: firstTemplate.description,
+    },
   })
 
   // Copy all program elements from template to program
@@ -42,89 +43,89 @@ async function main() {
   console.log(`✅ Programme créé avec ${await prisma.programElement.count({ where: { programId: testProgram.id } })} éléments copiés`)
 
   // Create user
-  const hashedPassword = await bcrypt.hash("rrrrrr", 10)
+  const hashedPassword = await bcrypt.hash('rrrrrr', 10)
   const user = await prisma.user.create({
     data: {
       id: 'b7738591-4c9c-46ba-a7f3-7b81ed81c572',
       name: `Ding dong`,
       email: `r@r.rr`,
       emailVerified: true,
-      password: hashedPassword
-    }
+      password: hashedPassword,
+    },
   })
 
   // Create children
   const child1 = await prisma.child.create({
     data: {
-      name: "Emma",
-      lastName: "Dupont",
+      name: 'Emma',
+      lastName: 'Dupont',
       birthdate: new Date('2018-03-15'), // 6 years old approximately
       gender: Gender.FEMALE,
       programId: null,
-      userId: user.id
-    }
+      userId: user.id,
+    },
   })
 
   const child2 = await prisma.child.create({
     data: {
-      name: "Thomas",
-      lastName: "Martin",
+      name: 'Thomas',
+      lastName: 'Martin',
       birthdate: new Date('2017-08-22'), // 7 years old approximately
       gender: Gender.MALE,
       programId: testProgram.id,
-      userId: user.id
-    }
+      userId: user.id,
+    },
   })
 
   // Get some program elements for journal entries (now from the program, not template)
   const programElements = await prisma.programElement.findMany({
     where: { programId: testProgram.id },
-    take: 2
+    take: 2,
   })
 
   // Create journal entries
   if (programElements.length > 0) {
     await prisma.journalEntry.create({
       data: {
-        date: new Date("2023-10-15"),
-        comment: "Emma a fait de grands progrès en lecture aujourd'hui. Elle a réussi à déchiffrer un texte court sans aide.",
+        date: new Date('2023-10-15'),
+        comment: 'Emma a fait de grands progrès en lecture aujourd\'hui. Elle a réussi à déchiffrer un texte court sans aide.',
         images: [],
         childId: child1.id,
         validatedElements: {
-          connect: [{ id: programElements[0].id }]
-        }
-      }
+          connect: [{ id: programElements[0].id }],
+        },
+      },
     })
 
     await prisma.journalEntry.create({
       data: {
-        date: new Date("2023-10-25"),
-        comment: "Emma a travaillé sur les additions jusqu'à 20 aujourd'hui. Elle a compris le principe du report.",
+        date: new Date('2023-10-25'),
+        comment: 'Emma a travaillé sur les additions jusqu\'à 20 aujourd\'hui. Elle a compris le principe du report.',
         images: [],
         childId: child1.id,
         validatedElements: {
-          connect: [{ id: programElements[1].id }]
-        }
-      }
+          connect: [{ id: programElements[1].id }],
+        },
+      },
     })
   }
 
   // Create a journal entry with program elements
   const programElement = await prisma.programElement.findFirst({
-    where: { programId: testProgram.id }
+    where: { programId: testProgram.id },
   })
 
   if (programElement) {
     await prisma.journalEntry.create({
       data: {
-        date: new Date("2023-10-20"),
-        comment: "Thomas a bien travaillé sur les arts plastiques aujourd'hui. Il a créé une belle représentation de son environnement.",
+        date: new Date('2023-10-20'),
+        comment: 'Thomas a bien travaillé sur les arts plastiques aujourd\'hui. Il a créé une belle représentation de son environnement.',
         images: [],
         childId: child2.id,
         validatedElements: {
-          connect: [{ id: programElement.id }]
-        }
-      }
+          connect: [{ id: programElement.id }],
+        },
+      },
     })
   }
 
@@ -138,4 +139,4 @@ main()
   })
   .finally(async () => {
     await prisma.$disconnect()
-  }) 
+  })

@@ -6,8 +6,8 @@ import prisma from '../config/db'
  * @param programId - The ID of the program to copy to
  */
 export async function copyProgramElementsFromTemplate(
-  templateId: string, 
-  programId: string
+  templateId: string,
+  programId: string,
 ): Promise<void> {
   await copyProgramElementsRecursive(templateId, programId)
 }
@@ -15,21 +15,21 @@ export async function copyProgramElementsFromTemplate(
 /**
  * Internal recursive function to copy program elements from template to program
  * @param templateId - The template ID to copy from
- * @param programId - The program ID to copy to  
+ * @param programId - The program ID to copy to
  * @param templateParentId - The parent template element ID (null for root level)
  * @param programParentId - The parent program element ID (null for root level)
  */
 async function copyProgramElementsRecursive(
-  templateId: string, 
-  programId: string, 
+  templateId: string,
+  programId: string,
   templateParentId: string | null = null,
-  programParentId: string | null = null
+  programParentId: string | null = null,
 ): Promise<void> {
   // Get all template elements at this level (children of templateParentId)
   const templateElements = await prisma.programElement.findMany({
     where: {
       programTemplateId: templateId,
-      parentId: templateParentId
+      parentId: templateParentId,
     },
   })
 
@@ -40,17 +40,17 @@ async function copyProgramElementsRecursive(
         name: templateElement.name,
         description: templateElement.description,
         exercices: templateElement.exercices,
-        programId: programId,
-        parentId: programParentId
-      }
+        programId,
+        parentId: programParentId,
+      },
     })
 
     // Recursively copy children, passing both template and program IDs
     await copyProgramElementsRecursive(
-      templateId, 
-      programId, 
+      templateId,
+      programId,
       templateElement.id, // The template element becomes the parent for template lookup
-      programElement.id   // The created program element becomes the parent for program creation
+      programElement.id, // The created program element becomes the parent for program creation
     )
   }
-} 
+}

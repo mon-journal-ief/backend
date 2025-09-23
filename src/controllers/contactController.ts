@@ -1,7 +1,7 @@
-import { Request, Response } from 'express'
+import type { Request, Response } from 'express'
 import { validationResult } from 'express-validator'
-import emailService from '../services/emailService'
 import prisma from '../config/db'
+import emailService from '../services/emailService'
 
 interface ContactFormData {
   subject: string
@@ -14,11 +14,12 @@ export async function sendContactMessage(req: Request, res: Response): Promise<v
 
   if (!errors.isEmpty()) {
     res.status(400).json({ errors: errors.array() })
+
     return
   }
 
   const { subject, message, email }: ContactFormData = req.body
-  
+
   try {
     let userEmail = 'utilisateur-anonyme@example.com'
     let userName = 'Utilisateur anonyme'
@@ -29,17 +30,18 @@ export async function sendContactMessage(req: Request, res: Response): Promise<v
     if (userId) {
       const user = await prisma.user.findUnique({
         where: { id: userId },
-        select: { 
-          name: true, 
-          email: true 
-        }
+        select: {
+          name: true,
+          email: true,
+        },
       })
 
       if (user) {
         userEmail = user.email
         userName = user.name
       }
-    } else if (email) {
+    }
+    else if (email) {
       userEmail = email
       userName = 'Visiteur de la landing page'
     }
@@ -49,18 +51,19 @@ export async function sendContactMessage(req: Request, res: Response): Promise<v
       fromEmail: userEmail,
       fromName: userName,
       subject,
-      message
+      message,
     })
 
-    res.json({ 
+    res.json({
       message: 'Votre message a été envoyé avec succès. Nous vous recontacterons prochainement.',
-      success: true 
+      success: true,
     })
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Error sending contact message:', error)
-    res.status(500).json({ 
+    res.status(500).json({
       message: 'Une erreur est survenue lors de l\'envoi de votre message. Veuillez réessayer.',
-      success: false 
+      success: false,
     })
   }
 }

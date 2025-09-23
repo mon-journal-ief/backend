@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { body } from 'express-validator'
-import { authenticate } from '../middleware/auth'
 import { updateUserPreferences } from '../controllers/userController'
+import { authenticate } from '../middleware/auth'
 import { RateLimitService } from '../services/rateLimitService'
 
 const router = Router()
@@ -25,7 +25,7 @@ router.patch(
       .withMessage('aiOnboardingShown must be a boolean'),
   ],
   authenticate,
-  updateUserPreferences
+  updateUserPreferences,
 )
 
 export default router

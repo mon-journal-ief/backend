@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer'
 import prisma from '../config/db'
 
 export async function renderJournalToPDF(
@@ -6,12 +7,12 @@ export async function renderJournalToPDF(
 ): Promise<Buffer> {
   try {
     console.log('📔 Fetching journal data for PDF generation...')
-    
+
     const child = await prisma.child.findFirst({
       where: {
         id: childId,
-        userId: userId
-      }
+        userId,
+      },
     })
 
     if (!child) {
@@ -20,15 +21,15 @@ export async function renderJournalToPDF(
 
     const journalEntries = await prisma.journalEntry.findMany({
       where: { childId },
-      include: { 
+      include: {
         validatedElements: {
           include: {
             program: true,
-            template: true
-          }
-        }
+            template: true,
+          },
+        },
       },
-      orderBy: { date: 'desc' }
+      orderBy: { date: 'desc' },
     })
 
     console.log(`📔 Fetched data: child ${child.name}, ${journalEntries.length} entries`)
@@ -49,8 +50,8 @@ export async function renderJournalToPDF(
       body: JSON.stringify({
         child,
         journalEntries,
-        frontendUrl
-      })
+        frontendUrl,
+      }),
     })
 
     if (!response.ok) {
@@ -59,12 +60,12 @@ export async function renderJournalToPDF(
     }
 
     const pdfBuffer = Buffer.from(await response.arrayBuffer())
-    
+
     console.log(`📔 PDF generated successfully via external service, size: ${pdfBuffer.length} bytes`)
-    
+
     return pdfBuffer
-    
-  } catch (error) {
+  }
+  catch (error) {
     console.error('❌📔 Error rendering journal to PDF:', error)
     throw new Error(`❌📔 Journal PDF generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`)
   }

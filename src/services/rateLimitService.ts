@@ -5,7 +5,7 @@ const defaultConfig = {
   windowMs: isDev ? 1 : 15 * 60 * 1000, // 15 minutes
   message: {
     message: 'Too many attempts, please try again later',
-    code: 'RATE_LIMIT_EXCEEDED'
+    code: 'RATE_LIMIT_EXCEEDED',
   },
   standardHeaders: true,
   legacyHeaders: false,
@@ -52,7 +52,7 @@ export class RateLimitService {
     max: 3,
     message: {
       message: 'Trop de messages envoyés. Veuillez réessayer dans 15 minutes.',
-      code: 'RATE_LIMIT_EXCEEDED'
+      code: 'RATE_LIMIT_EXCEEDED',
     },
   })
 
@@ -61,4 +61,3 @@ export class RateLimitService {
     max: 50,
   })
 }
-

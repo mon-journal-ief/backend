@@ -1,8 +1,8 @@
 import express from 'express'
-import { getChildren, getChildById, createChild, updateChild, deleteChild } from '../controllers/childController'
-import { uploadProfileImage, deleteProfileImage } from '../controllers/childImageController'
-import { authenticate } from '../middleware/auth'
 import { check } from 'express-validator'
+import { createChild, deleteChild, getChildById, getChildren, updateChild } from '../controllers/childController'
+import { deleteProfileImage, uploadProfileImage } from '../controllers/childImageController'
+import { authenticate } from '../middleware/auth'
 import { RateLimitService } from '../services/rateLimitService'
 
 const router = express.Router()
@@ -18,7 +18,7 @@ router.post(
   '/',
   check('name', 'Nom obligatoire').not().isEmpty(),
   authenticate,
-  createChild
+  createChild,
 )
 
 // Update a child
@@ -26,7 +26,7 @@ router.put(
   '/:id',
   check('name', 'Nom obligatoire').optional().not().isEmpty(),
   authenticate,
-  updateChild
+  updateChild,
 )
 
 // Delete a child
@@ -38,4 +38,4 @@ router.post('/profile-images', RateLimitService.profileImageUpload, authenticate
 // Delete a profile image
 router.delete('/profile-images/:filename', RateLimitService.profileImageDelete, authenticate, deleteProfileImage)
 
-export default router 
+export default router

@@ -1,10 +1,10 @@
-import { Request, Response } from 'express'
-import prisma from '../config/db'
+import type { Request, Response } from 'express'
+import type { User } from '../../generated/prisma/client'
+import crypto from 'node:crypto'
 import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
 import { validationResult } from 'express-validator'
-import { User } from '../../generated/prisma/client'
-import crypto from 'crypto'
+import jwt from 'jsonwebtoken'
+import prisma from '../config/db'
 import emailService from '../services/emailService'
 
 interface TokenResponse {
@@ -31,27 +31,27 @@ function generateRefreshToken(): string {
 async function generateTokens(user: User): Promise<TokenResponse> {
   const accessToken = generateAccessToken(user)
   const refreshToken = generateRefreshToken()
-  
+
   // Store refresh token in database with 60 day expiration
   const refreshTokenExpiresAt = new Date()
   refreshTokenExpiresAt.setDate(refreshTokenExpiresAt.getDate() + 60)
-  
+
   await prisma.user.update({
     where: { id: user.id },
     data: {
       refreshToken,
-      refreshTokenExpiresAt
-    }
+      refreshTokenExpiresAt,
+    },
   })
-  
+
   return { accessToken, refreshToken }
 }
 
 function generateAccessToken(user: User): string {
   return jwt.sign({
-    user: { id: user.id }
+    user: { id: user.id },
   }, process.env.JWT_SECRET || 'defaultsecret', {
-    expiresIn: '10d'
+    expiresIn: '10d',
   })
 }
 
@@ -64,10 +64,11 @@ export async function register(req: Request, res: Response): Promise<void> {
       success: false,
       error: {
         code: 'VALIDATION_ERROR',
-        message: errors.array().map((error) => error.msg).join(', ')
-      }
+        message: errors.array().map(error => error.msg).join(', '),
+      },
     }
     res.json(response)
+
     return
   }
 
@@ -84,13 +85,14 @@ export async function register(req: Request, res: Response): Promise<void> {
           success: false,
           error: {
             code: 'USER_EXISTS',
-            message: 'Un compte avec cet email existe déjà. Si vous avez oublié votre mot de passe, vous pouvez le réinitialiser dans l\'onglet "Se connecter".'
-          }
+            message: 'Un compte avec cet email existe déjà. Si vous avez oublié votre mot de passe, vous pouvez le réinitialiser dans l\'onglet "Se connecter".',
+          },
         }
         res.json(response)
+
         return
       }
-      
+
       // Case 2: Account exists but is not verified - resend verification email
       // Generate new verification token
       const emailVerificationToken = crypto.randomBytes(32).toString('hex')
@@ -102,12 +104,12 @@ export async function register(req: Request, res: Response): Promise<void> {
         where: { id: user.id },
         data: {
           emailVerificationToken,
-          emailVerificationExpires
-        }
+          emailVerificationExpires,
+        },
       })
 
       // Send new verification email (don't block the response if email fails)
-      emailService.sendEmailVerification(user.email, user.name, emailVerificationToken).catch(error => {
+      emailService.sendEmailVerification(user.email, user.name, emailVerificationToken).catch((error) => {
         console.error('Failed to send verification email:', error)
       })
 
@@ -115,10 +117,11 @@ export async function register(req: Request, res: Response): Promise<void> {
         success: false,
         error: {
           code: 'USER_EXISTS_UNVERIFIED',
-          message: 'Un compte avec cet email existe déjà mais n\'est pas encore vérifié. Un nouvel email de vérification a été envoyé.'
-        }
+          message: 'Un compte avec cet email existe déjà mais n\'est pas encore vérifié. Un nouvel email de vérification a été envoyé.',
+        },
       }
       res.json(response)
+
       return
     }
 
@@ -138,32 +141,33 @@ export async function register(req: Request, res: Response): Promise<void> {
         password: hashedPassword,
         name,
         emailVerificationToken,
-        emailVerificationExpires
-      }
+        emailVerificationExpires,
+      },
     })
 
     // Send email verification (don't block the response if email fails)
-    emailService.sendEmailVerification(user.email, user.name, emailVerificationToken).catch(error => {
+    emailService.sendEmailVerification(user.email, user.name, emailVerificationToken).catch((error) => {
       console.error('Failed to send verification email:', error)
     })
-    
+
     const response: AuthResponse = {
       success: true,
       data: {
         message: 'Compte créé avec succès. Veuillez vérifier votre email pour activer votre compte.',
         userId: user.id,
-        email: user.email
-      }
+        email: user.email,
+      },
     }
     res.json(response)
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
     const response: AuthResponse = {
       success: false,
       error: {
         code: 'SERVER_ERROR',
-        message: 'Erreur serveur'
-      }
+        message: 'Erreur serveur',
+      },
     }
     res.json(response)
   }
@@ -177,10 +181,11 @@ export async function login(req: Request, res: Response): Promise<void> {
       success: false,
       error: {
         code: 'VALIDATION_ERROR',
-        message: errors.array().map((error) => error.msg).join(', ')
-      }
+        message: errors.array().map(error => error.msg).join(', '),
+      },
     }
     res.json(response)
+
     return
   }
 
@@ -189,7 +194,7 @@ export async function login(req: Request, res: Response): Promise<void> {
   try {
     // Check if user exists
     const user = await prisma.user.findUnique({
-      where: { email }
+      where: { email },
     })
 
     if (!user) {
@@ -197,10 +202,11 @@ export async function login(req: Request, res: Response): Promise<void> {
         success: false,
         error: {
           code: 'INVALID_CREDENTIALS',
-          message: 'Identifiants invalides'
-        }
+          message: 'Identifiants invalides',
+        },
       }
       res.json(response)
+
       return
     }
 
@@ -211,10 +217,11 @@ export async function login(req: Request, res: Response): Promise<void> {
         success: false,
         error: {
           code: 'INVALID_CREDENTIALS',
-          message: 'Identifiants invalides'
-        }
+          message: 'Identifiants invalides',
+        },
       }
       res.json(response)
+
       return
     }
 
@@ -227,10 +234,11 @@ export async function login(req: Request, res: Response): Promise<void> {
           message: 'Veuillez vérifier votre email avant de vous connecter.',
           requiresVerification: true,
           userId: user.id,
-          email: user.email
-        }
+          email: user.email,
+        },
       }
       res.json(response)
+
       return
     }
 
@@ -238,17 +246,18 @@ export async function login(req: Request, res: Response): Promise<void> {
     const tokens = await generateTokens(user)
     const response: AuthResponse<TokenResponse> = {
       success: true,
-      data: tokens
+      data: tokens,
     }
     res.json(response)
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
     const response: AuthResponse = {
       success: false,
       error: {
         code: 'SERVER_ERROR',
-        message: 'Erreur serveur'
-      }
+        message: 'Erreur serveur',
+      },
     }
     res.json(response)
   }
@@ -260,6 +269,7 @@ export async function refreshToken(req: Request, res: Response): Promise<void> {
 
   if (!refreshToken) {
     res.status(401).json({ message: 'Refresh token requis' })
+
     return
   }
 
@@ -269,20 +279,22 @@ export async function refreshToken(req: Request, res: Response): Promise<void> {
       where: {
         refreshToken,
         refreshTokenExpiresAt: {
-          gt: new Date() // Token must not be expired
-        }
-      }
+          gt: new Date(), // Token must not be expired
+        },
+      },
     })
 
     if (!user) {
       res.status(401).json({ message: 'Refresh token invalide ou expiré' })
+
       return
     }
 
     // Generate new tokens
     const tokens = await generateTokens(user)
     res.json(tokens)
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
     res.status(500).send('Server error')
   }
@@ -295,12 +307,13 @@ export async function logout(req: Request, res: Response): Promise<void> {
       where: { id: req.user.id },
       data: {
         refreshToken: null,
-        refreshTokenExpiresAt: null
-      }
+        refreshTokenExpiresAt: null,
+      },
     })
 
     res.json({ message: 'Déconnexion réussie' })
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
     res.status(500).send('Server error')
   }
@@ -311,9 +324,9 @@ export async function getCurrentUser(req: Request, res: Response): Promise<void>
   try {
     const user = await prisma.user.findUnique({
       where: { id: req.user.id },
-      select: { 
-        id: true, 
-        name: true, 
+      select: {
+        id: true,
+        name: true,
         email: true,
         aiSuggestionsEnabled: true,
         aiOnboardingShown: true,
@@ -324,12 +337,13 @@ export async function getCurrentUser(req: Request, res: Response): Promise<void>
           orderBy: {
             name: 'asc',
           },
-        }
+        },
       },
     })
 
     res.json(user)
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
     res.status(500).send('Server error')
   }
@@ -340,6 +354,7 @@ export async function requestPasswordReset(req: Request, res: Response): Promise
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     res.status(400).json({ errors: errors.array() })
+
     return
   }
 
@@ -352,6 +367,7 @@ export async function requestPasswordReset(req: Request, res: Response): Promise
     // Always return success to prevent email enumeration attacks
     if (!user) {
       res.json({ message: 'Si cette adresse email existe dans notre système, vous recevrez un lien de réinitialisation.' })
+
       return
     }
 
@@ -365,15 +381,16 @@ export async function requestPasswordReset(req: Request, res: Response): Promise
       where: { id: user.id },
       data: {
         resetToken,
-        resetTokenExpiresAt
-      }
+        resetTokenExpiresAt,
+      },
     })
 
     // Send password reset email
     await emailService.sendPasswordResetEmail(user.email, user.name, resetToken)
 
     res.json({ message: 'Si cette adresse email existe dans notre système, vous recevrez un lien de réinitialisation.' })
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
     res.status(500).send('Server error')
   }
@@ -384,6 +401,7 @@ export async function confirmPasswordReset(req: Request, res: Response): Promise
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     res.status(400).json({ errors: errors.array() })
+
     return
   }
 
@@ -395,13 +413,14 @@ export async function confirmPasswordReset(req: Request, res: Response): Promise
       where: {
         resetToken: token,
         resetTokenExpiresAt: {
-          gt: new Date() // Token must not be expired
-        }
-      }
+          gt: new Date(), // Token must not be expired
+        },
+      },
     })
 
     if (!user) {
       res.status(400).json({ message: 'Token de réinitialisation invalide ou expiré' })
+
       return
     }
 
@@ -415,18 +434,19 @@ export async function confirmPasswordReset(req: Request, res: Response): Promise
       data: {
         password: hashedPassword,
         resetToken: null,
-        resetTokenExpiresAt: null
-      }
+        resetTokenExpiresAt: null,
+      },
     })
 
     const response: AuthResponse = {
       success: true,
       data: {
-        message: 'Mot de passe réinitialisé avec succès'
-      }
+        message: 'Mot de passe réinitialisé avec succès',
+      },
     }
     res.json(response)
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
     res.status(500).send('Server error')
   }
@@ -437,6 +457,7 @@ export async function verifyEmail(req: Request, res: Response): Promise<void> {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     res.status(400).json({ errors: errors.array() })
+
     return
   }
 
@@ -448,9 +469,9 @@ export async function verifyEmail(req: Request, res: Response): Promise<void> {
       where: {
         emailVerificationToken: token,
         emailVerificationExpires: {
-          gt: new Date() // Token must not be expired
-        }
-      }
+          gt: new Date(), // Token must not be expired
+        },
+      },
     })
 
     if (!user) {
@@ -458,10 +479,11 @@ export async function verifyEmail(req: Request, res: Response): Promise<void> {
         success: false,
         error: {
           code: 'INVALID_TOKEN',
-          message: 'Token de vérification invalide ou expiré'
-        }
+          message: 'Token de vérification invalide ou expiré',
+        },
       }
       res.json(response)
+
       return
     }
 
@@ -471,8 +493,8 @@ export async function verifyEmail(req: Request, res: Response): Promise<void> {
       data: {
         emailVerified: true,
         emailVerificationToken: null,
-        emailVerificationExpires: null
-      }
+        emailVerificationExpires: null,
+      },
     })
 
     // Generate tokens for immediate login
@@ -481,18 +503,19 @@ export async function verifyEmail(req: Request, res: Response): Promise<void> {
       success: true,
       data: {
         message: 'Email vérifié avec succès ! Bienvenue sur Mon Journal IEF.',
-        ...tokens
-      }
+        ...tokens,
+      },
     }
     res.json(response)
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
     const response: AuthResponse = {
       success: false,
       error: {
         code: 'SERVER_ERROR',
-        message: 'Erreur serveur'
-      }
+        message: 'Erreur serveur',
+      },
     }
     res.json(response)
   }
@@ -506,10 +529,11 @@ export async function resendEmailVerification(req: Request, res: Response): Prom
       success: false,
       error: {
         code: 'VALIDATION_ERROR',
-        message: errors.array().map((error) => error.msg).join(', ')
-      }
+        message: errors.array().map(error => error.msg).join(', '),
+      },
     }
     res.json(response)
+
     return
   }
 
@@ -524,10 +548,11 @@ export async function resendEmailVerification(req: Request, res: Response): Prom
       const response: AuthResponse = {
         success: true,
         data: {
-          message: `Si cette adresse email existe et n'est pas encore vérifiée, un nouvel email de vérification sera envoyé.`
-        }
+          message: `Si cette adresse email existe et n'est pas encore vérifiée, un nouvel email de vérification sera envoyé.`,
+        },
       }
       res.json(response)
+
       return
     }
 
@@ -536,10 +561,11 @@ export async function resendEmailVerification(req: Request, res: Response): Prom
         success: false,
         error: {
           code: 'EMAIL_ALREADY_VERIFIED',
-          message: 'Cette adresse email est déjà vérifiée.'
-        }
+          message: 'Cette adresse email est déjà vérifiée.',
+        },
       }
       res.json(response)
+
       return
     }
 
@@ -553,8 +579,8 @@ export async function resendEmailVerification(req: Request, res: Response): Prom
       where: { id: user.id },
       data: {
         emailVerificationToken,
-        emailVerificationExpires
-      }
+        emailVerificationExpires,
+      },
     })
 
     // Send new verification email
@@ -563,18 +589,19 @@ export async function resendEmailVerification(req: Request, res: Response): Prom
     const response: AuthResponse = {
       success: true,
       data: {
-        message: `Si cette adresse email existe et n'est pas encore vérifiée, un nouvel email de vérification sera envoyé.`
-      }
+        message: `Si cette adresse email existe et n'est pas encore vérifiée, un nouvel email de vérification sera envoyé.`,
+      },
     }
     res.json(response)
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
     const response: AuthResponse = {
       success: false,
       error: {
         code: 'SERVER_ERROR',
-        message: 'Erreur serveur'
-      }
+        message: 'Erreur serveur',
+      },
     }
     res.json(response)
   }

@@ -1,13 +1,14 @@
-import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, Table, TableRow, TableCell, WidthType, BorderStyle, ImageRun } from 'docx'
+import { Buffer } from 'node:buffer'
+import { AlignmentType, BorderStyle, Document, HeadingLevel, ImageRun, Packer, Paragraph, Table, TableCell, TableRow, TextRun, WidthType } from 'docx'
 import sharp from 'sharp'
 import prisma from '../config/db'
-import { calculateAge } from './ageCalculator'
 import { downloadFromScaleway, isScalewayConfigured } from '../services/scalewayStorageService'
+import { calculateAge } from './ageCalculator'
 
 // Helper function to extract filename from image URL
 function extractFilenameFromUrl(imageUrl: string): string {
-  return imageUrl.includes('/images/') 
-    ? imageUrl.split('/images/')[1] 
+  return imageUrl.includes('/images/')
+    ? imageUrl.split('/images/')[1]
     : imageUrl.split('/').pop() || imageUrl
 }
 
@@ -20,13 +21,15 @@ async function readImageFile(imageUrl: string): Promise<Buffer | null> {
     }
 
     const filename = extractFilenameFromUrl(imageUrl)
-    
+
     // Download from Scaleway Object Storage
     const imageBuffer = await downloadFromScaleway(filename)
+
     return imageBuffer
-  } catch (error) {
+  }
+  catch (error) {
     console.warn(`⚠️ Could not download image from S3: ${extractFilenameFromUrl(imageUrl)}`, error)
-    
+
     // Fallback: try to fetch directly from the public URL
     return await fetchImageFromUrl(imageUrl)
   }
@@ -36,16 +39,19 @@ async function readImageFile(imageUrl: string): Promise<Buffer | null> {
 async function fetchImageFromUrl(imageUrl: string): Promise<Buffer | null> {
   try {
     const response = await fetch(imageUrl)
-    
+
     if (!response.ok) {
       return null
     }
-    
+
     const arrayBuffer = await response.arrayBuffer()
     const buffer = Buffer.from(arrayBuffer)
+
     return buffer
-  } catch (error) {
+  }
+  catch (error) {
     console.warn(`⚠️ Could not fetch image from URL: ${extractFilenameFromUrl(imageUrl)}`, error)
+
     return null
   }
 }
@@ -53,7 +59,7 @@ async function fetchImageFromUrl(imageUrl: string): Promise<Buffer | null> {
 // Helper function to create image runs for Word document
 async function createImageRuns(images: string[]): Promise<Paragraph[]> {
   const imageParagraphs: Paragraph[] = []
-  
+
   if (images.length === 0) {
     return imageParagraphs
   }
@@ -63,18 +69,18 @@ async function createImageRuns(images: string[]): Promise<Paragraph[]> {
     new Paragraph({
       children: [
         new TextRun({
-          text: "Images associées :",
-          bold: true
-        })
+          text: 'Images associées :',
+          bold: true,
+        }),
       ],
-      spacing: { before: 200, after: 100 }
-    })
+      spacing: { before: 200, after: 100 },
+    }),
   )
 
   // Process each image
   for (const imageUrl of images) {
     const imageBuffer = await readImageFile(imageUrl)
-    
+
     if (imageBuffer) {
       try {
         // Get image dimensions to calculate aspect ratio
@@ -82,11 +88,11 @@ async function createImageRuns(images: string[]): Promise<Paragraph[]> {
         const originalWidth = metadata.width || 400
         const originalHeight = metadata.height || 300
         const aspectRatio = originalWidth / originalHeight
-        
+
         // Calculate height to maintain aspect ratio with max width of 400
         const maxWidth = 400
         const calculatedHeight = Math.round(maxWidth / aspectRatio)
-        
+
         imageParagraphs.push(
           new Paragraph({
             children: [
@@ -97,33 +103,34 @@ async function createImageRuns(images: string[]): Promise<Paragraph[]> {
                   height: calculatedHeight,
                 },
                 type: 'jpg', // Default type, docx will handle conversion
-              })
+              }),
             ],
             alignment: AlignmentType.CENTER,
-            spacing: { before: 100, after: 100 }
-          })
+            spacing: { before: 100, after: 100 },
+          }),
         )
-        
+
         // Add image caption with just the filename
         const filename = extractFilenameFromUrl(imageUrl)
-        
+
         imageParagraphs.push(
           new Paragraph({
             children: [
               new TextRun({
                 text: filename,
                 size: 16,
-                color: "6B7280",
-                italics: true
-              })
+                color: '6B7280',
+                italics: true,
+              }),
             ],
             alignment: AlignmentType.CENTER,
-            spacing: { after: 200 }
-          })
+            spacing: { after: 200 },
+          }),
         )
-      } catch (error) {
+      }
+      catch (error) {
         const filename = extractFilenameFromUrl(imageUrl)
-        
+
         console.warn(`⚠️ Could not embed image: ${filename}`, error)
         // Add placeholder text for failed image
         imageParagraphs.push(
@@ -131,29 +138,30 @@ async function createImageRuns(images: string[]): Promise<Paragraph[]> {
             children: [
               new TextRun({
                 text: `📷 Image: ${filename} (non disponible)`,
-                color: "DC2626",
-                italics: true
-              })
+                color: 'DC2626',
+                italics: true,
+              }),
             ],
-            spacing: { after: 100 }
-          })
+            spacing: { after: 100 },
+          }),
         )
       }
-    } else {
+    }
+    else {
       const filename = extractFilenameFromUrl(imageUrl)
-      
+
       // Add placeholder text for missing image
       imageParagraphs.push(
         new Paragraph({
           children: [
             new TextRun({
               text: `📷 Image: ${filename} (fichier non trouvé)`,
-              color: "DC2626",
-              italics: true
-            })
+              color: 'DC2626',
+              italics: true,
+            }),
           ],
-          spacing: { after: 100 }
-        })
+          spacing: { after: 100 },
+        }),
       )
     }
   }
@@ -167,12 +175,12 @@ export async function renderJournalToDocx(
 ): Promise<Buffer> {
   try {
     console.log('📄 Fetching journal data for Word generation...')
-    
+
     const child = await prisma.child.findFirst({
       where: {
         id: childId,
-        userId: userId
-      }
+        userId,
+      },
     })
 
     if (!child) {
@@ -181,15 +189,15 @@ export async function renderJournalToDocx(
 
     const journalEntries = await prisma.journalEntry.findMany({
       where: { childId },
-      include: { 
+      include: {
         validatedElements: {
           include: {
             program: true,
-            template: true
-          }
-        }
+            template: true,
+          },
+        },
       },
-      orderBy: { date: 'desc' }
+      orderBy: { date: 'desc' },
     })
 
     console.log(`📄 Fetched data: child ${child.name}, ${journalEntries.length} entries`)
@@ -203,28 +211,28 @@ export async function renderJournalToDocx(
           new Paragraph({
             children: [
               new TextRun({
-                text: "Journal des apprentissages",
+                text: 'Journal des apprentissages',
                 bold: true,
                 size: 32,
-                color: "4F46E5"
-              })
+                color: '4F46E5',
+              }),
             ],
             alignment: AlignmentType.CENTER,
-            spacing: { after: 400 }
+            spacing: { after: 400 },
           }),
 
           // Child information section
           new Paragraph({
             children: [
               new TextRun({
-                text: "Informations de l'enfant",
+                text: 'Informations de l\'enfant',
                 bold: true,
                 size: 24,
-                color: "059669"
-              })
+                color: '059669',
+              }),
             ],
             heading: HeadingLevel.HEADING_2,
-            spacing: { before: 400, after: 200 }
+            spacing: { before: 400, after: 200 },
           }),
 
           // Child info table
@@ -245,64 +253,66 @@ export async function renderJournalToDocx(
               new TableRow({
                 children: [
                   new TableCell({
-                    children: [new Paragraph({ children: [new TextRun({ text: "Nom", bold: true })] })],
-                    width: { size: 30, type: WidthType.PERCENTAGE }
+                    children: [new Paragraph({ children: [new TextRun({ text: 'Nom', bold: true })] })],
+                    width: { size: 30, type: WidthType.PERCENTAGE },
                   }),
                   new TableCell({
                     children: [new Paragraph({ children: [new TextRun({ text: `${child.name}${child.lastName ? ` ${child.lastName}` : ''}` })] })],
-                    width: { size: 70, type: WidthType.PERCENTAGE }
-                  })
-                ]
-              }),
-              ...(calculateAge(child.birthdate) ? [new TableRow({
-                children: [
-                  new TableCell({
-                    children: [new Paragraph({ children: [new TextRun({ text: "Âge", bold: true })] })],
+                    width: { size: 70, type: WidthType.PERCENTAGE },
                   }),
-                  new TableCell({
-                    children: [new Paragraph({ children: [new TextRun({ text: `${calculateAge(child.birthdate)} ans` })] })],
-                  })
-                ]
-              })] : []),
+                ],
+              }),
+              ...(calculateAge(child.birthdate)
+                ? [new TableRow({
+                    children: [
+                      new TableCell({
+                        children: [new Paragraph({ children: [new TextRun({ text: 'Âge', bold: true })] })],
+                      }),
+                      new TableCell({
+                        children: [new Paragraph({ children: [new TextRun({ text: `${calculateAge(child.birthdate)} ans` })] })],
+                      }),
+                    ],
+                  })]
+                : []),
               new TableRow({
                 children: [
                   new TableCell({
-                    children: [new Paragraph({ children: [new TextRun({ text: "Date d'export", bold: true })] })],
+                    children: [new Paragraph({ children: [new TextRun({ text: 'Date d\'export', bold: true })] })],
                   }),
                   new TableCell({
                     children: [new Paragraph({ children: [new TextRun({ text: new Date().toLocaleDateString('fr-FR') })] })],
-                  })
-                ]
+                  }),
+                ],
               }),
               new TableRow({
                 children: [
                   new TableCell({
-                    children: [new Paragraph({ children: [new TextRun({ text: "Nombre d'entrées", bold: true })] })],
+                    children: [new Paragraph({ children: [new TextRun({ text: 'Nombre d\'entrées', bold: true })] })],
                   }),
                   new TableCell({
                     children: [new Paragraph({ children: [new TextRun({ text: journalEntries.length.toString() })] })],
-                  })
-                ]
-              })
-            ]
+                  }),
+                ],
+              }),
+            ],
           }),
 
           // Journal entries section
           new Paragraph({
             children: [
               new TextRun({
-                text: "Entrées du journal",
+                text: 'Entrées du journal',
                 bold: true,
                 size: 24,
-                color: "059669"
-              })
+                color: '059669',
+              }),
             ],
             heading: HeadingLevel.HEADING_2,
-            spacing: { before: 600, after: 200 }
+            spacing: { before: 600, after: 200 },
           }),
 
           // Journal entries - process sequentially to handle async images
-          ...(await Promise.all(journalEntries.map(async entry => {
+          ...(await Promise.all(journalEntries.map(async (entry) => {
             const entryParagraphs = [
               new Paragraph({
                 children: [
@@ -310,29 +320,29 @@ export async function renderJournalToDocx(
                     text: `Entrée du ${new Date(entry.date).toLocaleDateString('fr-FR')}`,
                     bold: true,
                     size: 20,
-                    color: "7C3AED"
-                  })
+                    color: '7C3AED',
+                  }),
                 ],
                 heading: HeadingLevel.HEADING_3,
-                spacing: { before: 400, after: 200 }
-              })
+                spacing: { before: 400, after: 200 },
+              }),
             ]
-            
+
             // Add comment if exists
             if (entry.comment) {
               entryParagraphs.push(
                 new Paragraph({
                   children: [
                     new TextRun({
-                      text: "Commentaire : ",
-                      bold: true
+                      text: 'Commentaire : ',
+                      bold: true,
                     }),
                     new TextRun({
-                      text: entry.comment
-                    })
+                      text: entry.comment,
+                    }),
                   ],
-                  spacing: { after: 200 }
-                })
+                  spacing: { after: 200 },
+                }),
               )
             }
 
@@ -342,32 +352,34 @@ export async function renderJournalToDocx(
                 new Paragraph({
                   children: [
                     new TextRun({
-                      text: "Éléments validés :",
-                      bold: true
-                    })
+                      text: 'Éléments validés :',
+                      bold: true,
+                    }),
                   ],
-                  spacing: { after: 100 }
-                })
+                  spacing: { after: 100 },
+                }),
               )
-              
-              entry.validatedElements.forEach(element => {
+
+              entry.validatedElements.forEach((element) => {
                 entryParagraphs.push(
                   new Paragraph({
                     children: [
                       new TextRun({
                         text: `• ${element.name || 'Élément sans titre'}`,
                       }),
-                      ...(element.program?.name ? [
-                        new TextRun({
-                          text: ` (${element.program.name})`,
-                          italics: true,
-                          color: "6B7280"
-                        })
-                      ] : [])
+                      ...(element.program?.name
+                        ? [
+                            new TextRun({
+                              text: ` (${element.program.name})`,
+                              italics: true,
+                              color: '6B7280',
+                            }),
+                          ]
+                        : []),
                     ],
                     spacing: { after: 50 },
-                    indent: { left: 400 }
-                  })
+                    indent: { left: 400 },
+                  }),
                 )
               })
             }
@@ -385,12 +397,12 @@ export async function renderJournalToDocx(
                   new TextRun({
                     text: `Créé le ${new Date(entry.createdAt).toLocaleString('fr-FR')}`,
                     size: 16,
-                    color: "6B7280",
-                    italics: true
-                  })
+                    color: '6B7280',
+                    italics: true,
+                  }),
                 ],
-                spacing: { after: 300 }
-              })
+                spacing: { after: 300 },
+              }),
             )
 
             // Add separator line
@@ -398,26 +410,26 @@ export async function renderJournalToDocx(
               new Paragraph({
                 children: [
                   new TextRun({
-                    text: "─".repeat(50),
-                    color: "E5E7EB"
-                  })
+                    text: '─'.repeat(50),
+                    color: 'E5E7EB',
+                  }),
                 ],
                 alignment: AlignmentType.CENTER,
-                spacing: { after: 300 }
-              })
+                spacing: { after: 300 },
+              }),
             )
 
             return entryParagraphs
-          }))).flat()
-        ]
-      }]
+          }))).flat(),
+        ],
+      }],
     })
 
     const buffer = await Packer.toBuffer(doc)
-    
+
     return buffer
-    
-  } catch (error) {
+  }
+  catch (error) {
     console.error('❌📄 Error rendering journal to Word:', error)
     throw new Error(`❌📄 Journal Word generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`)
   }

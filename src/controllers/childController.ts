@@ -1,20 +1,20 @@
-import { Request, Response } from 'express'
-import prisma from '../config/db'
+import type { Request, Response } from 'express'
 import { validationResult } from 'express-validator'
+import prisma from '../config/db'
 
 // Get all children for the authenticated user
 export async function getChildren(req: Request, res: Response): Promise<void> {
   try {
     const children = await prisma.child.findMany({
       where: {
-        userId: req.user.id
+        userId: req.user.id,
       },
       include: {
         program: {
           include: {
             elements: {
               where: {
-                parentId: null // Only get root elements
+                parentId: null, // Only get root elements
               },
               include: {
                 children: {
@@ -23,35 +23,36 @@ export async function getChildren(req: Request, res: Response): Promise<void> {
                       include: {
                         children: {
                           include: {
-                            children: true // Support up to 5 levels deep
-                          }
-                        }
-                      }
-                    }
-                  }
+                            children: true, // Support up to 5 levels deep
+                          },
+                        },
+                      },
+                    },
+                  },
                 },
                 journalEntries: {
                   orderBy: {
-                    date: 'desc'
-                  }
-                }
-              }
-            }
-          }
+                    date: 'desc',
+                  },
+                },
+              },
+            },
+          },
         },
         journalEntries: {
           orderBy: {
-            date: 'desc'
-          }
-        }
+            date: 'desc',
+          },
+        },
       },
       orderBy: {
-        name: 'asc'
-      }
+        name: 'asc',
+      },
     })
 
     res.json(children)
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
     res.status(500).send('Server error')
   }
@@ -65,14 +66,14 @@ export async function getChildById(req: Request, res: Response): Promise<void> {
     const child = await prisma.child.findFirst({
       where: {
         id,
-        userId: req.user.id
+        userId: req.user.id,
       },
       include: {
         program: {
           include: {
             elements: {
               where: {
-                parentId: null // Only get root elements
+                parentId: null, // Only get root elements
               },
               include: {
                 children: {
@@ -84,52 +85,54 @@ export async function getChildById(req: Request, res: Response): Promise<void> {
                             children: true, // Support up to 5 levels deep
                             journalEntries: {
                               orderBy: {
-                                date: 'desc'
-                              }
-                            }
-                          }
+                                date: 'desc',
+                              },
+                            },
+                          },
                         },
                         journalEntries: {
                           orderBy: {
-                            date: 'desc'
-                          }
-                        }
-                      }
+                            date: 'desc',
+                          },
+                        },
+                      },
                     },
                     journalEntries: {
                       orderBy: {
-                        date: 'desc'
-                      }
-                    }
-                  }
+                        date: 'desc',
+                      },
+                    },
+                  },
                 },
                 journalEntries: {
                   orderBy: {
-                    date: 'desc'
-                  }
-                }
-              }
-            }
-          }
+                    date: 'desc',
+                  },
+                },
+              },
+            },
+          },
         },
         journalEntries: {
           include: {
-            validatedElements: true
+            validatedElements: true,
           },
           orderBy: {
-            date: 'desc'
-          }
-        }
-      }
+            date: 'desc',
+          },
+        },
+      },
     })
 
     if (!child) {
       res.status(404).json({ message: 'Child not found' })
+
       return
     }
 
     res.json(child)
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
     res.status(500).send('Server error')
   }
@@ -141,6 +144,7 @@ export async function createChild(req: Request, res: Response): Promise<void> {
 
   if (!errors.isEmpty()) {
     res.status(400).json({ errors: errors.array() })
+
     return
   }
 
@@ -150,11 +154,12 @@ export async function createChild(req: Request, res: Response): Promise<void> {
     // If programId is provided, verify it exists
     if (programId) {
       const program = await prisma.program.findUnique({
-        where: { id: programId }
+        where: { id: programId },
       })
 
       if (!program) {
         res.status(400).json({ message: 'Invalid program ID' })
+
         return
       }
     }
@@ -166,15 +171,16 @@ export async function createChild(req: Request, res: Response): Promise<void> {
         birthdate: birthdate ? new Date(birthdate) : null,
         gender,
         userId: req.user.id,
-        programId: programId
+        programId,
       },
       include: {
-        program: true
-      }
+        program: true,
+      },
     })
 
     res.status(201).json(child)
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
     res.status(500).send('Server error')
   }
@@ -186,6 +192,7 @@ export async function updateChild(req: Request, res: Response): Promise<void> {
 
   if (!errors.isEmpty()) {
     res.status(400).json({ errors: errors.array() })
+
     return
   }
 
@@ -197,23 +204,25 @@ export async function updateChild(req: Request, res: Response): Promise<void> {
     const existingChild = await prisma.child.findFirst({
       where: {
         id,
-        userId: req.user.id
-      }
+        userId: req.user.id,
+      },
     })
 
     if (!existingChild) {
       res.status(404).json({ message: 'Child not found' })
+
       return
     }
 
     // If programId is provided, verify it exists
     if (programId) {
       const program = await prisma.program.findUnique({
-        where: { id: programId }
+        where: { id: programId },
       })
 
       if (!program) {
         res.status(400).json({ message: 'Invalid program ID' })
+
         return
       }
     }
@@ -225,15 +234,16 @@ export async function updateChild(req: Request, res: Response): Promise<void> {
         ...(lastName && { lastName }),
         ...(birthdate && { birthdate: new Date(birthdate) }),
         ...(gender && { gender }),
-        ...(programId !== undefined && { programId: programId || null })
+        ...(programId !== undefined && { programId: programId || null }),
       },
       include: {
-        program: true
-      }
+        program: true,
+      },
     })
 
     res.json(updatedChild)
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
     res.status(500).send('Server error')
   }
@@ -248,28 +258,30 @@ export async function deleteChild(req: Request, res: Response): Promise<void> {
     const existingChild = await prisma.child.findFirst({
       where: {
         id,
-        userId: req.user.id
-      }
+        userId: req.user.id,
+      },
     })
 
     if (!existingChild) {
       res.status(404).json({ message: 'Child not found' })
+
       return
     }
 
     // Remove all journal entries for this child first
     await prisma.journalEntry.deleteMany({
-      where: { childId: id }
+      where: { childId: id },
     })
 
     // Now delete the child
     await prisma.child.delete({
-      where: { id }
+      where: { id },
     })
 
     res.json({ message: 'Child deleted successfully' })
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
     res.status(500).send('Server error')
   }
-} 
+}

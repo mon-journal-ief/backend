@@ -1,14 +1,12 @@
-import { Request, Response, NextFunction } from 'express'
+import type { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import prisma from '../config/db'
 
 // Add user to request type
-declare global {
-  namespace Express {
-    interface Request {
-      user: {
-        id: string
-      }
+declare module 'express' {
+  interface Request {
+    user: {
+      id: string
     }
   }
 }
@@ -23,16 +21,18 @@ const ADMIN_EMAILS = [
   'r@r.rr',
 ]
 
-export const authenticate = (req: Request, res: Response, next: NextFunction, optional: boolean = false) => {
+export function authenticate(req: Request, res: Response, next: NextFunction, optional: boolean = false) {
   const token = req.header('x-auth-token')
 
   if (!token) {
     if (optional) {
       // No token provided, continue without user info
       next()
+
       return
     }
     res.status(401).json({ message: 'No token, authorization denied' })
+
     return
   }
 
@@ -40,57 +40,61 @@ export const authenticate = (req: Request, res: Response, next: NextFunction, op
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'defaultsecret') as JwtPayload
     req.user = decoded.user
     next()
-  } catch (err) {
+  }
+  catch (err) {
     if (optional) {
       // Token is invalid, but continue without user info (don't fail)
       next()
+
       return
     }
-    
+
     if (err instanceof jwt.TokenExpiredError) {
-      res.status(401).json({ 
+      res.status(401).json({
         message: 'Token expired',
-        code: 'TOKEN_EXPIRED'
+        code: 'TOKEN_EXPIRED',
       })
+
       return
     }
-    
+
     res.status(401).json({ message: 'Token is not valid' })
-    return
   }
 }
 
 // Optional authentication - wrapper for backward compatibility
-export const optionalAuthenticate = (req: Request, res: Response, next: NextFunction) => {
+export function optionalAuthenticate(req: Request, res: Response, next: NextFunction) {
   authenticate(req, res, next, true)
 }
 
 // Admin middleware - checks if user email is in admin whitelist
-export const requireAdmin = async (req: Request, res: Response, next: NextFunction) => {
+export async function requireAdmin(req: Request, res: Response, next: NextFunction) {
   try {
     const user = await prisma.user.findUnique({
       where: { id: req.user.id },
-      select: { email: true }
+      select: { email: true },
     })
 
     if (!user) {
       res.status(404).json({ message: 'User not found' })
+
       return
     }
 
     // Check if user email is in admin whitelist
     if (!ADMIN_EMAILS.includes(user.email)) {
-      res.status(403).json({ 
+      res.status(403).json({
         message: 'Access denied. Admin privileges required.',
-        code: 'INSUFFICIENT_PRIVILEGES'
+        code: 'INSUFFICIENT_PRIVILEGES',
       })
+
       return
     }
 
     next()
-  } catch (err) {
+  }
+  catch (err) {
     console.error('Admin check error:', err)
     res.status(500).json({ message: 'Server error during admin verification' })
-    return
   }
 }

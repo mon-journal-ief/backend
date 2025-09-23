@@ -1,5 +1,5 @@
 import express from 'express'
-import { getAllPrograms, getProgram, createProgram, updateProgram, deleteProgram } from '../controllers/programController'
+import { createProgram, deleteProgram, getAllPrograms, getProgram, updateProgram } from '../controllers/programController'
 import { authenticate } from '../middleware/auth'
 
 const router = express.Router()

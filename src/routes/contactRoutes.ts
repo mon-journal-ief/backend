@@ -1,7 +1,7 @@
 import express from 'express'
+import { check } from 'express-validator'
 import { sendContactMessage } from '../controllers/contactController'
 import { optionalAuthenticate } from '../middleware/auth'
-import { check } from 'express-validator'
 import { RateLimitService } from '../services/rateLimitService'
 
 const router = express.Router()
@@ -20,10 +20,10 @@ router.post(
     check('email')
       .optional()
       .isEmail()
-      .withMessage('L\'email doit être valide')
+      .withMessage('L\'email doit être valide'),
   ],
   optionalAuthenticate,
-  sendContactMessage
+  sendContactMessage,
 )
 
 export default router

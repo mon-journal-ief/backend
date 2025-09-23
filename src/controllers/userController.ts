@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import type { Request, Response } from 'express'
 import { validationResult } from 'express-validator'
 import prisma from '../config/db'
 
@@ -7,6 +7,7 @@ export async function updateUserPreferences(req: Request, res: Response): Promis
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     res.status(400).json({ errors: errors.array() })
+
     return
   }
 
@@ -23,6 +24,7 @@ export async function updateUserPreferences(req: Request, res: Response): Promis
     // If no valid fields provided, return error
     if (Object.keys(updateData).length === 0) {
       res.status(400).json({ message: 'No valid preference fields provided.' })
+
       return
     }
 
@@ -36,17 +38,17 @@ export async function updateUserPreferences(req: Request, res: Response): Promis
         aiSuggestionsEnabled: true,
         aiOnboardingShown: true,
         createdAt: true,
-        updatedAt: true
-      }
+        updatedAt: true,
+      },
     })
 
     res.json({
       message: 'User preferences updated successfully',
-      user: updatedUser
+      user: updatedUser,
     })
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Error updating user preferences:', error)
     res.status(500).json({ message: 'Internal server error' })
   }
 }
-

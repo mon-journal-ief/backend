@@ -1,6 +1,6 @@
-import { Request, Response } from 'express'
-import prisma from '../config/db'
+import type { Request, Response } from 'express'
 import { validationResult } from 'express-validator'
+import prisma from '../config/db'
 
 // Get all journal entries for a child (authenticated user)
 export async function getJournalEntries(req: Request, res: Response) {
@@ -10,20 +10,22 @@ export async function getJournalEntries(req: Request, res: Response) {
     const child = await prisma.child.findFirst({
       where: {
         id: childId,
-        userId: req.user.id
-      }
+        userId: req.user.id,
+      },
     })
     if (!child) {
       res.status(404).json({ message: 'Child not found' })
+
       return
     }
     const journalEntries = await prisma.journalEntry.findMany({
       where: { childId },
       include: { validatedElements: true },
-      orderBy: { date: 'desc' }
+      orderBy: { date: 'desc' },
     })
     res.json(journalEntries)
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
     res.status(500).send('Server error')
   }
@@ -35,14 +37,16 @@ export async function getJournalEntryById(req: Request, res: Response) {
     const { id } = req.params
     const journalEntry = await prisma.journalEntry.findUnique({
       where: { id },
-      include: { validatedElements: true, child: true }
+      include: { validatedElements: true, child: true },
     })
     if (!journalEntry || journalEntry.child.userId !== req.user.id) {
       res.status(404).json({ message: 'Journal entry not found' })
+
       return
     }
     res.json(journalEntry)
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
     res.status(500).send('Server error')
   }
@@ -53,6 +57,7 @@ export async function createJournalEntry(req: Request, res: Response) {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     res.status(400).json({ errors: errors.array() })
+
     return
   }
   const { childId, date, comment, images, validatedElementIds } = req.body
@@ -61,11 +66,12 @@ export async function createJournalEntry(req: Request, res: Response) {
     const child = await prisma.child.findFirst({
       where: {
         id: childId,
-        userId: req.user.id
-      }
+        userId: req.user.id,
+      },
     })
     if (!child) {
       res.status(404).json({ message: 'Child not found' })
+
       return
     }
     const journalEntry = await prisma.journalEntry.create({
@@ -76,12 +82,13 @@ export async function createJournalEntry(req: Request, res: Response) {
         childId,
         validatedElements: validatedElementIds && validatedElementIds.length > 0
           ? { connect: validatedElementIds.map((id: string) => ({ id })) }
-          : undefined
+          : undefined,
       },
-      include: { validatedElements: true }
+      include: { validatedElements: true },
     })
     res.status(201).json(journalEntry)
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
     res.status(500).send('Server error')
   }
@@ -92,6 +99,7 @@ export async function updateJournalEntry(req: Request, res: Response) {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     res.status(400).json({ errors: errors.array() })
+
     return
   }
   const { id } = req.params
@@ -100,10 +108,11 @@ export async function updateJournalEntry(req: Request, res: Response) {
     // Find the journal entry and ensure it belongs to the user
     const journalEntry = await prisma.journalEntry.findUnique({
       where: { id },
-      include: { child: true }
+      include: { child: true },
     })
     if (!journalEntry || journalEntry.child.userId !== req.user.id) {
       res.status(404).json({ message: 'Journal entry not found' })
+
       return
     }
     const updatedJournalEntry = await prisma.journalEntry.update({
@@ -114,14 +123,15 @@ export async function updateJournalEntry(req: Request, res: Response) {
         ...(images && { images }),
         ...(validatedElementIds && {
           validatedElements: {
-            set: validatedElementIds.map((id: string) => ({ id }))
-          }
-        })
+            set: validatedElementIds.map((id: string) => ({ id })),
+          },
+        }),
       },
-      include: { validatedElements: true }
+      include: { validatedElements: true },
     })
     res.json(updatedJournalEntry)
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
     res.status(500).send('Server error')
   }
@@ -134,15 +144,17 @@ export async function deleteJournalEntry(req: Request, res: Response) {
     // Find the journal entry and ensure it belongs to the user
     const journalEntry = await prisma.journalEntry.findUnique({
       where: { id },
-      include: { child: true }
+      include: { child: true },
     })
     if (!journalEntry || journalEntry.child.userId !== req.user.id) {
       res.status(404).json({ message: 'Journal entry not found' })
+
       return
     }
     await prisma.journalEntry.delete({ where: { id } })
     res.json({ message: 'Journal entry deleted successfully' })
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
     res.status(500).send('Server error')
   }
@@ -153,6 +165,7 @@ export async function getSuggestion(req: Request, res: Response) {
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     res.status(400).json({ errors: errors.array() })
+
     return
   }
 
@@ -163,7 +176,7 @@ export async function getSuggestion(req: Request, res: Response) {
     const child = await prisma.child.findFirst({
       where: {
         id: childId,
-        userId: req.user.id
+        userId: req.user.id,
       },
       include: {
         program: {
@@ -172,23 +185,25 @@ export async function getSuggestion(req: Request, res: Response) {
               include: {
                 children: {
                   include: {
-                    children: true // Include nested children for full hierarchy
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                    children: true, // Include nested children for full hierarchy
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     })
 
     if (!child) {
       res.status(404).json({ message: 'Child not found' })
+
       return
     }
 
     if (!child.program) {
       res.status(404).json({ message: 'No program found for this child' })
+
       return
     }
 
@@ -196,15 +211,17 @@ export async function getSuggestion(req: Request, res: Response) {
     const prompt = createLLMPrompt(formattedProgram, comment)
 
     const llmResponse = await callMammouth(prompt)
-    
+
     // Parse the JSON response from LLM
     let suggestedIds: string[] = []
     try {
       const parsedResponse = JSON.parse(llmResponse)
       suggestedIds = parsedResponse.suggestions || []
-    } catch (error) {
+    }
+    catch (error) {
       console.error('Error parsing LLM response:', error)
       res.status(500).json({ message: 'Error with AI response' })
+
       return
     }
 
@@ -212,8 +229,8 @@ export async function getSuggestion(req: Request, res: Response) {
     const suggestions = await prisma.programElement.findMany({
       where: {
         id: { in: suggestedIds },
-        programId: child.program.id // Ensure elements belong to the child's program
-      }
+        programId: child.program.id, // Ensure elements belong to the child's program
+      },
     })
 
     // Increment the AI suggestion usage count for the user
@@ -221,13 +238,14 @@ export async function getSuggestion(req: Request, res: Response) {
       where: { id: req.user.id },
       data: {
         aiSuggestionUsageCount: {
-          increment: 1
-        }
-      }
+          increment: 1,
+        },
+      },
     })
-    
+
     res.json(suggestions)
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err)
     res.status(500).send('Server error')
   }
@@ -238,15 +256,15 @@ function formatProgramForLLM(program: any): string {
   function formatElement(element: any, level = 0): string {
     const indent = '  '.repeat(level)
     let result = `${indent}- [ID: ${element.id}] ${element.name}: ${element.description}\n`
-    
+
     if (element.exercices && element.exercices.length) {
       result += `${indent}  Exercices: ${element.exercices.join(', ')}\n`
     }
-    
+
     if (element.children && element.children.length) {
       result += element.children.map((child: any) => formatElement(child, level + 1)).join('')
     }
-    
+
     return result
   }
 
@@ -255,7 +273,7 @@ function formatProgramForLLM(program: any): string {
   formatted += `Niveaux: ${program.grades.join(', ')}\n\n`
   formatted += `Éléments du programme:\n`
   formatted += program.elements.map((element: any) => formatElement(element)).join('\n')
-  
+
   return formatted
 }
 
@@ -279,36 +297,37 @@ Format de réponse attendu (JSON uniquement, pas de texte avant ou après):
 }
 
 Sois précis dans tes suggestions et ne propose que des éléments vraiment en rapport avec l'activité décrite.`
-} 
+}
 
 async function callMammouth(prompt: string) {
-  const url = "https://api.mammouth.ai/v1/chat/completions";
+  const url = 'https://api.mammouth.ai/v1/chat/completions'
   const headers = {
-    Authorization: `Bearer ${process.env.MAMMOUTH_KEY}`,
-    "Content-Type": "application/json",
-  };
+    'Authorization': `Bearer ${process.env.MAMMOUTH_KEY}`,
+    'Content-Type': 'application/json',
+  }
 
   const data = {
-    model: "gpt-5-nano",
+    model: 'gpt-5-nano',
     messages: [
       {
-        role: "user",
+        role: 'user',
         content: prompt,
       },
     ],
-  };
+  }
 
   try {
     const response = await fetch(url, {
-      method: "POST",
-      headers: headers,
+      method: 'POST',
+      headers,
       body: JSON.stringify(data),
-    });
+    })
 
-    const result = await response.json();
+    const result = await response.json()
 
-    return result.choices[0].message.content;
-  } catch (error) {
-    console.error("Error:", error);
+    return result.choices[0].message.content
+  }
+  catch (error) {
+    console.error('Error:', error)
   }
 }

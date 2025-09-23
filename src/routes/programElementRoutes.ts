@@ -1,5 +1,5 @@
 import express from 'express'
-import { getProgramElement, createProgramElement, updateProgramElement, validateProgramElement, deleteProgramElement } from '../controllers/programElementController'
+import { createProgramElement, deleteProgramElement, getProgramElement, updateProgramElement, validateProgramElement } from '../controllers/programElementController'
 import { authenticate } from '../middleware/auth'
 
 const router = express.Router()
@@ -10,4 +10,4 @@ router.put('/:id', authenticate, updateProgramElement)
 router.put('/:id/validate', authenticate, validateProgramElement)
 router.delete('/:id', authenticate, deleteProgramElement)
 
-export default router 
+export default router

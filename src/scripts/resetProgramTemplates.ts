@@ -1,6 +1,7 @@
-import { PrismaClient, Grade } from '../../generated/prisma/client'
-import * as fs from 'fs'
-import * as path from 'path'
+import type { Grade } from '../../generated/prisma/client'
+import * as fs from 'node:fs'
+import * as path from 'node:path'
+import { PrismaClient } from '../../generated/prisma/client'
 
 const prisma = new PrismaClient()
 
@@ -30,7 +31,7 @@ interface SeedData {
 async function createProgramElements(
   elements: ProgramElementData[],
   templateId: string,
-  parentId?: string
+  parentId?: string,
 ): Promise<void> {
   for (const element of elements) {
     const createdElement = await prisma.programElement.create({
@@ -39,8 +40,8 @@ async function createProgramElements(
         description: element.description,
         exercices: element.exercices || [],
         programTemplateId: templateId,
-        parentId: parentId
-      }
+        parentId,
+      },
     })
 
     // Recursively create children if they exist
@@ -61,36 +62,36 @@ async function seedFromFile(jsonPath: string) {
       description: seedData.programTemplate.description,
       grades: seedData.programTemplate.grades as Grade[],
       sources: seedData.programTemplate.sources!,
-      cycle: seedData.programTemplate.cycle!
-    }
+      cycle: seedData.programTemplate.cycle!,
+    },
   })
 
   // Create all program elements with their hierarchical structure
   await createProgramElements(seedData.programTemplate.elements, programTemplate.id)
 
   console.log(`Template créé: ${programTemplate.name}`)
-  
+
   const elementCount = await prisma.programElement.count({
-    where: { programTemplateId: programTemplate.id }
+    where: { programTemplateId: programTemplate.id },
   })
   console.log(`${elementCount} éléments de programme créés pour ${programTemplate.cycle}`)
 }
 
 async function resetProgramTemplates() {
   console.log('🗑️  Suppression des templates de programme...')
-  
+
   // Delete all program elements associated with templates
   await prisma.programElement.deleteMany({
-    where: { 
-      programTemplateId: { not: null }
-    }
+    where: {
+      programTemplateId: { not: null },
+    },
   })
-  
+
   // Delete all program templates
   await prisma.programTemplate.deleteMany({})
 
   console.log('✅ Templates de programme supprimés')
-  
+
   // Read all seed files in the directory
   const seedsDir = path.join(__dirname, '../assets/program_templates')
   const files = fs.readdirSync(seedsDir).filter(f => f.endsWith('.json'))
@@ -101,7 +102,7 @@ async function resetProgramTemplates() {
     const jsonPath = path.join(seedsDir, file)
     await seedFromFile(jsonPath)
   }
-  
+
   console.log('✅ Templates de programme réimportés avec succès')
 }
 
@@ -117,4 +118,4 @@ if (require.main === module) {
     })
 }
 
-export { resetProgramTemplates } 
+export { resetProgramTemplates }

@@ -1,15 +1,15 @@
 import express from 'express'
+import { check } from 'express-validator'
 import {
+  createJournalEntry,
+  deleteJournalEntry,
   getJournalEntries,
   getJournalEntryById,
-  createJournalEntry,
+  getSuggestion,
   updateJournalEntry,
-  deleteJournalEntry,
-  getSuggestion
 } from '../controllers/journalEntryController'
-import { uploadJournalEntryImage, deleteJournalEntryImage } from '../controllers/journalEntryImageController'
+import { deleteJournalEntryImage, uploadJournalEntryImage } from '../controllers/journalEntryImageController'
 import { authenticate } from '../middleware/auth'
-import { check } from 'express-validator'
 import { RateLimitService } from '../services/rateLimitService'
 
 const router = express.Router()
@@ -27,7 +27,7 @@ router.post(
   check('date', 'date is required').not().isEmpty(),
   check('comment', 'comment is required').not().isEmpty(),
   authenticate,
-  createJournalEntry
+  createJournalEntry,
 )
 
 // Update a journal entry
@@ -36,7 +36,7 @@ router.put(
   check('date', 'date is required').not().isEmpty(),
   check('comment', 'comment is required').not().isEmpty(),
   authenticate,
-  updateJournalEntry
+  updateJournalEntry,
 )
 
 // Delete a journal entry
@@ -55,7 +55,7 @@ router.post(
   check('childId', 'childId is required').not().isEmpty(),
   check('comment', 'comment is required').not().isEmpty(),
   authenticate,
-  getSuggestion
+  getSuggestion,
 )
 
-export default router 
+export default router
