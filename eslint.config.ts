@@ -7,6 +7,7 @@ export default await antfu(
     typescript: true,
     vue: false,
     rules: {
+      '@typescript-eslint/no-namespace': 'off',
       'antfu/if-newline': 'off',
       'curly': ['error', 'multi-line'],
       'eqeqeq': 'error',

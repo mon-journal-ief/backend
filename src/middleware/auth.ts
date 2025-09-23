@@ -3,10 +3,12 @@ import jwt from 'jsonwebtoken'
 import prisma from '../config/db'
 
 // Add user to request type
-declare module 'express' {
-  interface Request {
-    user: {
-      id: string
+declare global {
+  namespace Express {
+    interface Request {
+      user: {
+        id: string
+      }
     }
   }
 }
