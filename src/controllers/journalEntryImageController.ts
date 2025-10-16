@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express'
 import prisma from '../config/db'
-import { getImageUrl } from '../services/scalewayStorageService'
+import { getImageUrl, rotateImageInScaleway } from '../services/scalewayStorageService'
 import { handleMulterUpload, UploadService } from '../services/uploadService'
 
 export async function uploadJournalEntryImage(req: Request, res: Response): Promise<void> {
@@ -142,6 +142,83 @@ export async function deleteJournalEntryImage(req: Request, res: Response): Prom
   }
   catch (error) {
     console.error('Journal entry image delete error:', error)
+    res.status(500).json({
+      message: 'Internal server error',
+      code: 'INTERNAL_ERROR',
+    })
+  }
+}
+
+export async function rotateJournalEntryImage(req: Request, res: Response): Promise<void> {
+  try {
+    const { filename } = req.params
+    const { direction } = req.body
+
+    // Validate direction parameter
+    if (!direction || (direction !== 'left' && direction !== 'right')) {
+      res.status(400).json({
+        message: 'Invalid direction. Must be "left" or "right"',
+        code: 'INVALID_DIRECTION',
+      })
+
+      return
+    }
+
+    try {
+      // Compute image URL and verify ownership before rotating
+      const imageUrl = getImageUrl(filename)
+
+      // Find only the current user's journal entries that reference this image
+      const journalEntries = await prisma.journalEntry.findMany({
+        where: {
+          images: { has: imageUrl },
+          child: { userId: req.user.id },
+        },
+        select: { id: true },
+      })
+
+      if (journalEntries.length === 0) {
+        res.status(404).json({ message: 'Journal entry image not found' })
+
+        return
+      }
+
+      // Rotate the image (after ownership verification)
+      await rotateImageInScaleway(filename, direction)
+
+      res.json({
+        message: 'Journal entry image rotated successfully',
+        filename,
+        direction,
+        type: 'journal_entry_image',
+      })
+    }
+    catch (error) {
+      console.error('Journal entry image rotate error:', error)
+
+      // Check if it's a storage-related error
+      if (error instanceof Error && error.message.includes('NoSuchKey')) {
+        res.status(404).json({
+          message: 'Journal entry image not found in storage',
+          code: 'IMAGE_NOT_FOUND',
+        })
+      }
+      else if (error instanceof Error && (error.message.includes('Invalid filename') || error.message.includes('Invalid filename format'))) {
+        res.status(400).json({
+          message: error.message,
+          code: 'INVALID_FILENAME',
+        })
+      }
+      else {
+        res.status(500).json({
+          message: 'Error rotating journal entry image',
+          code: 'ROTATE_ERROR',
+        })
+      }
+    }
+  }
+  catch (error) {
+    console.error('Journal entry image rotate error:', error)
     res.status(500).json({
       message: 'Internal server error',
       code: 'INTERNAL_ERROR',

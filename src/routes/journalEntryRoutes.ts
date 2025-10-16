@@ -8,7 +8,7 @@ import {
   getSuggestion,
   updateJournalEntry,
 } from '../controllers/journalEntryController'
-import { deleteJournalEntryImage, uploadJournalEntryImage } from '../controllers/journalEntryImageController'
+import { deleteJournalEntryImage, rotateJournalEntryImage, uploadJournalEntryImage } from '../controllers/journalEntryImageController'
 import { authenticate } from '../middleware/auth'
 import { RateLimitService } from '../services/rateLimitService'
 
@@ -47,6 +47,9 @@ router.post('/images', RateLimitService.journalEntryImageUpload, authenticate, u
 
 // Delete a journal entry image
 router.delete('/images/:filename', RateLimitService.journalEntryImageDelete, authenticate, deleteJournalEntryImage)
+
+// Rotate a journal entry image
+router.patch('/images/:filename/rotate', authenticate, rotateJournalEntryImage)
 
 // Get AI suggestions for journal entry
 router.post(

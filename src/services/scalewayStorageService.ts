@@ -1,5 +1,6 @@
 import { Buffer } from 'node:buffer'
 import { DeleteObjectCommand, GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import sharp from 'sharp'
 
 // Scaleway Object Storage configuration
 const SCALEWAY_ENDPOINT = process.env.SCW_OBJECT_STORAGE_ENDPOINT
@@ -123,4 +124,39 @@ export function isScalewayConfigured(): boolean {
 
 export function getImageUrl(filename: string): string {
   return `${SCALEWAY_ENDPOINT}/${BUCKET_NAME}/images/${filename}`
+}
+
+export async function rotateImageInScaleway(filename: string, direction: 'left' | 'right'): Promise<void> {
+  if (!s3Client) throw new Error('Scaleway S3 client not initialized. Check your credentials.')
+
+  try {
+    // Download the image
+    const imageBuffer = await downloadFromScaleway(filename)
+
+    // Rotate the image using Sharp
+    const rotationAngle = direction === 'left' ? -90 : 90
+    const rotatedBuffer = await sharp(imageBuffer)
+      .rotate(rotationAngle)
+      .toBuffer()
+
+    // Get the content type (assume JPEG if not specified, Sharp preserves format)
+    const metadata = await sharp(imageBuffer).metadata()
+    const contentType = metadata.format === 'png' ? 'image/png' : 'image/jpeg'
+
+    // Re-upload the rotated image with the same filename
+    const command = new PutObjectCommand({
+      Bucket: BUCKET_NAME,
+      Key: `images/${filename}`,
+      Body: rotatedBuffer,
+      ContentType: contentType,
+      CacheControl: 'public, max-age=31536000', // 1 year
+      ACL: 'public-read',
+    })
+
+    await s3Client.send(command)
+  }
+  catch (error) {
+    console.error('❌ Error rotating image in Scaleway:', error)
+    throw new Error(`Failed to rotate image in Scaleway: ${error instanceof Error ? error.message : 'Unknown error'}`)
+  }
 }
