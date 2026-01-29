@@ -24,8 +24,23 @@ export async function getChildren(req: Request, res: Response): Promise<void> {
                         children: {
                           include: {
                             children: true, // Support up to 5 levels deep
+                            journalEntries: {
+                              orderBy: {
+                                date: 'desc',
+                              },
+                            },
                           },
                         },
+                        journalEntries: {
+                          orderBy: {
+                            date: 'desc',
+                          },
+                        },
+                      },
+                    },
+                    journalEntries: {
+                      orderBy: {
+                        date: 'desc',
                       },
                     },
                   },
