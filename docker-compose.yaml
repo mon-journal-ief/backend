@@ -17,10 +17,16 @@ services:
     restart: unless-stopped
   ief-scrapper:
     container_name: ief-scrapper
-    image: ief-scrapper
+    build: ../ief_scrapper
     network_mode: host
+    environment:
+      - FRONTEND_URL=http://localhost:4173
     ports:
       - "7000:7000"
+    develop:
+      watch:
+        - action: rebuild
+          path: ../ief_scrapper/src
 
 networks:
   ief-network:
